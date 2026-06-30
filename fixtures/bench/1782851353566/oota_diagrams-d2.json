@@ -1,0 +1,206 @@
+{
+  "T0": {
+    "probeId": "t0-coldcall",
+    "subjectId": "oota:diagrams-d2",
+    "tier": "T0",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t0-coldcall-0",
+        "success": false,
+        "turns": 1,
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "retries": 0,
+        "timeToFirstActionMs": 27768.613166000003,
+        "wallMs": 27768.613166000003,
+        "exit": 143,
+        "artifacts": [],
+        "perTurn": [],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0,
+          "transcript": "",
+          "answerLen": 0
+        }
+      }
+    ]
+  },
+  "T1": {
+    "probeId": "t1-guided",
+    "subjectId": "oota:diagrams-d2",
+    "tier": "T1",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t1-guided-0",
+        "success": true,
+        "turns": 8,
+        "tokensIn": 24364,
+        "tokensOut": 1356,
+        "retries": 0,
+        "timeToFirstActionMs": 69675.348833,
+        "wallMs": 69675.348833,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 2318,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 2104,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 489,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 271,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 461,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 384,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 134,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 19559,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.03248996,
+          "transcript": "The diagram compiled successfully and produced a complete, representative SVG. Here's what was created:\n\n## Primary Artifact: `tldraw.svg`\n\nThe `d2` tool's primary output is a **diagram** (SVG by default). I authored a D2 source file (`tldraw.d2`) representing the tldraw architecture described in `PROJECT.md` and rendered it to `tldraw.svg`.\n\n### What the diagram shows\n\nA left-to-right data-flow view of tldraw's core runtime:\n\n- **Store** (package) — the reactive records layer containing three signal-backed records:\n  - `Shapes`, `Pages`, `Camera`\n- **Editor** (step shape) — \"the API surface\", the central hub\n- **Shape Utils** (hexagon) — per-shape geometry & render logic\n- **React Canvas** (rounded rect) — the infinite-canvas view\n- **Snapshot (.tldr JSON)** (document shape) — serialization target\n\n### Connections (the data flow from PROJECT.md)\n\n1. `Store.shapes/pages/camera → Editor` — \"read/write via signals\"\n2. `Editor → Shape Utils` — \"resolve geometry & render\"\n3. `Shape Utils → React Canvas` — \"draw shapes\"\n4. `Store ↔ Snapshot` — \"serialize / hydrate\" (bidirectional)\n5. `Editor → Snapshot` — \"export\"\n6. `Snapshot → Store` — \"load\"\n\n### Files in the working directory\n\n- `tldraw.d2` — the D2 source (editable, re-runnable with `d2 tldraw.d2 tldraw.svg`)\n- `tldraw.svg` — the rendered diagram (33 KB, self-contained with embedded fonts/colors)\n\nI fixed two initial shape errors (`component` and `browser` aren't valid d2 shape keywords in 0.7.1) by switching to `step`, `hexagon`, and a rounded `rectangle` respectively. The diagram uses distinct fill colors per component to make the architecture scannable at a glance.",
+          "answerLen": 1645
+        }
+      }
+    ]
+  },
+  "T3": {
+    "probeId": "t3-failure",
+    "subjectId": "oota:diagrams-d2",
+    "tier": "T3",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t3-failure-0",
+        "success": true,
+        "turns": 11,
+        "tokensIn": 7213,
+        "tokensOut": 2298,
+        "retries": 0,
+        "timeToFirstActionMs": 119212.631208,
+        "wallMs": 119212.631208,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 86,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 202,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 1579,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 540,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 2666,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 731,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 803,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 662,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 174,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 10,
+            "tokens": 1549,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 11,
+            "tokens": 519,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.02387243,
+          "transcript": "Done. The `d2` tool's primary artifact is the rendered diagram. I produced a D2 source file and rendered it to SVG (and PNG).\n\n**Files saved to the working directory:**\n- `tldraw.d2` — the D2 source\n- `tldraw.svg` — rendered diagram (primary artifact, 65 KB)\n- `tldraw.png` — raster export (412 KB)\n\n**What the diagram captures** (from `PROJECT.md`):\n\nThe board `tldraw architecture` models the data flow:\n\n- **Store** (blue) — reactive records: `Shape`, `Page`, `Camera`, plus a note that mutations propagate atomically via signals.\n- **Editor** (green) — the API surface, with a state machine → history (undo/redo) → side effects (sync/persistence) chain.\n- **Shape Utils** (red) — per-shape `Geometry` (bounds/hit-testing) feeding a React `<Shape/>` component.\n- **React Canvas** (purple) — the `<Canvas/>` rendering layer.\n- **Snapshot** (document shape) — `.tldr` JSON, with bidirectional serialize/deserialize to the Store.\n\nEdges trace the full cycle: Store ↔ Editor (read/subscribe vs. commit), Editor → ShapeUtils (resolve by type), ShapeUtils → ReactCanvas (render), ReactCanvas → Editor (user input), and Store ↔ Snapshot (persist).\n\nThe source compiled cleanly once I worked around D2's reserved-field handling (renamed `shape`/`page`/`camera` keys, and moved `shape: document` out of the `style` block to a top-level field on the Snapshot node).",
+          "answerLen": 1358
+        }
+      }
+    ]
+  }
+}

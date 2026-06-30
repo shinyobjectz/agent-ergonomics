@@ -1,0 +1,33 @@
+```ax
+{"subjectId":"benchmark","generatedBy":"agent-ergonomics","tier":"deep"}
+```
+
+# Cross-tool AX benchmark
+
+Subjects: oota:diagrams-d2, oota:diagrams-mermaid · tiers T0/T1/T3 · N=1. Real PI runs.
+
+## Elo (Bradley–Terry, pairwise judge)
+
+- oota:diagrams-mermaid: **1595**
+- oota:diagrams-d2: **1405**
+
+## IRT latent AX ability (θ)
+
+- oota:diagrams-d2: θ=2.605
+- oota:diagrams-mermaid: θ=2.605
+
+## Probe difficulty (β)
+
+- T0: β=4
+- T1: β=-2
+- T3: β=-2
+
+## Pareto frontier (success × cost × turns)
+
+- oota:diagrams-d2: **on frontier**
+- oota:diagrams-mermaid: **on frontier**
+
+## Friction (coded from transcripts)
+
+- oota:diagrams-d2: load 1 — tool-mismatch
+- oota:diagrams-mermaid: load 2 — setup-friction

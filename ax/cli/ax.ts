@@ -16,7 +16,7 @@ Usage: ax <command> [args]
   counters <path>               static counters instrument (no agent)
   render <report.work>          render a .work AX report → markdown/HTML
   leaderboard | site            OOTA AX leaderboard / agentergonomics.org site
-  work                          status of the vendored `work` CLI (.work parsing)
+  work                          status of the vendored work CLI (.work parsing)
   help                          this message
 
 Subjects: an oota tool id (oota:<cat>-<tool>) or a path. Real runs use the PI

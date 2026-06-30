@@ -1,0 +1,230 @@
+{
+  "T0": {
+    "probeId": "t0-coldcall",
+    "subjectId": "oota:diagrams-mermaid",
+    "tier": "T0",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t0-coldcall-0",
+        "success": false,
+        "turns": 1,
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "retries": 0,
+        "timeToFirstActionMs": 49206.40850000002,
+        "wallMs": 49206.40850000002,
+        "exit": 143,
+        "artifacts": [],
+        "perTurn": [],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0,
+          "transcript": "",
+          "answerLen": 0
+        }
+      }
+    ]
+  },
+  "T1": {
+    "probeId": "t1-guided",
+    "subjectId": "oota:diagrams-mermaid",
+    "tier": "T1",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t1-guided-0",
+        "success": true,
+        "turns": 14,
+        "tokensIn": 10108,
+        "tokensOut": 2462,
+        "retries": 0,
+        "timeToFirstActionMs": 74346.64895900001,
+        "wallMs": 74346.64895900001,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 314,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 475,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 732,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 1212,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 715,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 1171,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 1126,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 1278,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 1207,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 10,
+            "tokens": 774,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 11,
+            "tokens": 794,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 12,
+            "tokens": 762,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 13,
+            "tokens": 830,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 14,
+            "tokens": 1180,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.02887562,
+          "transcript": "The Mermaid tool's primary artifact — a self-contained **SVG** — has been produced for tldraw/tldraw.\n\n**Files saved in the working directory** (`/private/var/folders/18/r43jk_cx473628dkrjj_7ylh0000gn/T/ax-docs-jqZN9l/`):\n\n- **`tldraw.svg`** ← primary artifact (130 KB, well-formed vector, renders inline in any browser)\n- `tldraw.mmd` — the diffable Mermaid DSL source\n- `puppeteer.json` — config pointing `mmdc` at the local Chrome (cache was empty)\n\n**What the diagram represents** (from `PROJECT.md`), structured as a left-to-right flowchart with color-coded groups:\n\n| Layer | Nodes | Role |\n|---|---|---|\n| **Store** (reactive records) | `shapes`, `pages`, `camera`, `assets`, `history` | Reactive data records; undo/redo history |\n| **Editor** (API surface) | `api`, `select`, `events` | Public API, selection/tooling, signals/side effects |\n| **Shape utils** (per-shape) | `geo`, `render`, `props` | Geometry/hit-testing, React render component, props validation |\n| **React canvas** (view) | `canvas`, `overlays`, `ui` | DOM container, overlays/hints, toolbar |\n| **Serialization** | `snapshot`, `.tldr` JSON, `load/migrate` | Snapshots ↔ `.tldr` JSON + load/migrate |\n\nKey flows shown: user input → Editor → reads/writes Store records; Store feeds shape geometry & render → React canvas; Store ↔ external sync; snapshots serialize to `.tldr` JSON and re-load/migrate back into the Store. Dashed edge marks the reactive-signal relationship between Store and Editor.\n\nNote: the bundled `chrome-headless-shell` cache was empty, so rendering used a `puppeteer.json` pointing `mmdc` at the installed Google Chrome on this machine — SVG output verified as well-formed XML.",
+          "answerLen": 1676
+        }
+      }
+    ]
+  },
+  "T3": {
+    "probeId": "t3-failure",
+    "subjectId": "oota:diagrams-mermaid",
+    "tier": "T3",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t3-failure-0",
+        "success": true,
+        "turns": 9,
+        "tokensIn": 5024,
+        "tokensOut": 2414,
+        "retries": 0,
+        "timeToFirstActionMs": 64259.54783399997,
+        "wallMs": 64259.54783399997,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 345,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 529,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 893,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 966,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 789,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 733,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 823,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 876,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 1484,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.01929346,
+          "transcript": "The primary artifact for the **mermaid** tool is an **SVG diagram** (self-contained vector, renders inline with no viewer). I rendered the tldraw/tldraw architecture diagram from its Mermaid DSL source and saved the validated SVG to the working directory.\n\n## Result\n\n**Saved to working directory:**\n- `tldraw.mmd` — Mermaid DSL source (diffable plain text)\n- `tldraw.svg` — rendered vector artifact (130 KB, validated via `@mermaid-js/mermaid-cli`)\n\n## What the diagram represents\n\nThe `.mmd` models the tldraw/tldraw architecture from `PROJECT.md` as a left-to-right flowchart with five subgraphs plus external actors:\n\n| Layer | Contents | Role |\n|---|---|---|\n| **Store** (reactive records) | `shapes[]`, `pages[]`, `camera`, `assets[]`, `history / undo-redo` | Source of truth |\n| **Editor** (API surface) | Public API, Selection/tools, Signals & side effects | The API consumers code against |\n| **ShapeUtils** (per-shape) | Geometry/hit-testing, React render component, Props/validation | Per-shape geometry + render |\n| **View** (React canvas) | Canvas/DOM container, Overlays & hints, UI/toolbar | What the user sees |\n| **Serialization** | Snapshot → `.tldr JSON` → Load/migrate | Persistence round-trip |\n| External | `User input`, `External store / sync` | Drivers |\n\nKey data-flow edges captured:\n- `User → Editor` (input drives the API)\n- `Editor ⇄ Store` (read/write records)\n- `Store -.reactive signals.-> Editor` (reactivity)\n- `shapes → geometry/render → canvas` (store drives shape utils drive the canvas)\n- `Store → Snapshot → .tldr → Load → Store` (serialization round-trip)\n- `External ⇄ Store` (sync)\n\nColor classes distinguish record (blue), API (purple), shape-utils (green), and view (orange) tiers, matching the conceptual layers in `PROJECT.md`.\n\n## Validation notes\n- Renderer: `npx -y @mermaid-js/mermaid-cli` (headless Chromium) with `puppeteer.json` pointing at the installed Chrome.\n- Output verified: 35 `<rect>` nodes, 84 `foreignObject` labels, 42 label spans, title `tldraw/tldraw — Architecture`, well-formed single-root `<svg>` with viewBox. The artifact opens directly in any browser and is the canonical deliverable for this toolchain.",
+          "answerLen": 2176
+        }
+      }
+    ]
+  }
+}

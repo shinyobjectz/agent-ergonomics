@@ -1,0 +1,75 @@
+{
+  "subjects": [
+    "oota:diagrams-d2",
+    "oota:diagrams-mermaid"
+  ],
+  "tiers": [
+    "T0",
+    "T1",
+    "T3"
+  ],
+  "n": 1,
+  "points": [
+    {
+      "id": "oota:diagrams-d2",
+      "success": 1,
+      "cost": 25720,
+      "turns": 8
+    },
+    {
+      "id": "oota:diagrams-mermaid",
+      "success": 1,
+      "cost": 12570,
+      "turns": 14
+    }
+  ],
+  "pareto": [
+    {
+      "id": "oota:diagrams-d2",
+      "onFrontier": true,
+      "dominatedBy": []
+    },
+    {
+      "id": "oota:diagrams-mermaid",
+      "onFrontier": true,
+      "dominatedBy": []
+    }
+  ],
+  "elo": {
+    "oota:diagrams-d2": 1405,
+    "oota:diagrams-mermaid": 1595
+  },
+  "irt": {
+    "ability": {
+      "oota:diagrams-d2": 2.605,
+      "oota:diagrams-mermaid": 2.605
+    },
+    "difficulty": {
+      "T0": 4,
+      "T1": -2,
+      "T3": -2
+    }
+  },
+  "matchups": [
+    {
+      "a": "oota:diagrams-d2",
+      "b": "oota:diagrams-mermaid",
+      "winner": "oota:diagrams-mermaid"
+    }
+  ],
+  "friction": {
+    "oota:diagrams-d2": {
+      "byTheme": {
+        "tool-mismatch": 1
+      },
+      "load": 1
+    },
+    "oota:diagrams-mermaid": {
+      "byTheme": {
+        "setup-friction": 1
+      },
+      "load": 2
+    }
+  },
+  "runDir": "/Users/shinyobjectz/Apps/shinyobjectz/projects/agent-ergonomics/fixtures/bench/1782851353566"
+}
