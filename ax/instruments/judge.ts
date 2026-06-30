@@ -19,18 +19,41 @@ const KIND_EXT: Record<string, string> = {
   ".d2": "text", ".mmd": "text", ".tex": "text", ".typ": "text", ".py": "text", ".js": "text", ".ts": "text", ".md": "text", ".txt": "text",
 };
 const SEED_FILES = new Set(["PROJECT.md", "BRAND.md", "data.csv", "TOPIC.md"]);
+
+interface JudgeVote { model: string; score: number; valid: boolean; notes: string; seen: string }
+
+const READER_SYS = "You are a careful, literal image reader.";
+const READER_USER = 'Describe EXACTLY what is in this image — every shape, text string, and the overall layout. Report ONLY what is visibly present; do not assume or infer intent. Return {"seen":"..."}.';
+const GRADE_SYS = "You grade an artifact against a brief from a LITERAL description of what it actually contains. Be strict: a stub, blank, placeholder (e.g. just 'TODO'), generic, or wrong-content artifact scores LOW regardless of what the brief wanted. Only reward content that genuinely fulfils the brief.";
+const gradeUser = (brief: string, seen: string) =>
+  `Brief:\n${brief}\n\nWhat the artifact ACTUALLY contains:\n${seen}\n\nScore 0..1 = how well the ACTUAL content fulfils the brief (correctness, fidelity, completeness). Return {"score":0..1,"valid":true|false,"notes":"one sentence"}.`;
+
+/** One judge: SEE the artifact (describe), then grade its own perception. */
+async function judgeOne(model: string, url: string, brief: string): Promise<JudgeVote> {
+  const desc = await llmJSONVision<{ seen: string }>(model, READER_SYS, READER_USER, [url]);
+  const r = await llmJSONVision<any>(model, GRADE_SYS, gradeUser(brief, desc.seen), []); // text-only grade by the same model
+  return { model, score: clamp(r.score), valid: !!r.valid, notes: r.notes ?? "", seen: desc.seen };
+}
 const which = (b: string) => spawnSync("which", [b], { encoding: "utf8" }).status === 0;
 
 export interface ArtifactJudgment {
-  score: number; // 0..1 quality
+  score: number; // 0..1 — median of the judge panel (robust to one outlier)
   valid: boolean;
   notes: string;
-  judged: "vision" | "text" | "text-fallback" | "none";
+  judged: "vision-panel" | "text" | "text-fallback" | "none";
   model: string;
   artifact?: string;
   artifactKind?: string;
   seen?: string; // literal description of what the artifact actually contained
+  panel?: Array<{ model: string; score: number }>; // per-judge scores
+  agreement?: number; // 1 − spread (1 = unanimous)
+  outliers?: string[]; // judges that disagreed with the median
+  confidence?: number; // derived from agreement
 }
+
+/** The multimodal judge panel (verified image-capable on OpenRouter). Override via OOTA_JUDGE_PANEL. */
+const PANEL = (process.env.OOTA_JUDGE_PANEL || "google/gemini-3.5-flash,xiaomi/mimo-v2.5,minimax/minimax-m3")
+  .split(",").map((s) => s.trim()).filter(Boolean);
 
 function walk(dir: string, depth = 2, acc: string[] = []): string[] {
   let es: string[]; try { es = readdirSync(dir); } catch { return acc; }
@@ -78,26 +101,31 @@ const dataUrl = (png: string) => "data:image/png;base64," + readFileSync(png).to
 export async function judgeArtifact(brief: string, cwd: string, placed: Set<string>): Promise<ArtifactJudgment> {
   const art = findArtifact(cwd, placed);
   if (!art) return { score: 0, valid: false, notes: "no artifact produced in the working directory", judged: "none", model: "-" };
-  const { model, kind: judgeKind } = judgeModelFor(art.kind);
-  // Grade strictly against the LITERAL content (decoupled from the brief to stop
-  // the model hallucinating the expected answer / grading leniently).
-  const gradeSys = "You grade an artifact against a brief from a LITERAL description of what it actually contains. Be strict: a stub, blank, placeholder (e.g. just 'TODO'), generic, or wrong-content artifact scores LOW regardless of what the brief wanted. Only reward content that genuinely fulfils the brief.";
-  const gradeUser = (seen: string) =>
-    `Brief:\n${brief}\n\nWhat the artifact ACTUALLY contains:\n${seen}\n\nScore 0..1 = how well the ACTUAL content fulfils the brief (correctness, fidelity, completeness). Return {"score":0..1,"valid":true|false,"notes":"one sentence"}.`;
+  const { kind: judgeKind } = judgeModelFor(art.kind);
 
-  // vision path: render → describe what's literally there → grade that description
+  // vision panel: each model perceives + grades INDEPENDENTLY → median (robust)
   if (judgeKind === "image") {
     const png = rasterize(art.path, art.kind);
     if (png) {
-      try {
-        const desc = await llmJSONVision<{ seen: string }>(
-          model, "You are a careful, literal image reader.",
-          'Describe EXACTLY what is in this image — every shape, text string, and the overall layout. Report ONLY what is visibly present; do not assume or infer intent. Return {"seen":"..."}.',
-          [dataUrl(png)],
-        );
-        const r = await llmJSON<any>(gradeSys, gradeUser(desc.seen));
-        return { score: clamp(r.score), valid: !!r.valid, notes: r.notes ?? "", judged: "vision", model, artifact: art.path, artifactKind: art.kind, seen: desc.seen };
-      } catch { /* fall through to text */ }
+      const url = dataUrl(png);
+      const panel = (await Promise.all(PANEL.map((m) => judgeOne(m, url, brief).catch(() => null)))).filter(Boolean) as JudgeVote[];
+      if (panel.length) {
+        const scores = panel.map((p) => p.score).sort((a, b) => a - b);
+        const median = scores[Math.floor(scores.length / 2)];
+        const spread = scores[scores.length - 1] - scores[0];
+        const outliers = panel.filter((p) => Math.abs(p.score - median) > 0.3).map((p) => p.model);
+        return {
+          score: median,
+          valid: panel.filter((p) => p.valid).length >= panel.length / 2,
+          notes: (panel.find((p) => p.score === median) ?? panel[0]).notes,
+          judged: "vision-panel", model: PANEL.join("+"), artifact: art.path, artifactKind: art.kind,
+          seen: (panel.find((p) => p.score === median) ?? panel[0]).seen,
+          panel: panel.map((p) => ({ model: p.model, score: p.score })),
+          agreement: +(1 - spread).toFixed(2),
+          outliers,
+          confidence: Math.max(0.4, +(0.9 - spread * 0.6).toFixed(2)),
+        };
+      }
     }
   }
 
@@ -105,8 +133,8 @@ export async function judgeArtifact(brief: string, cwd: string, placed: Set<stri
   let body = "";
   try { body = readFileSync(art.path, "utf8").slice(0, 8000); } catch {}
   const seen = body ? `Source of the ${art.kind} artifact:\n${body}` : `(binary ${art.kind}; no local renderer — only its presence is known)`;
-  const r = await llmJSON<any>(gradeSys, gradeUser(seen));
-  return { score: clamp(r.score), valid: !!r.valid, notes: r.notes ?? "", judged: body ? "text-fallback" : "text", model: "z-ai/glm-5.2", artifact: art.path, artifactKind: art.kind, seen: body.slice(0, 400) };
+  const r = await llmJSON<any>(GRADE_SYS, gradeUser(brief, seen));
+  return { score: clamp(r.score), valid: !!r.valid, notes: r.notes ?? "", judged: body ? "text-fallback" : "text", model: "z-ai/glm-5.2", artifact: art.path, artifactKind: art.kind, seen: body.slice(0, 400), confidence: 0.55 };
 }
 
 const clamp = (n: any) => Math.max(0, Math.min(1, typeof n === "number" ? n : parseFloat(n) || 0));

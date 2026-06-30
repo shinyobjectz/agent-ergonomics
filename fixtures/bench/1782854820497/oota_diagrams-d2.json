@@ -1,0 +1,247 @@
+{
+  "T0": {
+    "probeId": "t0-coldcall",
+    "subjectId": "oota:diagrams-d2",
+    "tier": "T0",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t0-coldcall-0",
+        "success": true,
+        "turns": 1,
+        "tokensIn": 451,
+        "tokensOut": 28,
+        "retries": 0,
+        "timeToFirstActionMs": 14412.946375,
+        "wallMs": 14412.946375,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 479,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.00051245,
+          "transcript": "```d2\nx -> y\n```",
+          "answerLen": 16
+        }
+      }
+    ]
+  },
+  "T1": {
+    "probeId": "t1-guided",
+    "subjectId": "oota:diagrams-d2",
+    "tier": "T1",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t1-guided-0",
+        "success": true,
+        "turns": 12,
+        "tokensIn": 7221,
+        "tokensOut": 2814,
+        "retries": 0,
+        "timeToFirstActionMs": 79342.531375,
+        "wallMs": 79342.531375,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 1754,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 1372,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 1766,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 1231,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 932,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 353,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 173,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 618,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 421,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 10,
+            "tokens": 172,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 11,
+            "tokens": 159,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 12,
+            "tokens": 1084,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.025623870000000003,
+          "transcript": "Done. The `d2` tool's primary artifact is a standalone **SVG**, produced here for **tldraw/tldraw** from the actual `PROJECT.md` content.\n\n## Artifacts written to the working directory\n\n| File | Role |\n| --- | --- |\n| `tldraw-architecture.d2` | Diffable D2 source (formatted via `d2 fmt`) |\n| `tldraw-architecture.svg` | **Primary deliverable** — 40 KB standalone SVG, ELK orthogonal layout, `data-d2-version=\"0.7.1\"` |\n\n## How it maps to `PROJECT.md`\n> Store (reactive records: shapes, pages, camera) → Editor (the API surface) → shape utils (per-shape geometry/render) → React canvas. Snapshots serialize to .tldr JSON.\n\n- **Store** container holds the three reactive record types (`Shape`, `Page`, `Camera` records), color-coded green as the single source of truth.\n- **Editor** node (red-tinted) is the API surface, fed by the Store via animated \"reactive state (signals)\".\n- **Shape Utils** container splits into `Geometry` → `React Component` (per-shape geometry + render), fed by Editor.\n- **React Canvas** (yellow) is the infinite-canvas `<canvas>` view; an animated red edge returns pointer/keyboard events back to the Editor.\n- **Snapshots** (cylinder) sits outside the runtime container, bidirectionally linked to the Store for persist/restore to `.tldr` JSON.\n- A gray **Host App** node shows the external developer boundary — it consumes the Editor API and embeds the Canvas.\n\n## Validation performed\n- Smoke: `d2 /tmp/test.d2 /tmp/test.svg` → exit 0, valid SVG.\n- `d2 fmt` applied to the source.\n- Rendered with `--layout=elk` (recommended for orthogonal architecture diagrams per the tool notes).\n- One fix during authoring: removed invalid `direction: reverse` on a connection (not a legal D2 value).\n- Removed remote `icon:` URLs because icon bundling hit403 (no network) — kept `shape`, `style.fill`, `description`, and `style.animated` for visual richness without external assets.\n\nThe diagram is self-contained and renders in any SVG-capable viewer.",
+          "answerLen": 1969
+        }
+      }
+    ]
+  },
+  "T3": {
+    "probeId": "t3-failure",
+    "subjectId": "oota:diagrams-d2",
+    "tier": "T3",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t3-failure-0",
+        "success": true,
+        "turns": 12,
+        "tokensIn": 9385,
+        "tokensOut": 4260,
+        "retries": 0,
+        "timeToFirstActionMs": 103354.47070899999,
+        "wallMs": 103354.47070899999,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 232,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 2202,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 2496,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 1804,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 1455,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 537,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 107,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 272,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 128,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 10,
+            "tokens": 3298,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 11,
+            "tokens": 426,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 12,
+            "tokens": 688,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.038572550000000004,
+          "transcript": "The primary artifact is complete and saved to the working directory.\n\n## Summary\n\nThe **d2** tool's primary artifact is a standalone **SVG**. I produced a complete, representative architecture diagram for **tldraw/tldraw**, grounded in `PROJECT.md`.\n\n**Files written to the working directory:**\n- `tldraw-architecture.d2` — the diffable D2 source (validated + `d2 fmt` clean)\n- `tldraw-architecture.svg` — the rendered primary artifact (78 KB, 4506×2560, bundled/standalone)\n\n**Build pipeline used:**\n- `d2 validate` → `Success!`\n- `d2 fmt` → canonical formatting\n- `d2 --layout=dagre --theme=101 tldraw-architecture.d2 tldraw-architecture.svg` → rendered SVG\n\n**Layout choice:** Tried both bundled engines. ELK produced an overly stretched 4.5:1 canvas (6532×1440); **dagre** gave a balanced 1.76:1 (4506×2560) and was selected as the primary render.\n\n**Diagram content (faithful to the source material):**\n- `Runtime` container holding the four core subsystems:\n  - **Store** — reactive records (Shapes → Pages → Camera, plus Assets), the single source of truth via signals\n  - **Editor** — the API surface (Signal API, Commands, History stack)\n  - **Shape Utils** — per-shape Geometry + React Component\n  - **Canvas** — React infinite-canvas `<canvas>` view + overlays\n- Core data-flow edges: Store→Editor (reactive state/signals), Editor→ShapeUtils (delegates per-shape), ShapeUtils→Canvas (renders), Canvas→Editor (pointer/keyboard events) — animated to show the live loop\n- **`.tldr` Snapshots** cylinder (outside the runtime), bidirectional persist/restore with the Store\n- **Host App** consuming the SDK (uses Editor API / embeds Canvas)\n\nColor-coded by subsystem (green=Store, red=Editor, blue=ShapeUtils, yellow=Canvas, purple=Snapshots, gray=Host), with the main reactive loop and persistence flow animated per the `d2.md` guidance on animated SVG output.",
+          "answerLen": 1866
+        }
+      }
+    ]
+  },
+  "_quality": 0.9,
+  "_seen": "A system architecture diagram with the following components and connections:\n\n**Left side (outside main container):**\n- A box labeled 'Host App'\n\n**Large container labeled 'tldraw SDK' containing:**\n- A 'Store' box (left) containing:\n  - Text: 'Reactive records: the single source of truth.'\n  - Three sub-boxes: 'Shape Records', 'Page Records', 'Camera Records'\n  - Arrows labeled 'subscribes' connecting Shape Records → Page Records → Camera Records\n- An 'Editor' box (center) containing:\n  - Text: 'The API surface: commands, signals, events'\n- A 'Shape Utils' box (right-center) containing:\n  - Text: 'Per-shape geometry + render'\n  - Two sub-boxes: 'Geometry' and 'React Component'\n  - Arrow labeled 'drives' from Geometry to React Component\n- A 'React Canvas' box (right) containing:\n  - Text: 'Infinite canvas <canvas> view'\n\n**Right side (outside main container):**\n- A cylinder/database shape labeled 'Snapshots' containing:\n  - Text: 'Serialize to .tdr JSON'\n\n**Arrows/labels between components:**\n- 'embeds' arrow from Host App to tldraw SDK (top)\n- 'uses API' arrow from Host App to Editor\n- 'reactive state (signals)' arrow from Store to Editor (dashed)\n- 'delegates per-shape' arrow from Editor to Shape Utils\n- 'renders shapes' arrow from Shape Utils to React Canvas\n- 'pointer/keyboard events' arrow from React Canvas back to Editor (dashed red)\n- 'persist / restore (.tdr)' arrow from Snapshots to Store (dashed purple)\n\n**Color scheme:** Light blue background for the SDK container, light orange/peach for Editor, light yellow for React Canvas, light green for Shape Records, light purple for Snapshots cylinder, with blue, red, and purple dashed arrows."
+}
