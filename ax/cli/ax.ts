@@ -62,6 +62,14 @@ async function run() {
       console.log(r.rendered);
       break;
     }
+    case "site": {
+      const { buildSite } = await import("../site/build.ts");
+      const { resolve } = await import("node:path");
+      const out = resolve(rest[0] ?? "site");
+      const r = await buildSite(out);
+      console.error(`built site → ${out} (${r.count} subjects)`);
+      break;
+    }
     case "leaderboard": {
       const { ootaLeaderboard } = await import("../report/leaderboard.ts");
       const r = await ootaLeaderboard();

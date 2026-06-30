@@ -140,15 +140,19 @@ function renderMatrix(profileJson: string): string {
 }
 
 export async function renderReport(path: string): Promise<RenderResult> {
-  const src = readFileSync(path, "utf8");
+  return renderWork(readFileSync(path, "utf8"), dirname(resolve(path)));
+}
+
+/** Render a .work report from a string with an explicit default source-root. */
+export function renderWork(src: string, rootDefault: string): RenderResult {
   const segs = segment(src);
   // front-matter ```ax block may set a root for source resolution
-  let root = dirname(resolve(path));
+  let root = rootDefault;
   for (const seg of segs) {
     if (seg.type === "fence" && seg.block.info === "ax") {
       try {
         const fm = JSON.parse(seg.block.body);
-        if (fm.root) root = isAbsolute(fm.root) ? fm.root : resolve(dirname(resolve(path)), fm.root);
+        if (fm.root) root = isAbsolute(fm.root) ? fm.root : resolve(rootDefault, fm.root);
       } catch {}
     }
   }
