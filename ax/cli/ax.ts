@@ -62,6 +62,13 @@ async function run() {
       console.log(r.rendered);
       break;
     }
+    case "work": {
+      const { workStatus } = await import("../harness/work.ts");
+      const s = workStatus();
+      console.log(JSON.stringify(s, null, 2));
+      if (!s.ok) console.error(s.binary ? "⚠ version mismatch or unverified" : "⚠ no work binary — run scripts/install-work.ts or set OOTA_WORK");
+      break;
+    }
     case "site": {
       const { buildSite } = await import("../site/build.ts");
       const { resolve } = await import("node:path");

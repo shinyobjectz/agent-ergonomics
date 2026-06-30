@@ -63,12 +63,24 @@ The output spine — build it early so everything has a concrete target.
 
 ---
 
-## 2. `workagent` trial harness
+## 2. `workagent` trial harness — the Zig `work` CLI (reactor)
 
-Drive standardized agents and capture everything.
+The harness IS the Workbooks **`work`** CLI (built from the Zig **reactor**,
+`github.com/workbooks-sh/workbooks.sh/reactor`). `work agent run <name> "<brief>"`
+runs an agent on a brief → the trial primitive; `work runs` is the telemetry
+ledger.
 
-- **Adopt `workagent`** — study the Workbooks-native format; wrap it as the
-  default harness-agnostic agent.
+- **Vendor a pinned prebuilt** (`work-pin.json` + `scripts/install-work.ts`):
+  download the per-platform `work` binary on install, version-guarded
+  (`ax work`); **never fork** — bump the pin to sync with upstream. Resolution:
+  `$OOTA_WORK` → `vendor/work` → local reactor build. *(matches our own
+  vendored/relational control-mode preference.)*
+- **Spin a throwaway local nexus per benchmark run** (`work deploy` → trials →
+  tear down) for hermetic, reproducible agent trials — no external service.
+- `WorkagentRunner` shells to `work agent run` (+ parses `work runs` for
+  per-turn telemetry — TODO). Today `work agent run` POSTs `/cloud/agent/run`
+  (needs a nexus + a `workagent` agent); the runner errors actionably until that
+  is up. The static/Screen tier needs no agent (counters), so breadth runs now.
 - **Trial runner** — `(probe, subject, agentConfig) → run` → capture **transcript
   + telemetry**: turns, input/output tokens per turn, tool calls, exit status,
   artifacts produced, wall-clock, retries. One `runId` per trial, transcript

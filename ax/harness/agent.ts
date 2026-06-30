@@ -68,13 +68,53 @@ export class MockAgent implements AgentRunner {
   }
 }
 
-/** Real Workbooks workagent driver — TODO Phase 2: wire the workagent format. */
+/**
+ * Real workagent driver — shells to the Zig `work` CLI (the reactor).
+ * `work agent run <name> "<brief>"` runs an agent on a brief. Trials run against
+ * a local nexus (spin per benchmark run); telemetry detail is pulled from the
+ * `work runs` ledger. Throws actionable errors until the binary + a reachable
+ * agent are present (use --agent mock for the static/Screen tier meanwhile).
+ */
 export class WorkagentRunner implements AgentRunner {
   id = "workagent";
-  async run(): Promise<TrialRun> {
-    throw new Error(
-      "WorkagentRunner not yet wired — Phase-2 build task: drive the Workbooks `workagent` format (run, capture transcript+telemetry). Until then use --agent mock for pipeline/static runs.",
-    );
+  private agent = process.env.OOTA_AGENT || "workagent";
+
+  async run(input: TrialInput, seed: number): Promise<TrialRun> {
+    const { workBinary, pinOk, WORK_PIN, workVersion } = await import("./work.ts");
+    const { spawnSync } = await import("node:child_process");
+    const bin = workBinary();
+    if (!bin)
+      throw new Error(
+        "no `work` binary — vendor it (download pinned reactor build), set $OOTA_WORK, or build Apps/workbooks/reactor (`zig build`). Use --agent mock for static runs.",
+      );
+    if (!pinOk(bin))
+      throw new Error(`work version ${workVersion(bin)} != pinned ${WORK_PIN} — refresh the vendored binary so trials aren't stale.`);
+
+    // brief: the probe intent bound to the subject (docs withheld for T0 cold-call).
+    const brief = `${input.intent}${input.docsAvailable ? "" : " (no docs — cold)"} [${input.subjectId}]`;
+    const t0 = performance.now();
+    const r = spawnSync(bin, ["agent", "run", this.agent, brief], { encoding: "utf8", timeout: 120000 });
+    const wallMs = performance.now() - t0;
+    const answer = (r.stdout || "").trim();
+    if (r.status !== 0 && !answer) {
+      throw new Error(
+        `work agent run failed (exit ${r.status}). Likely needs \`work login\` + a local nexus with a "${this.agent}" agent. ${(r.stderr || "").trim().slice(0, 200)}`,
+      );
+    }
+    const success = r.status === 0 && answer.length > 0;
+    return {
+      runId: `work-${input.probeId}-${seed}`,
+      success,
+      turns: 1, // CLI one-shot; multi-turn telemetry comes from `work runs` (TODO)
+      tokensIn: Math.ceil(brief.length / 4),
+      tokensOut: Math.ceil(answer.length / 4),
+      retries: 0,
+      timeToFirstActionMs: wallMs,
+      wallMs,
+      exit: r.status ?? 1,
+      artifacts: success ? ["(agent answer)"] : [],
+      extra: { workReal: true, agent: this.agent, ledgerTelemetry: "TODO: parse `work runs`" },
+    };
   }
 }
 

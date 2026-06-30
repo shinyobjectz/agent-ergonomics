@@ -1,0 +1,12 @@
+{
+  "version": "0.1.0",
+  "upstream": "github.com/workbooks-sh/workbooks.sh/tree/main/reactor",
+  "note": "Pinned Zig `work` CLI. Vendored (downloaded), never forked. Bump to sync with upstream reactor.",
+  "assets": {
+    "_comment": "platform key (os-arch) → { url, sha256 } of the prebuilt `work`. Fill from reactor GitHub releases.",
+    "darwin-arm64": { "url": "", "sha256": "" },
+    "darwin-x64": { "url": "", "sha256": "" },
+    "linux-x64": { "url": "", "sha256": "" },
+    "wasm": { "url": "", "sha256": "" }
+  }
+}
