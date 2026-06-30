@@ -63,24 +63,31 @@ The output spine — build it early so everything has a concrete target.
 
 ---
 
-## 2. `workagent` trial harness — the Zig `work` CLI (reactor)
+## 2. Trial harness — PI baseline (micro-VM) + ACP for explicit harnesses
 
-The harness IS the Workbooks **`work`** CLI (built from the Zig **reactor**,
-`github.com/workbooks-sh/workbooks.sh/reactor`). `work agent run <name> "<brief>"`
-runs an agent on a brief → the trial primitive; `work runs` is the telemetry
-ledger.
+The harness is **pluggable** (`AgentRunner`). Three real runners (mock is
+test-only and never feeds a real profile):
 
-- **Vendor a pinned prebuilt** (`work-pin.json` + `scripts/install-work.ts`):
-  download the per-platform `work` binary on install, version-guarded
-  (`ax work`); **never fork** — bump the pin to sync with upstream. Resolution:
-  `$OOTA_WORK` → `vendor/work` → local reactor build. *(matches our own
-  vendored/relational control-mode preference.)*
-- **Spin a throwaway local nexus per benchmark run** (`work deploy` → trials →
-  tear down) for hermetic, reproducible agent trials — no external service.
-- `WorkagentRunner` shells to `work agent run` (+ parses `work runs` for
-  per-turn telemetry — TODO). Today `work agent run` POSTs `/cloud/agent/run`
-  (needs a nexus + a `workagent` agent); the runner errors actionably until that
-  is up. The static/Screen tier needs no agent (counters), so breadth runs now.
+- **`PiRunner` (baseline, DONE + validated)** — the PI coding agent
+  (`@earendil-works/pi-coding-agent`) run non-interactively:
+  `pi --print --mode json --no-session --provider openrouter --model z-ai/glm-5.2`.
+  Telemetry is parsed **straight from PI's JSON event stream** — real tokens
+  (`usage.input/output`), cost, turns (`turn_end`), **compaction levels
+  (`compaction_end`, free T5 signal)**, final answer. Runs on host or inside a
+  **Docker micro-VM** (`OOTA_SANDBOX=docker`, the lightest local harness). No
+  nexus. *(Validated live: cold-call + guided runs return real signals.)*
+- **`AcpRunner` (explicit harnesses)** — drives a specific agent (Claude Code,
+  Gemini, custom) over the **Agent Client Protocol** (JSON-RPC/stdio) inside the
+  sandbox, for harness-specific mode (`OOTA_ACP_AGENT=<cmd>`). Implemented to
+  spec; pending validation against a live ACP agent.
+- **`WorkagentRunner` (alternate)** — shells to the Zig `work` CLI's
+  `agent run` (needs a nexus). Kept as an option; the **reactor/`work` is used
+  primarily for `.work` parsing/weaving**, not for running trials.
+
+Honest default: `pickRunner` → real PI if installed, else `null` → behavioral
+tiers are **skipped** (cells unmeasured), never mock-filled. The Screen/breadth
+leaderboard is **static-only** (cheap, reproducible); `ax deep` runs the real PI
+battery.
 - **Trial runner** — `(probe, subject, agentConfig) → run` → capture **transcript
   + telemetry**: turns, input/output tokens per turn, tool calls, exit status,
   artifacts produced, wall-clock, retries. One `runId` per trial, transcript

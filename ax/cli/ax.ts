@@ -21,6 +21,10 @@ Usage: ax <command> [args]
 Subjects: a path to a tool/dir, or an oota tool id (e.g. oota:d2).`;
 
 const [cmd, ...rest] = process.argv.slice(2);
+const flag = (args: string[], name: string): string | undefined => {
+  const i = args.indexOf(name);
+  return i >= 0 ? args[i + 1] : undefined;
+};
 
 async function run() {
   switch (cmd) {
@@ -39,18 +43,22 @@ async function run() {
     }
     case "screen": {
       const { screen } = await import("../core/workflow.ts");
-      console.log(JSON.stringify(await screen(rest[0]), null, 2));
+      const subj = rest.find((a) => !a.startsWith("--"))!;
+      const agentId = flag(rest, "--agent");
+      console.log(JSON.stringify(await screen(subj, { behavioral: rest.includes("--behavioral"), agentId }), null, 2));
       break;
     }
     case "deep": {
       const { deep } = await import("../core/workflow.ts");
-      console.log(JSON.stringify(await deep(rest[0]), null, 2));
+      const subj = rest.find((a) => !a.startsWith("--"))!;
+      console.log(JSON.stringify(await deep(subj, 5, flag(rest, "--agent")), null, 2));
       break;
     }
     case "design": {
       const { screen } = await import("../core/workflow.ts");
       const { designFixes } = await import("../core/designer.ts");
-      console.log(JSON.stringify(designFixes(await screen(rest[0])), null, 2));
+      const subj = rest.find((a) => !a.startsWith("--"))!;
+      console.log(JSON.stringify(designFixes(await screen(subj, { behavioral: rest.includes("--behavioral"), agentId: flag(rest, "--agent") })), null, 2));
       break;
     }
     case "eval": {

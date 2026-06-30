@@ -63,10 +63,11 @@ export async function ootaLeaderboard(): Promise<{ path: string; count: number }
   out.push("");
   out.push("# OOTA — Agent Ergonomics (AX) Leaderboard");
   out.push("");
-  out.push(`Screen-tier AX across **${keys.length}** OOTA tools (static counters + cold-call/guided probes). `);
+  out.push(`Screen-tier AX across **${keys.length}** OOTA tools — **static signals only** ` +
+    `(instrumented counters: economy, DRY/coherence, determinism, safety). No agent runs, so these numbers are cheap and reproducible.`);
   out.push("Cells are instrument readings in −1…+1 (hostile is negative), not 1–5 scores. " +
-    "`Human` surface is unmeasured at Screen tier (needs agent probes). " +
-    "Run `ax eval oota:<tool> --deep` for a full per-tool report.");
+    "Behavioral surfaces (Loop/Recursion/Human verifiability, cost, drift) and the Human surface are **unmeasured here** — " +
+    "run `ax deep oota:<tool>` (real PI agent, z-ai/glm-5.2) for the full battery + a per-tool report.");
   out.push("");
   if (worst.length) {
     out.push("## Most agent-hostile / weakest");

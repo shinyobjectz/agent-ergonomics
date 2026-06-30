@@ -1,8 +1,9 @@
 /**
  * Phase 2 — trial harness. Pluggable AgentRunner so the probe battery is
- * agent-agnostic. Ships a deterministic MockAgent (for pipeline tests + the
- * static-tier Screen) and a WorkagentRunner stub (real integration is the
- * Phase-2 build task — it throws honestly until wired, so nothing fakes a run).
+ * agent-agnostic. The REAL baseline is the PI coding agent (ax/harness/pi.ts);
+ * explicit harnesses are driven via ACP (ax/harness/acp.ts). MockAgent here is
+ * TEST-ONLY (deterministic, labeled) and never feeds a real profile —
+ * pickRunner returns null instead of mocking when no real agent is present.
  */
 import { createHash } from "node:crypto";
 
@@ -118,7 +119,16 @@ export class WorkagentRunner implements AgentRunner {
   }
 }
 
-export function pickRunner(id?: string): AgentRunner {
+/**
+ * Honest runner selection. `mock` is TEST-ONLY (never feeds a real profile).
+ * Default = the real PI agent if installed; else null → behavioral tiers are
+ * SKIPPED (cells stay unmeasured) rather than silently faked.
+ */
+export async function pickRunner(id?: string): Promise<AgentRunner | null> {
+  if (id === "mock") return new MockAgent();
   if (id === "workagent") return new WorkagentRunner();
-  return new MockAgent();
+  if (id === "acp") return new (await import("./acp.ts")).AcpRunner();
+  const { PiRunner } = await import("./pi.ts");
+  if (id === "pi") return new PiRunner();
+  return PiRunner.available() ? new PiRunner() : null; // baseline = real PI, else skip
 }
