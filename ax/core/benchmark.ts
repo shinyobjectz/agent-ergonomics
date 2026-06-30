@@ -7,7 +7,8 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { judgeArtifact } from "../instruments/judge.ts";
-import { pickRunner } from "../harness/agent.ts";
+import { PiRunner } from "../harness/pi.ts";
+import { DRIVERS, weightFor, weightedMean } from "../harness/drivers.ts";
 import { PROBES, runProbe, type ProbeDef, type ProbeResult } from "../probes/probes.ts";
 import { resolveSubject, groundSubject } from "./workflow.ts";
 import { pareto, type ParetoPoint } from "../instruments/pareto.ts";
@@ -35,65 +36,81 @@ export interface BenchOpts { tiers?: string[]; n?: number; agentId?: string; out
 export async function benchmark(subjectArgs: string[], opts: BenchOpts = {}) {
   const tiers = opts.tiers ?? ["T0", "T1", "T3"];
   const n = opts.n ?? 1;
-  const runner = await pickRunner(opts.agentId);
-  if (!runner) throw new Error("benchmark needs a real agent — install PI or pass --agent.");
+  if (!PiRunner.available()) throw new Error("benchmark needs PI — install @earendil-works/pi-coding-agent.");
+  const driverList = opts.agentId ? [{ model: opts.agentId, modalities: ["text"] }] : DRIVERS;
 
   const runDir = opts.out ?? join(import.meta.dir, "../../fixtures/bench", `${Date.now()}`);
   mkdirSync(runDir, { recursive: true });
 
-  const data: Array<{ id: string; prs: Record<string, ProbeResult>; quality: number; seen: string }> = [];
+  type DriverResult = { model: string; quality: number; seen: string; byTier: Record<string, { success: number; cost: number; turns: number; transcript: string }> };
+  const data: Array<{ id: string; quality: number; seen: string; cost: number; turns: number; byTier: Record<string, number>; transcript: string; artifactKind: string; drivers: DriverResult[] }> = [];
+
   for (const arg of subjectArgs) {
     const s = resolveSubject(arg);
-    const subj = groundSubject(s); // grounded brief + real subject matter in cwd
     const placed = new Set((s.files ?? []).map((f) => basename(f)));
-    const prs: Record<string, ProbeResult> = {};
-    let quality = 0, seen = "";
-    for (const tier of tiers) {
-      const probe = PROBES.find((p) => p.tier === tier) as ProbeDef;
-      prs[tier] = await runProbe(probe, subj, runner, n);
-      // grade the actual artifact right after T1 (before later tiers touch the cwd)
-      if (tier === "T1") {
-        try { const j = await judgeArtifact(subj.intent, subj.path, placed); quality = j.score; seen = j.seen ?? j.notes; } catch {}
+    const drivers: DriverResult[] = [];
+    let artifactKind = "";
+    // each driver works in its OWN fresh cwd (no artifact collision) and is judged
+    for (const drv of driverList) {
+      const runner = new PiRunner(drv.model);
+      const subj = groundSubject(s);
+      const byTier: DriverResult["byTier"] = {};
+      let quality = 0, seen = "";
+      for (const tier of tiers) {
+        const probe = PROBES.find((p) => p.tier === tier) as ProbeDef;
+        const pr = await runProbe(probe, subj, runner, n);
+        const rs = pr.runs;
+        byTier[tier] = {
+          success: rs.filter((r) => r.success).length / rs.length,
+          cost: rs.reduce((a, r) => a + r.tokensIn + r.tokensOut, 0) / rs.length,
+          turns: rs.reduce((a, r) => a + r.turns, 0) / rs.length,
+          transcript: (rs[0]?.extra?.transcript as string) ?? "",
+        };
+        if (tier === "T1") {
+          try { const jj = await judgeArtifact(subj.intent, subj.path, placed); quality = jj.score; seen = jj.seen ?? jj.notes; artifactKind = jj.artifactKind ?? artifactKind; } catch {}
+        }
       }
+      drivers.push({ model: drv.model, quality, seen, byTier });
     }
-    data.push({ id: s.id, prs, quality, seen });
-    writeFileSync(join(runDir, `${safe(s.id)}.json`), JSON.stringify({ ...prs, _quality: quality, _seen: seen }, null, 2));
+    // combine weighted by modality — the self-checker for this output kind weighs more
+    const w = (m: string) => weightFor(m, artifactKind);
+    const cQuality = +weightedMean(drivers.map((d) => ({ v: d.quality, w: w(d.model) }))).toFixed(3);
+    const byTierC: Record<string, number> = {};
+    for (const t of tiers) byTierC[t] = weightedMean(drivers.map((d) => ({ v: d.byTier[t].success, w: w(d.model) })));
+    const cCost = Math.round(weightedMean(drivers.map((d) => ({ v: d.byTier["T1"].cost, w: w(d.model) }))));
+    const cTurns = +weightedMean(drivers.map((d) => ({ v: d.byTier["T1"].turns, w: w(d.model) }))).toFixed(1);
+    const top = drivers.slice().sort((a, b) => b.quality - a.quality)[0];
+    data.push({ id: s.id, quality: cQuality, seen: top.seen, cost: cCost, turns: cTurns, byTier: byTierC, transcript: top.byTier["T1"]?.transcript ?? "", artifactKind, drivers });
+    writeFileSync(join(runDir, `${safe(s.id)}.json`), JSON.stringify({ quality: cQuality, cost: cCost, turns: cTurns, artifactKind, drivers: drivers.map((d) => ({ model: d.model, quality: d.quality, weight: w(d.model), byTier: d.byTier })) }, null, 2));
   }
 
   const ids = data.map((d) => d.id);
 
-  // ── IRT: graded — T1 item passes only on a real, high-quality artifact (gap: binary saturated) ──
-  const R = data.map((d) => tiers.map((t) => (t === "T1" ? (d.quality >= 0.6 ? 1 : 0) : passRate(d.prs[t]) >= 0.5 ? 1 : 0)));
+  // ── IRT: graded — T1 passes only on a real high-quality artifact (binary was saturated) ──
+  const R = data.map((d) => tiers.map((t) => (t === "T1" ? (d.quality >= 0.6 ? 1 : 0) : d.byTier[t] >= 0.5 ? 1 : 0)));
   const irtRes = rasch(ids, tiers, R);
 
-  // ── Pareto: graded success (artifact quality) × cost × turns ──
-  const points: ParetoPoint[] = data.map((d) => {
-    const s = t1Summary(d.prs["T1"]);
-    return { id: d.id, success: d.quality, cost: s.cost, turns: s.turns };
-  });
+  // ── Pareto: combined (ensemble) artifact quality × cost × turns ──
+  const points: ParetoPoint[] = data.map((d) => ({ id: d.id, success: d.quality, cost: d.cost, turns: d.turns }));
   const par = pareto(points);
 
-  // ── Elo: pairwise judge on what was ACTUALLY produced (quality + literal content) ──
-  const summaries = data.map((d) => {
-    const s = t1Summary(d.prs["T1"]);
-    return { id: d.id, summary: `artifact quality=${d.quality.toFixed(2)}, cost=${s.cost} tok, turns=${s.turns}; produced: ${(d.seen || s.answer).slice(0, 500)}` };
-  });
+  // ── Elo: pairwise judge on what was ACTUALLY produced ──
+  const summaries = data.map((d) => ({ id: d.id, summary: `quality=${d.quality.toFixed(2)}, cost=${d.cost} tok, turns=${d.turns}; produced: ${(d.seen || "").slice(0, 500)}` }));
   const matchups: Matchup[] = [];
   for (let i = 0; i < summaries.length; i++)
     for (let j = i + 1; j < summaries.length; j++) {
-      try { matchups.push(await judgeMatchup(summaries[i], summaries[j])); } catch (e) { /* skip a failed judgment */ }
+      try { matchups.push(await judgeMatchup(summaries[i], summaries[j])); } catch { /* skip a failed judgment */ }
     }
   const elo = matchups.length ? bradleyTerry(ids, matchups) : {};
 
-  // ── Friction: code each subject's T1 transcript ──
+  // ── Friction: code the top driver's T1 transcript ──
   const friction: Record<string, any> = {};
   for (const d of data) {
-    const tr = (d.prs["T1"]?.runs[0]?.extra?.transcript as string) ?? "";
-    try { friction[d.id] = frictionSummary(await codeFriction(d.id, tr)); } catch { friction[d.id] = { byTheme: {}, load: 0 }; }
+    try { friction[d.id] = frictionSummary(await codeFriction(d.id, d.transcript)); } catch { friction[d.id] = { byTheme: {}, load: 0 }; }
   }
 
-  const quality = Object.fromEntries(data.map((d) => [d.id, { score: d.quality, seen: d.seen }]));
-  const result = { subjects: ids, tiers, n, points, pareto: par, elo, irt: irtRes, matchups, friction, quality, runDir };
+  const quality = Object.fromEntries(data.map((d) => [d.id, { score: d.quality, seen: d.seen, artifactKind: d.artifactKind, drivers: d.drivers.map((x) => ({ model: x.model, quality: x.quality, weight: weightFor(x.model, d.artifactKind) })) }]));
+  const result = { subjects: ids, tiers, n, drivers: driverList.map((d) => d.model), points, pareto: par, elo, irt: irtRes, matchups, friction, quality, runDir };
   writeFileSync(join(runDir, "benchmark.json"), JSON.stringify(result, null, 2));
   writeFileSync(join(runDir, "benchmark.work"), renderBench(result));
   return result;
@@ -105,8 +122,9 @@ function renderBench(r: any): string {
   L.push(JSON.stringify({ subjectId: "benchmark", generatedBy: "agent-ergonomics", tier: "deep" }));
   L.push("```");
   L.push(`\n# Cross-tool AX benchmark\n\nSubjects: ${r.subjects.join(", ")} · tiers ${r.tiers.join("/")} · N=${r.n}. Real PI runs; artifacts vision-judged.\n`);
-  L.push("## Artifact quality (vision-judged, 0–1)\n");
-  L.push(Object.entries(r.quality ?? {}).sort((a: any, b: any) => b[1].score - a[1].score).map(([k, v]: any) => `- ${k}: **${v.score.toFixed(2)}** — ${(v.seen || "").slice(0, 90)}`).join("\n") || "_n/a_");
+  L.push(`## Artifact quality (driver ensemble, vision-judged 0–1)\n\nDrivers: ${(r.drivers ?? []).join(", ")} · combined = modality-weighted.\n`);
+  L.push(Object.entries(r.quality ?? {}).sort((a: any, b: any) => b[1].score - a[1].score).map(([k, v]: any) =>
+    `- ${k}: **${v.score.toFixed(2)}** [${(v.drivers ?? []).map((d: any) => `${d.model.split("/").pop()} ${d.quality.toFixed(2)}${d.weight > 1 ? "✓" : ""}`).join(", ")}] — ${(v.seen || "").slice(0, 70)}`).join("\n") || "_n/a_");
   L.push("\n## Elo (Bradley–Terry, pairwise judge)\n");
   L.push(Object.entries(r.elo).sort((a: any, b: any) => b[1] - a[1]).map(([k, v]) => `- ${k}: **${v}**`).join("\n") || "_no matchups_");
   L.push("\n## IRT latent AX ability (θ)\n");

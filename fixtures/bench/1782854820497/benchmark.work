@@ -1,0 +1,45 @@
+```ax
+{"subjectId":"benchmark","generatedBy":"agent-ergonomics","tier":"deep"}
+```
+
+# Cross-tool AX benchmark
+
+Subjects: oota:diagrams-d2, oota:diagrams-mermaid, oota:diagrams-plantuml · tiers T0/T1/T3 · N=1. Real PI runs; artifacts vision-judged.
+
+## Artifact quality (vision-judged, 0–1)
+
+- oota:diagrams-d2: **0.90** — A system architecture diagram with the following components and connections:
+
+**Left side 
+- oota:diagrams-mermaid: **0.15** — Title text at top in dark teal reads 'tldraw — Architecture dataflow'. Below is a large re
+- oota:diagrams-plantuml: **0.00** — no artifact produced in the working directory
+
+## Elo (Bradley–Terry, pairwise judge)
+
+- oota:diagrams-d2: **1699**
+- oota:diagrams-plantuml: **1500**
+- oota:diagrams-mermaid: **1301**
+
+## IRT latent AX ability (θ)
+
+- oota:diagrams-d2: θ=4.14
+- oota:diagrams-mermaid: θ=2.708
+- oota:diagrams-plantuml: θ=2.708
+
+## Probe difficulty (β)
+
+- T0: β=-1.86
+- T1: β=3.719
+- T3: β=-1.86
+
+## Pareto frontier (success × cost × turns)
+
+- oota:diagrams-d2: **on frontier**
+- oota:diagrams-mermaid: dominated by oota:diagrams-d2
+- oota:diagrams-plantuml: **on frontier**
+
+## Friction (coded from transcripts)
+
+- oota:diagrams-d2: load 3 — docs-gap, tool-mismatch
+- oota:diagrams-mermaid: load 0 — clean
+- oota:diagrams-plantuml: load 0 — clean

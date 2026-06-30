@@ -64,8 +64,13 @@ export function parsePiEvents(stdout: string): PiParsed {
 
 export class PiRunner implements AgentRunner {
   id = "pi";
-  private model = DEFAULT_MODEL;
+  private model: string;
   private provider = DEFAULT_PROVIDER;
+
+  constructor(model?: string) {
+    this.model = model ?? DEFAULT_MODEL;
+    this.id = `pi:${this.model}`;
+  }
 
   static available(): boolean {
     return spawnSync("pi", ["--version"], { encoding: "utf8" }).status === 0;

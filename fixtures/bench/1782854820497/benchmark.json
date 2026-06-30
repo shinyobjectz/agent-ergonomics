@@ -1,0 +1,118 @@
+{
+  "subjects": [
+    "oota:diagrams-d2",
+    "oota:diagrams-mermaid",
+    "oota:diagrams-plantuml"
+  ],
+  "tiers": [
+    "T0",
+    "T1",
+    "T3"
+  ],
+  "n": 1,
+  "points": [
+    {
+      "id": "oota:diagrams-d2",
+      "success": 0.9,
+      "cost": 10035,
+      "turns": 12
+    },
+    {
+      "id": "oota:diagrams-mermaid",
+      "success": 0.15,
+      "cost": 24034,
+      "turns": 16
+    },
+    {
+      "id": "oota:diagrams-plantuml",
+      "success": 0,
+      "cost": 0,
+      "turns": 1
+    }
+  ],
+  "pareto": [
+    {
+      "id": "oota:diagrams-d2",
+      "onFrontier": true,
+      "dominatedBy": []
+    },
+    {
+      "id": "oota:diagrams-mermaid",
+      "onFrontier": false,
+      "dominatedBy": [
+        "oota:diagrams-d2"
+      ]
+    },
+    {
+      "id": "oota:diagrams-plantuml",
+      "onFrontier": true,
+      "dominatedBy": []
+    }
+  ],
+  "elo": {
+    "oota:diagrams-d2": 1699,
+    "oota:diagrams-mermaid": 1301,
+    "oota:diagrams-plantuml": 1500
+  },
+  "irt": {
+    "ability": {
+      "oota:diagrams-d2": 4.14,
+      "oota:diagrams-mermaid": 2.708,
+      "oota:diagrams-plantuml": 2.708
+    },
+    "difficulty": {
+      "T0": -1.86,
+      "T1": 3.719,
+      "T3": -1.86
+    }
+  },
+  "matchups": [
+    {
+      "a": "oota:diagrams-d2",
+      "b": "oota:diagrams-mermaid",
+      "winner": "oota:diagrams-d2"
+    },
+    {
+      "a": "oota:diagrams-d2",
+      "b": "oota:diagrams-plantuml",
+      "winner": "oota:diagrams-d2"
+    },
+    {
+      "a": "oota:diagrams-mermaid",
+      "b": "oota:diagrams-plantuml",
+      "winner": "oota:diagrams-plantuml"
+    }
+  ],
+  "friction": {
+    "oota:diagrams-d2": {
+      "byTheme": {
+        "docs-gap": 1,
+        "tool-mismatch": 1
+      },
+      "load": 3
+    },
+    "oota:diagrams-mermaid": {
+      "byTheme": {},
+      "load": 0
+    },
+    "oota:diagrams-plantuml": {
+      "byTheme": {},
+      "load": 0
+    }
+  },
+  "quality": {
+    "oota:diagrams-d2": {
+      "score": 0.9,
+      "seen": "A system architecture diagram with the following components and connections:\n\n**Left side (outside main container):**\n- A box labeled 'Host App'\n\n**Large container labeled 'tldraw SDK' containing:**\n- A 'Store' box (left) containing:\n  - Text: 'Reactive records: the single source of truth.'\n  - Three sub-boxes: 'Shape Records', 'Page Records', 'Camera Records'\n  - Arrows labeled 'subscribes' connecting Shape Records → Page Records → Camera Records\n- An 'Editor' box (center) containing:\n  - Text: 'The API surface: commands, signals, events'\n- A 'Shape Utils' box (right-center) containing:\n  - Text: 'Per-shape geometry + render'\n  - Two sub-boxes: 'Geometry' and 'React Component'\n  - Arrow labeled 'drives' from Geometry to React Component\n- A 'React Canvas' box (right) containing:\n  - Text: 'Infinite canvas <canvas> view'\n\n**Right side (outside main container):**\n- A cylinder/database shape labeled 'Snapshots' containing:\n  - Text: 'Serialize to .tdr JSON'\n\n**Arrows/labels between components:**\n- 'embeds' arrow from Host App to tldraw SDK (top)\n- 'uses API' arrow from Host App to Editor\n- 'reactive state (signals)' arrow from Store to Editor (dashed)\n- 'delegates per-shape' arrow from Editor to Shape Utils\n- 'renders shapes' arrow from Shape Utils to React Canvas\n- 'pointer/keyboard events' arrow from React Canvas back to Editor (dashed red)\n- 'persist / restore (.tdr)' arrow from Snapshots to Store (dashed purple)\n\n**Color scheme:** Light blue background for the SDK container, light orange/peach for Editor, light yellow for React Canvas, light green for Shape Records, light purple for Snapshots cylinder, with blue, red, and purple dashed arrows."
+    },
+    "oota:diagrams-mermaid": {
+      "score": 0.15,
+      "seen": "Title text at top in dark teal reads 'tldraw — Architecture dataflow'. Below is a large rectangular container with a yellow/orange border and cream/light yellow background. Inside the container, from left to right: a dark navy blue rectangle (slightly tilted), a dark navy blue rectangle with a blue outline, and another dark navy blue rectangle with a blue outline. Outside the container on the right is a dark green rectangle with a green outline. Below the container sits a brown cylinder shape with a darker brown outline. Curved arrows connect: the leftmost navy box to the middle navy box, the middle navy box to the rightmost navy box, the rightmost navy box to the green box, and a long curved arrow from the green box back to the leftmost navy box. Dotted lines go from the leftmost navy box down to the brown cylinder, and another dotted line from the brown cylinder up to the middle navy box. No text labels are visible on any of the shapes."
+    },
+    "oota:diagrams-plantuml": {
+      "score": 0,
+      "seen": "no artifact produced in the working directory"
+    }
+  },
+  "runDir": "/Users/shinyobjectz/Apps/shinyobjectz/projects/agent-ergonomics/fixtures/bench/1782854820497"
+}
