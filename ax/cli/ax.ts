@@ -62,6 +62,14 @@ async function run() {
       console.log(r.rendered);
       break;
     }
+    case "leaderboard": {
+      const { ootaLeaderboard } = await import("../report/leaderboard.ts");
+      const r = await ootaLeaderboard();
+      console.error(`wrote ${r.path} (${r.count} tools)`);
+      const { renderReport } = await import("../renderer/render.ts");
+      console.log((await renderReport(r.path)).markdown);
+      break;
+    }
     case "help":
     case "--help":
     case "-h":
