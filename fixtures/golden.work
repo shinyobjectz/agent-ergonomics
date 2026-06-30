@@ -1,0 +1,33 @@
+```ax
+{"subjectId":"example:demo","mode":"harness-agnostic","root":".."}
+```
+
+# AX Report — example:demo
+
+A golden report that exercises the renderer: front-matter, prose, an `ax-matrix`
+rendered from a profile, and a **source block** that resolves to real code.
+
+## Matrix
+
+```ax-matrix
+{
+  "subjectId": "example:demo",
+  "cells": [
+    {"surface":"interface","lens":"prior_alignment","instrument":"perplexity","normalized":0.7,"level":"good"},
+    {"surface":"interface","lens":"coherence","instrument":"counters","normalized":0.4,"level":"tolerable"},
+    {"surface":"loop","lens":"determinism","instrument":"counters","normalized":-1,"level":"hostile"},
+    {"surface":"loop","lens":"economy","instrument":"telemetry","normalized":0.5,"level":"good"},
+    {"surface":"recursion","lens":"coherence","instrument":"trajectory","normalized":0.2,"level":"tolerable"}
+  ],
+  "hostileFlags": [
+    {"cell":"loop.determinism","why":"output varies run-to-run (variance 0.6 across N=5)"}
+  ]
+}
+```
+
+## Evidence
+
+Interface legibility is carried by the canonical model:
+
+```source ax/core/model.ts:1-6 ts
+```
