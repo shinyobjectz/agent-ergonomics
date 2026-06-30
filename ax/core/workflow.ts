@@ -13,6 +13,7 @@ import { PROBES, runProbe, type ProbeDef } from "../probes/probes.ts";
 import { pickRunner } from "../harness/agent.ts";
 import { assembleProfile, type Profile, type Reading } from "./profile.ts";
 import { groundedBrief, applyBrief } from "../briefs/generate.ts";
+import { codeFriction, frictionReadings } from "../instruments/friction.ts";
 
 const OOTA = "/Users/shinyobjectz/Apps/shinyobjectz/projects/out-of-thin-air";
 
@@ -73,25 +74,32 @@ export function docsDir(s: Subject): string {
   return mkdtempSync(join(tmpdir(), "ax-docs-"));
 }
 
-async function behavioral(s: Subject, tiers: string[], n: number, agentId?: string): Promise<{ readings: Reading[]; pareto: any; skipped?: boolean }> {
+async function behavioral(s: Subject, tiers: string[], n: number, agentId?: string): Promise<{ readings: Reading[]; pareto: any; skipped?: boolean; costUsd?: number; trials?: number; model?: string }> {
   const runner = await pickRunner(agentId);
   if (!runner) return { readings: [], pareto: undefined, skipped: true }; // honest: no silent mock
   const subj = groundSubject(s); // grounded, self-fulfilling brief with real subject matter
+  let billCost = 0, trials = 0;
   const readings: Reading[] = [];
-  let success = 0, cost = 0, turns = 0, count = 0;
+  let success = 0, cost = 0, turns = 0, count = 0, t1Transcript = "";
   for (const tier of tiers) {
     const probe = PROBES.find((p) => p.tier === tier) as ProbeDef;
     const pr = await runProbe(probe, subj, runner, n);
     readings.push(...telemetryReadings(pr));
+    for (const r of pr.runs) { billCost += (r.extra?.cost as number) ?? 0; trials++; }
     if (tier === "T1") {
       const rs = pr.runs;
       success = rs.filter((r) => r.success).length / rs.length;
       cost = rs.reduce((a, r) => a + r.tokensIn + r.tokensOut, 0) / rs.length;
       turns = rs.reduce((a, r) => a + r.turns, 0) / rs.length;
       count = rs.length;
+      t1Transcript = (rs[0]?.extra?.transcript as string) ?? "";
     }
   }
-  return { readings, pareto: count ? { success, cost: Math.round(cost), turns: +turns.toFixed(1) } : undefined };
+  // gap 7: friction coded from the real transcript flows into matrix cells
+  if (t1Transcript) {
+    try { readings.push(...frictionReadings(await codeFriction(s.id, t1Transcript))); } catch {}
+  }
+  return { readings, pareto: count ? { success, cost: Math.round(cost), turns: +turns.toFixed(1) } : undefined, costUsd: +billCost.toFixed(4), trials, model: runner.id };
 }
 
 /**
@@ -103,8 +111,9 @@ export async function screen(arg: string, opts: { behavioral?: boolean; agentId?
   if (!arg) throw new Error("usage: ax screen <subject>");
   const s = resolveSubject(arg);
   const stat = await staticReadings(s);
-  const beh = opts.behavioral ? await behavioral(s, ["T0", "T1"], 1, opts.agentId) : { readings: [], pareto: undefined };
-  return assembleProfile(s.id, "screen", [...stat, ...beh.readings], beh.pareto);
+  const beh: any = opts.behavioral ? await behavioral(s, ["T0", "T1"], 1, opts.agentId) : { readings: [], pareto: undefined };
+  const prov = { date: today(), instruments: opts.behavioral ? ["counters", "telemetry"] : ["counters"], model: beh.model, trials: beh.trials, costUsd: beh.costUsd };
+  return assembleProfile(s.id, "screen", [...stat, ...beh.readings], beh.pareto, prov);
 }
 
 export async function deep(arg: string, n = 5, agentId?: string): Promise<Profile> {
@@ -113,5 +122,8 @@ export async function deep(arg: string, n = 5, agentId?: string): Promise<Profil
   const stat = await staticReadings(s);
   const beh = await behavioral(s, ["T0", "T1", "T2", "T3", "T5", "T6"], n, agentId);
   if (beh.skipped) throw new Error("deep requires a real agent — install PI (`npm i -g @earendil-works/pi-coding-agent`) or pass --agent, then retry. (Screen/static works without one.)");
-  return assembleProfile(s.id, "deep", [...stat, ...beh.readings], beh.pareto);
+  const prov = { date: today(), instruments: ["counters", "telemetry", "trajectory", "friction"], model: beh.model, trials: beh.trials, costUsd: beh.costUsd };
+  return assembleProfile(s.id, "deep", [...stat, ...beh.readings], beh.pareto, prov);
 }
+
+const today = () => new Date().toISOString().slice(0, 10);

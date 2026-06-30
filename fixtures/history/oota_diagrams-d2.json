@@ -1,0 +1,126 @@
+{
+  "subjectId": "oota:diagrams-d2",
+  "tier": "screen",
+  "cells": [
+    {
+      "surface": "disclosure",
+      "lens": "economy",
+      "instrument": "counters",
+      "raw": {
+        "docTokens": 1094
+      },
+      "normalized": 0.85,
+      "level": "exemplary",
+      "evidence": [],
+      "n": 1,
+      "confidence": 0.6
+    },
+    {
+      "surface": "interface",
+      "lens": "coherence",
+      "instrument": "counters",
+      "raw": {
+        "duplicationRatio": 0
+      },
+      "normalized": 1,
+      "level": "exemplary",
+      "evidence": [],
+      "n": 1,
+      "confidence": 0.6
+    },
+    {
+      "surface": "recursion",
+      "lens": "coherence",
+      "instrument": "counters",
+      "raw": {
+        "duplicationRatio": 0
+      },
+      "normalized": 1,
+      "level": "exemplary",
+      "evidence": [],
+      "n": 1,
+      "confidence": 0.6
+    },
+    {
+      "surface": "loop",
+      "lens": "determinism",
+      "instrument": "counters",
+      "raw": {
+        "interactivePrompts": 0
+      },
+      "normalized": 0.7,
+      "level": "good",
+      "evidence": [],
+      "n": 1,
+      "confidence": 0.85
+    },
+    {
+      "surface": "loop",
+      "lens": "safety",
+      "instrument": "counters",
+      "raw": {
+        "irreversibleOps": 0
+      },
+      "normalized": 0.6,
+      "level": "good",
+      "evidence": [],
+      "n": 1,
+      "confidence": 0.85
+    },
+    {
+      "surface": "disclosure",
+      "lens": "verifiability",
+      "instrument": "counters",
+      "raw": {
+        "hasDoc": true
+      },
+      "normalized": 0.5,
+      "level": "good",
+      "evidence": [],
+      "n": 1,
+      "confidence": 0.6
+    }
+  ],
+  "rollups": {
+    "perSurface": {
+      "disclosure": 0.675,
+      "interface": 1,
+      "loop": 0.6499999999999999,
+      "recursion": 1,
+      "human": null
+    },
+    "perLens": {
+      "coherence": 1,
+      "economy": 0.85,
+      "determinism": 0.7,
+      "verifiability": 0.5,
+      "prior_alignment": null,
+      "safety": 0.6
+    },
+    "autonomy": 0.7666666666666666
+  },
+  "coverage": {
+    "measured": 6,
+    "total": 30,
+    "perSurface": {
+      "disclosure": 0.3333333333333333,
+      "interface": 0.16666666666666666,
+      "loop": 0.3333333333333333,
+      "recursion": 0.16666666666666666,
+      "human": 0
+    }
+  },
+  "verdict": {
+    "headline": "Strongest surface: recursion (1.00); weakest measured: loop (0.65). 6/30 cells measured (screen tier).",
+    "strength": "recursion.coherence = +1.00 (exemplary)",
+    "topFix": "no pressing fix at this tier"
+  },
+  "hostileFlags": [],
+  "provenance": {
+    "date": "2026-06-30",
+    "instruments": [
+      "counters"
+    ]
+  },
+  "savedAt": "2026-06-30"
+}

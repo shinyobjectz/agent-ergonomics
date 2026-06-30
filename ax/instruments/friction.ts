@@ -33,6 +33,40 @@ export async function codeFriction(subjectId: string, transcript: string): Promi
   return (Array.isArray(events) ? events : []).filter((e) => TAXONOMY.includes(e.theme as any));
 }
 
+/** theme → the matrix cell it implicates (gap 7: friction flows into cells/fixes). */
+export const FRICTION_CELL: Record<string, string> = {
+  "setup-friction": "disclosure.economy",
+  "silent-failure": "loop.verifiability",
+  "interactive-block": "loop.determinism",
+  "ambiguous-error": "loop.verifiability",
+  "docs-gap": "disclosure.verifiability",
+  "tool-mismatch": "loop.determinism",
+  "irreversible-risk": "loop.safety",
+  "context-bloat": "loop.economy",
+  "drift": "recursion.determinism",
+  "re-implementation": "recursion.coherence",
+};
+
+/** Coded friction events → cell readings (negative, scaled by severity). */
+export function frictionReadings(events: FrictionEvent[]): Array<{ surface: string; lens: string; instrument: "friction"; normalized: number; raw: any; evidence: any[]; n: number; confidence: number }> {
+  const byCell = new Map<string, FrictionEvent[]>();
+  for (const e of events) {
+    const cell = FRICTION_CELL[e.theme];
+    if (cell) (byCell.get(cell) ?? byCell.set(cell, []).get(cell)!).push(e);
+  }
+  return [...byCell.entries()].map(([cell, evs]) => {
+    const [surface, lens] = cell.split(".");
+    const sev = Math.max(...evs.map((e) => e.severity)); // worst event drives the cell
+    return {
+      surface, lens, instrument: "friction" as const,
+      normalized: -sev / 3, // 1→-0.33, 3→-1.00
+      raw: { themes: evs.map((e) => e.theme), severity: sev },
+      evidence: evs.slice(0, 2).map((e) => ({ type: "probe-log", ref: e.theme, excerpt: e.quote })),
+      n: evs.length, confidence: 0.7,
+    };
+  });
+}
+
 /** Aggregate coded events → counts + severity-weighted load per theme. */
 export function frictionSummary(events: FrictionEvent[]): { byTheme: Record<string, number>; load: number } {
   const byTheme: Record<string, number> = {};
