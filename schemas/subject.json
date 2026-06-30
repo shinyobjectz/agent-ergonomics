@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ax/subject",
+  "title": "Subject — the thing being evaluated for AX",
+  "type": "object",
+  "required": ["id", "kind", "path", "mode"],
+  "properties": {
+    "id": { "type": "string", "description": "stable slug, e.g. oota:d2" },
+    "kind": { "enum": ["tool", "sdk", "skill", "system", "harness"] },
+    "path": { "type": "string", "description": "filesystem root of the subject" },
+    "repo": { "type": "string", "description": "where its AX report is written (subject's own repo)" },
+    "mode": { "enum": ["harness-agnostic", "harness-specific"], "default": "harness-agnostic" },
+    "harness": { "type": "string", "description": "harness id when mode=harness-specific (e.g. claude-code)" },
+    "entrypoints": { "type": "array", "items": { "type": "string" }, "description": "docs/CLI/API entry files the agent would meet" },
+    "intent": { "type": "string", "description": "the fixed intent the representative-artifact task is bound to" }
+  }
+}

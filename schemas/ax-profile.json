@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ax/profile",
+  "title": "Assembled AX profile for a subject",
+  "type": "object",
+  "required": ["subjectId", "cells"],
+  "properties": {
+    "subjectId": { "type": "string" },
+    "tier": { "enum": ["screen", "deep"] },
+    "cells": { "type": "array", "items": { "$ref": "ax/cell-reading" } },
+    "rollups": {
+      "type": "object",
+      "properties": {
+        "perSurface": { "type": "object", "additionalProperties": { "type": "number" } },
+        "perLens": { "type": "object", "additionalProperties": { "type": "number" } },
+        "autonomy": { "type": "number", "description": "roll-up read across the matrix" },
+        "pareto": { "type": "object", "properties": { "success": {"type":"number"}, "cost": {"type":"number"}, "turns": {"type":"number"} } },
+        "irtScalar": { "type": "number", "description": "optional latent AX scalar" }
+      }
+    },
+    "hostileFlags": {
+      "type": "array",
+      "description": "agent-hostile cells surfaced separately so they are never averaged away",
+      "items": { "type": "object", "properties": { "cell": {"type":"string"}, "why": {"type":"string"}, "evidence": {"type":"array"} } }
+    }
+  }
+}

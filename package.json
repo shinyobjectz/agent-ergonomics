@@ -1,0 +1,10 @@
+{
+  "name": "agent-ergonomics",
+  "version": "0.1.0",
+  "description": "Agent Ergonomics (AX) engine — measure & improve how well a system serves an average agent.",
+  "type": "module",
+  "bin": { "ax": "./ax/cli/ax.ts" },
+  "engines": { "bun": ">=1.0" },
+  "files": ["ax", "schemas", "skill", "docs", "README.md"],
+  "license": "MIT"
+}
