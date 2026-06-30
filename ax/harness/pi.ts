@@ -1,9 +1,9 @@
 /**
  * PiRunner — the real baseline harness-agnostic agent: the PI coding agent
- * (`@earendil-works/pi-coding-agent`) run non-interactively in JSON event-stream
- * mode, optionally inside a Docker micro-VM. Telemetry (tokens, turns,
- * compaction, cost, final answer) is parsed straight from PI's event stream — no
- * estimation. Default model: z-ai/glm-5.2 via OpenRouter.
+ * (`@earendil-works/pi-coding-agent`) run non-interactively (`pi --print --mode
+ * json`) directly in the subject's cwd — no container, no daemon, just the CLI.
+ * Telemetry (tokens, turns, compaction, cost, final answer) is parsed straight
+ * from PI's event stream — no estimation. Default model: z-ai/glm-5.2 (OpenRouter).
  */
 import { spawnSync } from "node:child_process";
 import { mkdtempSync } from "node:fs";
@@ -66,42 +66,30 @@ export class PiRunner implements AgentRunner {
   id = "pi";
   private model = DEFAULT_MODEL;
   private provider = DEFAULT_PROVIDER;
-  private sandbox = (process.env.OOTA_SANDBOX || "host") as "host" | "docker";
-  private image = process.env.OOTA_PI_IMAGE || "agent-ergonomics/pi:latest";
 
   static available(): boolean {
     return spawnSync("pi", ["--version"], { encoding: "utf8" }).status === 0;
   }
 
-  private buildArgs(input: TrialInput): { cmd: string; args: string[]; cwd: string } {
+  private buildArgs(input: TrialInput): { args: string[]; cwd: string } {
     const cold = input.tier === "T0" && !input.docsAvailable;
     const cwd = input.docsAvailable ? input.subjectPath : mkdtempSync(join(tmpdir(), "ax-cold-"));
-    const piArgs = [
+    const args = [
       "--print", "--mode", "json", "--no-session",
       "--provider", this.provider, "--model", this.model,
       ...(cold ? ["--no-tools"] : []),
       input.intent,
     ];
-    if (this.sandbox === "docker") {
-      return {
-        cmd: "docker",
-        args: [
-          "run", "--rm", "--network", "host", "-v", `${cwd}:/work`, "-w", "/work",
-          "-e", `OPENROUTER_API_KEY=${process.env.OPENROUTER_API_KEY ?? ""}`,
-          this.image, "pi", ...piArgs,
-        ],
-        cwd,
-      };
-    }
-    return { cmd: "pi", args: piArgs, cwd };
+    return { args, cwd };
   }
 
   async run(input: TrialInput, seed: number): Promise<TrialRun> {
-    const { cmd, args, cwd } = this.buildArgs(input);
+    const { args, cwd } = this.buildArgs(input);
     const t0 = performance.now();
-    const r = spawnSync(cmd, args, {
+    // Just run `pi` directly in the subject's cwd — no container, no daemon.
+    const r = spawnSync("pi", args, {
       encoding: "utf8",
-      cwd: this.sandbox === "host" ? cwd : undefined,
+      cwd,
       timeout: 180000,
       maxBuffer: 64 * 1024 * 1024,
       env: { ...process.env },
@@ -122,7 +110,7 @@ export class PiRunner implements AgentRunner {
       exit: r.status ?? 1,
       artifacts: p.success ? ["(agent answer)"] : [],
       perTurn: p.perTurn.map((t) => ({ ...t, goalProgress: 0 })),
-      extra: { pi: true, model: this.model, sandbox: this.sandbox, cost: p.cost, transcript: p.answer, answerLen: p.answer.length, error: p.error },
+      extra: { pi: true, model: this.model, cost: p.cost, transcript: p.answer, answerLen: p.answer.length, error: p.error },
     };
   }
 }

@@ -63,7 +63,6 @@ The output spine — build it early so everything has a concrete target.
 
 ---
 
-## 2. Trial harness — PI baseline (micro-VM) + ACP for explicit harnesses
 
 The harness is **pluggable** (`AgentRunner`). Three real runners (mock is
 test-only and never feeds a real profile):
@@ -74,7 +73,7 @@ test-only and never feeds a real profile):
   Telemetry is parsed **straight from PI's JSON event stream** — real tokens
   (`usage.input/output`), cost, turns (`turn_end`), **compaction levels
   (`compaction_end`, free T5 signal)**, final answer. Runs on host or inside a
-  **Docker micro-VM** (`OOTA_SANDBOX=docker`, the lightest local harness). No
+  hermetic when needed via PI's own sandbox (Gondolin); default = run directly.
   nexus. *(Validated live: cold-call + guided runs return real signals.)*
 - **`AcpRunner` (explicit harnesses)** — drives a specific agent (Claude Code,
   Gemini, custom) over the **Agent Client Protocol** (JSON-RPC/stdio) inside the

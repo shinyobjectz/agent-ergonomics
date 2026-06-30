@@ -1,0 +1,179 @@
+{
+  "T0": {
+    "probeId": "t0-coldcall",
+    "subjectId": "oota:generative-text-tracery",
+    "tier": "T0",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t0-coldcall-0",
+        "success": false,
+        "turns": 1,
+        "tokensIn": 0,
+        "tokensOut": 0,
+        "retries": 0,
+        "timeToFirstActionMs": 70414.763833,
+        "wallMs": 70414.763833,
+        "exit": 143,
+        "artifacts": [],
+        "perTurn": [],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "sandbox": "host",
+          "cost": 0,
+          "transcript": "",
+          "answerLen": 0
+        }
+      }
+    ]
+  },
+  "T1": {
+    "probeId": "t1-guided",
+    "subjectId": "oota:generative-text-tracery",
+    "tier": "T1",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t1-guided-0",
+        "success": true,
+        "turns": 7,
+        "tokensIn": 10262,
+        "tokensOut": 1197,
+        "retries": 0,
+        "timeToFirstActionMs": 40692.202457999985,
+        "wallMs": 40692.202457999985,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 1334,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 1311,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 1649,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 2185,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 4267,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 227,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 486,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "sandbox": "host",
+          "cost": 0.01605862,
+          "transcript": "tracery 0.1.1 installed. Now I'll produce the representative",
+          "answerLen": 60
+        }
+      }
+    ]
+  },
+  "T3": {
+    "probeId": "t3-failure",
+    "subjectId": "oota:generative-text-tracery",
+    "tier": "T3",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t3-failure-0",
+        "success": true,
+        "turns": 7,
+        "tokensIn": 11702,
+        "tokensOut": 1353,
+        "retries": 0,
+        "timeToFirstActionMs": 38245.46004100001,
+        "wallMs": 38245.46004100001,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 266,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 396,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 1258,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 1913,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 835,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 1076,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 7311,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "sandbox": "host",
+          "cost": 0.01895446,
+          "transcript": "Both `python3` and `tracery` are available, so I can render the artifact",
+          "answerLen": 72
+        }
+      }
+    ]
+  }
+}
