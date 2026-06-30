@@ -70,6 +70,16 @@ async function run() {
       console.log(r.rendered);
       break;
     }
+    case "bench": {
+      const { benchmark } = await import("../core/benchmark.ts");
+      const subjects = rest.filter((a) => !a.startsWith("--") && a !== flag(rest, "--tiers") && a !== flag(rest, "--n") && a !== flag(rest, "--agent"));
+      const tiers = flag(rest, "--tiers")?.split(",");
+      const nv = flag(rest, "--n");
+      const r = await benchmark(subjects, { tiers, n: nv ? +nv : 1, agentId: flag(rest, "--agent") });
+      console.error(`benchmark → ${r.runDir}`);
+      console.log(JSON.stringify({ elo: r.elo, irt_ability: r.irt.ability, irt_difficulty: r.irt.difficulty, pareto: r.pareto, friction: r.friction }, null, 2));
+      break;
+    }
     case "work": {
       const { workStatus } = await import("../harness/work.ts");
       const s = workStatus();

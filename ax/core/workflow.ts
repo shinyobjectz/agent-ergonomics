@@ -45,7 +45,7 @@ async function staticReadings(s: Subject): Promise<Reading[]> {
 }
 
 /** Prepare a real cwd holding the subject's docs (for guided tiers). */
-function docsDir(s: Subject): string {
+export function docsDir(s: Subject): string {
   if (s.files && s.files.length) {
     const d = mkdtempSync(join(tmpdir(), "ax-docs-"));
     for (const f of s.files) if (existsSync(f)) copyFileSync(f, join(d, basename(f)));

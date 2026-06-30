@@ -41,10 +41,12 @@ export class AcpRunner implements AgentRunner {
           try { msg = JSON.parse(line); } catch { continue; }
           // streaming agent updates
           if (msg.method === "session/update") {
-            const u = msg.params?.update ?? {};
+            const params = msg.params ?? {};
+            const u = params.update ?? {};
             if (u.sessionUpdate === "agent_message_chunk" && u.content?.type === "text") answer += u.content.text;
-            if (u.sessionUpdate === "turn" ) turns++;
-            if (u.tokenUsage) { tokensIn += u.tokenUsage.input ?? 0; tokensOut += u.tokenUsage.output ?? 0; }
+            if (u.sessionUpdate === "turn") turns++;
+            const tu = u.tokenUsage ?? params.tokenUsage; // ACP agents place usage at either level
+            if (tu) { tokensIn += tu.input ?? 0; tokensOut += tu.output ?? 0; }
           }
           // responses to our requests
           if (msg.id != null && msg.result !== undefined) {

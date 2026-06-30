@@ -1,0 +1,200 @@
+{
+  "T0": {
+    "probeId": "t0-coldcall",
+    "subjectId": "oota:diagrams-d2",
+    "tier": "T0",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t0-coldcall-0",
+        "success": true,
+        "turns": 1,
+        "tokensIn": 417,
+        "tokensOut": 264,
+        "retries": 0,
+        "timeToFirstActionMs": 2494.00275,
+        "wallMs": 2494.00275,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 681,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "sandbox": "host",
+          "cost": 0.00118815,
+          "transcript": "<tool_call>bash})\r\nWait, I don't have a tools listing but the system says I have access to tools. Let me check what's available. Actually the tools list shows \"(none)\" but says I may have custom tools. Let me just try to explore.I don't have access to any tools in this environment—the tool list is empty (`(none)`), and no custom tools are registered. Without the ability to read files, run commands, or write files, I can't inspect the working directory or produce an artifact on disk.\n\nCould you clarify what you mean by \"d2's representative artifact\"? For example:\n\n- Is this referring to a specific file or module named `d2` in your project?\n- Is it related to the D2 diagramming language (a `.d2` source file)?\n- Is it part of a numbered task list (item \"d2\") you're working through?\n\nOnce I understand the context (and ideally have tool access restored), I can produce the artifact you need.",
+          "answerLen": 898
+        }
+      }
+    ]
+  },
+  "T1": {
+    "probeId": "t1-guided",
+    "subjectId": "oota:diagrams-d2",
+    "tier": "T1",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t1-guided-0",
+        "success": true,
+        "turns": 10,
+        "tokensIn": 14960,
+        "tokensOut": 1935,
+        "retries": 0,
+        "timeToFirstActionMs": 78552.814125,
+        "wallMs": 78552.814125,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 2238,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 1506,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 1691,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 3547,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 863,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 934,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 359,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 699,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 4163,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 10,
+            "tokens": 895,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "sandbox": "host",
+          "cost": 0.025062759999999996,
+          "transcript": "Rendered successfully. Here's d2's representative artifact:\n\n**Source** — `diagram.d2`:\n```d2\ndirection: right\n\n# D2: text-to-diagram pipeline\nsource: .d2 source {\n  shape: page\n  style.fill: \"#fdf6e3\"\n  style.stroke: \"#93a1a1\"\n  description: \"diffable plaintext\"\n}\n\ncompiler: d2 compiler {\n  shape: rectangle\n  style.fill: \"#eee8d5\"\n  # nested containers\n  parse: parser\n  graph: graph builder\n  parse -> graph\n}\n\nlayout: layout engine {\n  shape: hexagon\n  style.fill: \"#d33682\"\n  style.font-color: \"#fdf6e3\"\n  dagre: dagre (default)\n  elk: ELK (orthogonal)\n  tala: TALA (paid)\n}\n\nrender: renderer {\n  shape: package\n  style.fill: \"#268bd2\"\n  style.font-color: \"#fdf6e3\"\n  svg: SVG {\n    style.fill: \"#2aa198\"\n    style.font-color: \"#fdf6e3\"\n  }\n  png: PNG\n  pdf: PDF\n}\n\nsource -> compiler: \"reads\"\ncompiler -> layout: \"diagram object\"\nlayout -> render: \"laid out\"\n```\n\n**Artifact** — `diagram-d2.svg` (30 KB, valid SVG):\n\nThe diagram is a self-referential pipeline of D2 itself — `.d2 source → compiler → layout engine → renderer` — exercising the features called out in `d2.md`: declarative source, **nested containers** (compiler with parse→graph; layout engine listing dagre/elk/tala; renderer with SVG/PNG/PDF children), **mixed shapes** (page, rectangle, hexagon, package, cylinder-like nested), **connection labels**, **directional layout**, and **per-shape styling/fills** (Solarized palette). Rendered with the default `dagre` engine, exit 0, no display needed — confirming the headless validation path from the spec.",
+          "answerLen": 1527
+        }
+      }
+    ]
+  },
+  "T3": {
+    "probeId": "t3-failure",
+    "subjectId": "oota:diagrams-d2",
+    "tier": "T3",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t3-failure-0",
+        "success": true,
+        "turns": 6,
+        "tokensIn": 25578,
+        "tokensOut": 1356,
+        "retries": 0,
+        "timeToFirstActionMs": 54452.69841700001,
+        "wallMs": 54452.69841700001,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 134,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 568,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 2401,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 2591,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 602,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 20638,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "sandbox": "host",
+          "cost": 0.031166459999999997,
+          "transcript": "d2's representative artifact has been produced — a self-contained **SVG** rendered from `diagram.d2` (d2's own text-to-diagram pipeline), the deliverable kind declared in `d2.md`.\n\n**What was done:**\n- d2 v0.7.1 (via `brew`) was already installed; verified with `d2 version`.\n- Rendered the representative source `diagram.d2` → `diagram-d2.svg` using the ELK layout engine (`d2 --layout=elk diagram.d2 diagram-d2.svg`), exit 0 in ~266 ms.\n- The previous `diagram-d2.svg` had been generated from the generic wrapper template (`diagrams-d2.sh`); it's now replaced with the diagram that actually represents d2 itself.\n\n**Artifact:** `diagram-d2.svg` (29.8 KB, standalone SVG, no external assets — fonts embedded as base64 woff).\n\n**What it depicts** — d2's own compile pipeline, left → right:\n\n```\n.d2 source (page)  —reads→  d2 compiler  —diagram object→  layout engine  —laid out→  renderer\n  └ diffable plaintext            └ parser → graph builder        └ dagre (default)        └ SVG (highlighted)\n                                                                     └ ELK (orthogonal)        └ PNG\n                                                                     └ TALA (paid)             └ PDF\n```\n\nIt exercises d2's signature features the doc calls out: nested containers (`compiler.parse`, `layout.dagre`, `render.svg`), varied shapes (page, rectangle, hexagon, package), custom solarized fills/strokes via `style.*`, and labeled connections. This matches the `Artifact kind: svg` entry and validates cleanly headless on macOS.",
+          "answerLen": 1538
+        }
+      }
+    ]
+  }
+}

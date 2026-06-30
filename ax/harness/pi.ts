@@ -122,7 +122,7 @@ export class PiRunner implements AgentRunner {
       exit: r.status ?? 1,
       artifacts: p.success ? ["(agent answer)"] : [],
       perTurn: p.perTurn.map((t) => ({ ...t, goalProgress: 0 })),
-      extra: { pi: true, model: this.model, sandbox: this.sandbox, cost: p.cost, answerLen: p.answer.length, error: p.error },
+      extra: { pi: true, model: this.model, sandbox: this.sandbox, cost: p.cost, transcript: p.answer, answerLen: p.answer.length, error: p.error },
     };
   }
 }
