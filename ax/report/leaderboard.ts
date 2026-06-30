@@ -1,6 +1,6 @@
 /**
  * Phase 9 — screen the whole OOTA catalog → an AX leaderboard written into the
- * OOTA repo (docs/ax/README.work). Static + mock T0/T1 (Screen tier).
+ * OOTA repo (docs/ax/README.work). Static signals only — no agent runs, no mock.
  */
 import { mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";

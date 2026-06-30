@@ -1,7 +1,8 @@
 /**
  * Phase 6 — evaluator workflow. Screen (cheap breadth) and Deep (full battery).
  * Static tier (counters) is fully live; behavioral tiers run via the pluggable
- * AgentRunner (MockAgent by default until workagent is wired).
+ * AgentRunner (real PI agent if available; behavioral tiers skipped — never
+ * mocked — when no real agent is present).
  */
 import { copyFileSync, existsSync, mkdtempSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
