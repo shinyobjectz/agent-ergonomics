@@ -1,0 +1,103 @@
+{
+  "subjects": [
+    "oota:diagrams-d2",
+    "oota:generative-text-tracery",
+    "oota:diagrams-mermaid"
+  ],
+  "tiers": [
+    "T0",
+    "T1",
+    "T3"
+  ],
+  "n": 1,
+  "points": [
+    {
+      "id": "oota:diagrams-d2",
+      "success": 1,
+      "cost": 16895,
+      "turns": 10
+    },
+    {
+      "id": "oota:generative-text-tracery",
+      "success": 1,
+      "cost": 11459,
+      "turns": 7
+    },
+    {
+      "id": "oota:diagrams-mermaid",
+      "success": 1,
+      "cost": 20513,
+      "turns": 9
+    }
+  ],
+  "pareto": [
+    {
+      "id": "oota:diagrams-d2",
+      "onFrontier": false,
+      "dominatedBy": [
+        "oota:generative-text-tracery"
+      ]
+    },
+    {
+      "id": "oota:generative-text-tracery",
+      "onFrontier": true,
+      "dominatedBy": []
+    },
+    {
+      "id": "oota:diagrams-mermaid",
+      "onFrontier": false,
+      "dominatedBy": [
+        "oota:generative-text-tracery"
+      ]
+    }
+  ],
+  "elo": {
+    "oota:diagrams-d2": 1699,
+    "oota:generative-text-tracery": 1500,
+    "oota:diagrams-mermaid": 1301
+  },
+  "irt": {
+    "ability": {
+      "oota:diagrams-d2": 4.453,
+      "oota:generative-text-tracery": 2.763,
+      "oota:diagrams-mermaid": 4.453
+    },
+    "difficulty": {
+      "T0": 3.095,
+      "T1": -1.547,
+      "T3": -1.547
+    }
+  },
+  "matchups": [
+    {
+      "a": "oota:diagrams-d2",
+      "b": "oota:generative-text-tracery",
+      "winner": "oota:diagrams-d2"
+    },
+    {
+      "a": "oota:diagrams-d2",
+      "b": "oota:diagrams-mermaid",
+      "winner": "oota:diagrams-d2"
+    },
+    {
+      "a": "oota:generative-text-tracery",
+      "b": "oota:diagrams-mermaid",
+      "winner": "oota:generative-text-tracery"
+    }
+  ],
+  "friction": {
+    "oota:diagrams-d2": {
+      "byTheme": {},
+      "load": 0
+    },
+    "oota:generative-text-tracery": {
+      "byTheme": {},
+      "load": 0
+    },
+    "oota:diagrams-mermaid": {
+      "byTheme": {},
+      "load": 0
+    }
+  },
+  "runDir": "/Users/shinyobjectz/Apps/shinyobjectz/projects/agent-ergonomics/fixtures/bench/1782850507787"
+}

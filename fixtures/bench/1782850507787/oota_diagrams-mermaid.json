@@ -1,0 +1,176 @@
+{
+  "T0": {
+    "probeId": "t0-coldcall",
+    "subjectId": "oota:diagrams-mermaid",
+    "tier": "T0",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t0-coldcall-0",
+        "success": true,
+        "turns": 1,
+        "tokensIn": 417,
+        "tokensOut": 789,
+        "retries": 0,
+        "timeToFirstActionMs": 16841.81445799995,
+        "wallMs": 16841.81445799995,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 1206,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "sandbox": "host",
+          "cost": 0.0027631500000000002,
+          "transcript": "```mermaid\n---\ntitle: \"Mermaid: Representative Artifact\"\n---\nflowchart TD\n    Start([Start]) --> Input[/Read source text/]\n    Input --> Lexer[Lexer<br/>tokenizes input]\n    Lexer --> Parser[Parser<br/>builds AST]\n    Parser --> Renderer{Diagram type?}\n\n    Renderer -->|flowchart| Flow[Flowchart renderer]\n    Renderer -->|sequence| Seq[Sequence renderer]\n    Renderer -->|class| Cls[Class renderer]\n    Renderer -->|state| St[State renderer]\n    Renderer -->|gantt| Gnt[Gantt renderer]\n\n    Flow --> Layout[Layout engine]\n    Seq --> Layout\n    Cls --> Layout\n    St --> Layout\n    Gnt --> Layout\n\n    Layout --> SVG[SVG output]\n    SVG --> Display([Render in browser])\n\n    classDef start end fill:#1f6feb,stroke:#0d47a1,color:#fff;\n    classDef proc fill:#e3f2fd,stroke:#1565c0,color:#000;\n    classDef decide fill:#fff3e0,stroke:#ef6c00,color:#000;\n    classDef term fill:#c8e6c9,stroke:#2e7d32,color:#000;\n\n    class Start,Display term;\n    class Input,Lexer,Parser,Flow,Seq,Cls,St,Gnt,Layout,SVG proc;\n    class Renderer decide;\n```\n\nThis is a representative Mermaid artifact: a self-describing `flowchart TD` that depicts Mermaid's own rendering pipeline. It exercises core Mermaid features so its correctness can be verified by rendering it in any Mermaid-capable viewer:\n\n- **Frontmatter / title** — YAML `---` block with `title`.\n- **Direction** — `flowchart TD` (top-down).\n- **Node shapes** — rounded `([Start])`, stadium, parallelogram `[/Read source text/]`, rectangle `[Lexer]`, rhombus `{Diagram type?}`.\n- **Edge labels** — `-->|flowchart|`, `-->|sequence|`, etc.\n- **HTML in labels** — `<br/>` for line breaks inside `[Lexer<br/>tokenizes input]`.\n- **Class definitions and styling** — `classDef` with fill/stroke/color, plus `class ... proc;` assignments.\n- **Multiple branches converging** — several renderers feeding a shared `Layout` node.\n\nRender this block (e.g., in a Markdown file processed by Mermaid, the Mermaid Live Editor at https://mermaid.live, or `@mermaid-js/mermaid-cli` via `mmdc -i file.mmd -o out.svg`) to confirm it parses and displays as intended.",
+          "answerLen": 2089
+        }
+      }
+    ]
+  },
+  "T1": {
+    "probeId": "t1-guided",
+    "subjectId": "oota:diagrams-mermaid",
+    "tier": "T1",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t1-guided-0",
+        "success": true,
+        "turns": 9,
+        "tokensIn": 18450,
+        "tokensOut": 2063,
+        "retries": 0,
+        "timeToFirstActionMs": 89195.264875,
+        "wallMs": 89195.264875,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 222,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 638,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 1705,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 2550,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 4814,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 3177,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 5540,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 1063,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 804,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "sandbox": "host",
+          "cost": 0.02754114,
+          "transcript": "Done. Mermaid's representative artifact is produced.\n\n## Result\n\nThe documented artifact kind for Mermaid is **SVG** — a self-contained vector image that renders inline with no viewer needed (`out/diagram.svg`).\n\n**Source (DSL)** — `out/diagram.mmd`:\n```mermaid\n---\ntitle: Mermaid representative artifact\n---\nflowchart TD\n  A[Start] --> B{ok?}\n  B -->|yes| C[Done]\n  B -->|no| A\n```\n\n**Rendered artifact** — `out/diagram.svg` (13.5 KB, valid SVG, `viewBox` set, single `<svg>…</svg>` root, white background).\n\nHow it was made (per the validation/smoke spec in `mermaid.md`):\n- Wrote the canonical flowchart DSL to `out/diagram.mmd`.\n- Rendered with the official `mmdc` CLI: `npx -p @mermaid-js/mermaid-cli mmdc -i out/diagram.mmd -o out/diagram.svg -b white`.\n- Passed a puppeteer config (`out/puppeteer.json`) pointing at the locally installed Google Chrome (`--no-sandbox`), avoiding the puppeteer Chromium download step.\n\nFiles in `out/`:\n- `diagram.mmd` — diffable plain-text source (the real \"source of truth\")\n- `diagram.svg` — the representative artifact (vector, self-contained)\n- `puppeteer.json` — render config\n\nThe SVG is the deliverable; the `.mmd` is the editable, diffable source that regenerates it.",
+          "answerLen": 1215
+        }
+      }
+    ]
+  },
+  "T3": {
+    "probeId": "t3-failure",
+    "subjectId": "oota:diagrams-mermaid",
+    "tier": "T3",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t3-failure-0",
+        "success": true,
+        "turns": 3,
+        "tokensIn": 3451,
+        "tokensOut": 1113,
+        "retries": 0,
+        "timeToFirstActionMs": 24567.507125000004,
+        "wallMs": 24567.507125000004,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 545,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 704,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 3315,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "sandbox": "host",
+          "cost": 0.00738929,
+          "transcript": "**Artifact produced:** `mermaid-representative-artifact.mmd`\n\nThis is Mermaid's representative artifact — a **`.mmd` definition file**. Mermaid's defining characteristic is that it renders Markdown-inspired text into diagrams; the source text *is* the artifact (the rendered SVG/PNG is a derivative output).\n\nWhy this represents Mermaid well — it exercises the signature features of the `flowchart` type in a single compact file:\n\n| Feature shown | Where in the file |\n|---|---|\n| Front-matter config (`init` with theme + curve) | Top line |\n| Directional flow (`TD`) | `flowchart TD` |\n| Node shapes — stadium `([...])`, parallelogram `[/.../]`, rhombus `{...}`, cylinder `[(...)]` | `Start`, `Input`, `Validate`, `Store` |\n| Labeled edges | `Validate -- Yes -->`, `-- No -->` |\n| Subgraph grouping | `subgraph CacheLayer` |\n| Class-based styling + classDef | `:::startStyle`, `classDef ...` |\n| Link styling | `linkStyle default` |\n| A decision loop (error → re-input) and a cache hit/miss branch | `Error --> Input`, `Cache -- Hit/Miss` |\n\nThe Mermaid CLI (`mmdc`) isn't installed in this environment, so the text source is the deliverable. To render it to SVG, run:\n\n```bash\nnpm i -g @mermaid-js/mermaid-cli\nmmdc -i mermaid-representative-artifact.mmd -o mermaid-representative-artifact.svg\n```\n\nOr paste the contents into any Mermaid Live Editor (https://mermaid.live) to see it rendered immediately.",
+          "answerLen": 1405
+        }
+      }
+    ]
+  }
+}

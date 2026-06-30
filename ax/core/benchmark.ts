@@ -8,7 +8,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { pickRunner } from "../harness/agent.ts";
 import { PROBES, runProbe, type ProbeDef, type ProbeResult } from "../probes/probes.ts";
-import { resolveSubject, docsDir } from "./workflow.ts";
+import { resolveSubject, groundSubject } from "./workflow.ts";
 import { pareto, type ParetoPoint } from "../instruments/pareto.ts";
 import { bradleyTerry, judgeMatchup, type Matchup } from "../instruments/elo.ts";
 import { rasch } from "../instruments/irt.ts";
@@ -43,7 +43,7 @@ export async function benchmark(subjectArgs: string[], opts: BenchOpts = {}) {
   const data: Array<{ id: string; prs: Record<string, ProbeResult> }> = [];
   for (const arg of subjectArgs) {
     const s = resolveSubject(arg);
-    const subj = { id: s.id, path: docsDir(s), intent: s.intent };
+    const subj = groundSubject(s); // grounded brief + real subject matter in cwd
     const prs: Record<string, ProbeResult> = {};
     for (const tier of tiers) {
       const probe = PROBES.find((p) => p.tier === tier) as ProbeDef;

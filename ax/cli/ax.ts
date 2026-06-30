@@ -7,18 +7,20 @@ const HELP = `ax — Agent Ergonomics
 
 Usage: ax <command> [args]
 
-  render <report.work>          render a .work AX report → markdown/HTML
-  screen <subject>              cheap breadth pass (static + T0 + 1×T1)
-  deep <subject>                full battery T0–T6, N=5, ≥3 compaction
-  measure <subject>             run instruments → cell readings
-  profile <subject>             assemble the AX profile from readings
+  screen <subject> [--behavioral] [--agent pi]   static (always) + optional real T0/T1
+  deep <subject> [--agent pi]   full battery T0–T6 via the real PI agent
   design <subject>              readings → prioritized fixes + patches
-  eval <subject>                profile → .work report into the subject's repo
-  trial <probe> <subject>       run one probe via the workagent harness
-  counters <path>               static counters instrument on a path (no agent)
+  eval <subject> [--deep]       profile → .work report into the subject's repo
+  bench <subjects…> [--tiers T0,T1,T3] [--n 1]   cross-tool: Elo/IRT/Pareto/friction
+  brief <category> <tool> [seedKey]   preview a grounded, seed-backed brief
+  counters <path>               static counters instrument (no agent)
+  render <report.work>          render a .work AX report → markdown/HTML
+  leaderboard | site            OOTA AX leaderboard / agentergonomics.org site
+  work                          status of the vendored `work` CLI (.work parsing)
   help                          this message
 
-Subjects: a path to a tool/dir, or an oota tool id (e.g. oota:d2).`;
+Subjects: an oota tool id (oota:<cat>-<tool>) or a path. Real runs use the PI
+agent (z-ai/glm-5.2); briefs are grounded in real seed entities for comparability.`;
 
 const [cmd, ...rest] = process.argv.slice(2);
 const flag = (args: string[], name: string): string | undefined => {
@@ -78,6 +80,12 @@ async function run() {
       const r = await benchmark(subjects, { tiers, n: nv ? +nv : 1, agentId: flag(rest, "--agent") });
       console.error(`benchmark → ${r.runDir}`);
       console.log(JSON.stringify({ elo: r.elo, irt_ability: r.irt.ability, irt_difficulty: r.irt.difficulty, pareto: r.pareto, friction: r.friction }, null, 2));
+      break;
+    }
+    case "brief": {
+      const { groundedBrief } = await import("../briefs/generate.ts");
+      const b = groundedBrief(rest[0] ?? "topic", rest[1] ?? "tool", rest[2]);
+      console.log(b.intent + "\n\n--- " + b.files[0].name + " ---\n" + b.files[0].content);
       break;
     }
     case "work": {

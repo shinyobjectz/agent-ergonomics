@@ -11,6 +11,7 @@ import { telemetryReadings } from "../instruments/telemetry.ts";
 import { PROBES, runProbe, type ProbeDef } from "../probes/probes.ts";
 import { pickRunner } from "../harness/agent.ts";
 import { assembleProfile, type Profile, type Reading } from "./profile.ts";
+import { groundedBrief, applyBrief } from "../briefs/generate.ts";
 
 const OOTA = "/Users/shinyobjectz/Apps/shinyobjectz/projects/out-of-thin-air";
 
@@ -20,6 +21,8 @@ export interface Subject {
   files?: string[]; // explicit fileset (scattered OOTA tools)
   root: string;
   intent: string;
+  category?: string;
+  tool: string;
 }
 
 /** Resolve "oota:<cat>-<tool>" → its scattered files, or a path → a dir subject. */
@@ -33,10 +36,22 @@ export function resolveSubject(arg: string): Subject {
       `${OOTA}/tools/steps/${key}.sh`,
       `${OOTA}/skill/catalog/${cat}/${tool}.md`,
     ].filter((f) => existsSync(f));
-    return { id: arg, path: files[0] ?? OOTA, files, root: OOTA, intent: `Produce ${tool}'s representative artifact.` };
+    return { id: arg, path: files[0] ?? OOTA, files, root: OOTA, category: cat, tool, intent: `Produce ${tool}'s representative artifact.` };
   }
   const p = resolve(arg);
-  return { id: basename(p), path: p, root: p, intent: `Use ${basename(p)} to produce its representative artifact.` };
+  return { id: basename(p), path: p, root: p, tool: basename(p), intent: `Use ${basename(p)} to produce its representative artifact.` };
+}
+
+/**
+ * Prepare a grounded, self-fulfilling trial subject: a real cwd with the
+ * subject's docs + a REAL seed entity's material, and a brief that uses it.
+ * Same category → same seed (controlled comparison) unless seedKey overrides.
+ */
+export function groundSubject(s: Subject, seedKey?: string): { id: string; path: string; intent: string; seedId: string } {
+  const dir = docsDir(s);
+  const brief = groundedBrief(s.category ?? "topic", s.tool, seedKey);
+  applyBrief(dir, brief);
+  return { id: s.id, path: dir, intent: brief.intent, seedId: brief.seedId };
 }
 
 async function staticReadings(s: Subject): Promise<Reading[]> {
@@ -60,7 +75,7 @@ export function docsDir(s: Subject): string {
 async function behavioral(s: Subject, tiers: string[], n: number, agentId?: string): Promise<{ readings: Reading[]; pareto: any; skipped?: boolean }> {
   const runner = await pickRunner(agentId);
   if (!runner) return { readings: [], pareto: undefined, skipped: true }; // honest: no silent mock
-  const subj = { id: s.id, path: docsDir(s), intent: s.intent };
+  const subj = groundSubject(s); // grounded, self-fulfilling brief with real subject matter
   const readings: Reading[] = [];
   let success = 0, cost = 0, turns = 0, count = 0;
   for (const tier of tiers) {
