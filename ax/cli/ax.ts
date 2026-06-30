@@ -42,6 +42,26 @@ async function run() {
       console.log(JSON.stringify(await screen(rest[0]), null, 2));
       break;
     }
+    case "deep": {
+      const { deep } = await import("../core/workflow.ts");
+      console.log(JSON.stringify(await deep(rest[0]), null, 2));
+      break;
+    }
+    case "design": {
+      const { screen } = await import("../core/workflow.ts");
+      const { designFixes } = await import("../core/designer.ts");
+      console.log(JSON.stringify(designFixes(await screen(rest[0])), null, 2));
+      break;
+    }
+    case "eval": {
+      const { evalSubject } = await import("../report/build.ts");
+      const deepFlag = rest.includes("--deep");
+      const subj = rest.find((a) => !a.startsWith("--"))!;
+      const r = await evalSubject(subj, { deep: deepFlag });
+      console.error(`wrote ${r.reportPath}${r.drifted.length ? ` (drifted: ${r.drifted.length})` : ""}`);
+      console.log(r.rendered);
+      break;
+    }
     case "help":
     case "--help":
     case "-h":
