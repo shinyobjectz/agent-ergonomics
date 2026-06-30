@@ -74,11 +74,18 @@ export class PiRunner implements AgentRunner {
   private buildArgs(input: TrialInput): { args: string[]; cwd: string } {
     const cold = input.tier === "T0" && !input.docsAvailable;
     const cwd = input.docsAvailable ? input.subjectPath : mkdtempSync(join(tmpdir(), "ax-cold-"));
+    // T0 cold-call measures PRIOR KNOWLEDGE: can the agent write a correct
+    // invocation from memory (no docs, no tools, no execution)? Success = it
+    // produced a plausible invocation — not whether it wrote a file.
+    const tool = input.tool ?? input.subjectId.replace(/^oota:/, "");
+    const intent = cold
+      ? `Cold-call. With NO documentation and WITHOUT running anything, write from memory a minimal but VALID invocation/source for the \`${tool}\` tool to produce its primary artifact. Output ONLY the code or command — no prose.`
+      : input.intent;
     const args = [
       "--print", "--mode", "json", "--no-session",
       "--provider", this.provider, "--model", this.model,
       ...(cold ? ["--no-tools"] : []),
-      input.intent,
+      intent,
     ];
     return { args, cwd };
   }

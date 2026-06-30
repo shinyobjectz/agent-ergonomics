@@ -21,6 +21,8 @@ export interface CounterReading {
   normalized: number; // -1..1
   level: Level;
   evidence: Array<{ type: "source"; ref: string; excerpt?: string }>;
+  n: number; // observations behind the reading
+  confidence: number; // 0..1 — static heuristics are mid; direct counts are high
 }
 
 export interface CountersResult {
@@ -67,7 +69,8 @@ const reading = (
   normalized: number,
   raw: any,
   evidence: CounterReading["evidence"] = [],
-): CounterReading => ({ surface, lens, instrument: "counters", raw, normalized, level: level(normalized), evidence });
+  confidence = 0.6, // static heuristic by default; direct counts pass higher
+): CounterReading => ({ surface, lens, instrument: "counters", raw, normalized, level: level(normalized), evidence, n: 1, confidence });
 
 /** Duplication ratio: fraction of normalized non-trivial lines that repeat (WET proxy). */
 function duplicationRatio(texts: string[]): { ratio: number; sample: string[] } {
@@ -169,14 +172,14 @@ async function analyze(files: string[], root: string, _label: string): Promise<C
   const detScore = interactiveHits.length ? -1 : 0.7;
   readings.push(
     reading("loop", "determinism", detScore, { interactivePrompts: interactiveHits.length },
-      interactiveHits.slice(0, 3).map((r) => ({ type: "source" as const, ref: r }))),
+      interactiveHits.slice(0, 3).map((r) => ({ type: "source" as const, ref: r })), 0.85),
   );
 
   // Loop × Safety: unguarded irreversible ops → hostile
   const safeScore = irreversibleHits.length ? -1 : 0.6;
   readings.push(
     reading("loop", "safety", safeScore, { irreversibleOps: irreversibleHits.length },
-      irreversibleHits.slice(0, 3).map((r) => ({ type: "source" as const, ref: r }))),
+      irreversibleHits.slice(0, 3).map((r) => ({ type: "source" as const, ref: r })), 0.85),
   );
 
   // Disclosure × Verifiability (cheap proxy): presence of any doc to learn from

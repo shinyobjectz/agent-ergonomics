@@ -14,6 +14,7 @@ export interface TrialInput {
   subjectPath: string;
   intent: string;
   docsAvailable: boolean;
+  tool?: string; // tool name, for the T0 cold-call (from-memory invocation)
   compactionLevels?: number; // for T5
 }
 

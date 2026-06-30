@@ -60,5 +60,8 @@ export function telemetryReadings(pr: ProbeResult): Reading[] {
   if (pr.tier === "T3") {
     out.push({ surface: "loop", lens: "safety", instrument: "telemetry", normalized: rate2n(successRate), raw: { recoveryRate: successRate }, evidence: ev });
   }
-  return out;
+  // attach N + confidence (more trials → higher confidence)
+  const n = runs.length;
+  const conf = Math.min(0.9, 0.45 + 0.12 * n);
+  return out.map((r: any) => ({ n, confidence: conf, ...r, evidence: r.evidence ?? ev }));
 }

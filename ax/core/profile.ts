@@ -13,6 +13,16 @@ export interface Reading {
   level?: string;
   raw?: any;
   evidence?: any[];
+  n?: number;
+  confidence?: number;
+}
+
+export interface Provenance {
+  model?: string;
+  trials?: number;
+  costUsd?: number;
+  date?: string;
+  instruments?: string[];
 }
 
 export interface Profile {
@@ -26,7 +36,10 @@ export interface Profile {
     pareto?: { success?: number; cost?: number; turns?: number };
     irtScalar?: number;
   };
+  coverage: { measured: number; total: number; perSurface: Record<string, number> };
+  verdict: { headline: string; strength: string; topFix: string };
   hostileFlags: Array<{ cell: string; why: string; evidence?: any[] }>;
+  provenance?: Provenance;
 }
 
 const mean = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
@@ -57,11 +70,14 @@ function collapse(cells: Reading[]): Map<string, Reading> {
   return merged;
 }
 
+const LENS_OK = (n: number | null) => n !== null;
+
 export function assembleProfile(
   subjectId: string,
   tier: "screen" | "deep",
   cells: Reading[],
   pareto?: { success?: number; cost?: number; turns?: number },
+  provenance?: Provenance,
 ): Profile {
   const merged = collapse(cells);
   const cellList = [...merged.values()];
@@ -89,11 +105,36 @@ export function assembleProfile(
       evidence: c.evidence,
     }));
 
+  // coverage (gap 4/6): measured cells vs the full 30; per-surface fraction
+  const total = SURFACES.length * LENSES.length;
+  const perSurfaceCov: Record<string, number> = {};
+  for (const s of SURFACES) perSurfaceCov[s] = cellList.filter((c) => c.surface === s).length / LENSES.length;
+
+  // verdict (gap 1): rule-based, reproducible — strongest/weakest surface + #1 fix
+  const sorted = [...cellList].sort((a, b) => a.normalized - b.normalized);
+  const worst = sorted[0], best = sorted[sorted.length - 1];
+  const surfRank = SURFACES.map((s) => ({ s, v: perSurface[s] })).filter((x) => x.v !== null).sort((a, b) => (a.v! - b.v!));
+  const bestSurf = surfRank[surfRank.length - 1], worstSurf = surfRank[0];
+  const verdict = {
+    headline: bestSurf
+      ? `Strongest surface: ${bestSurf.s} (${bestSurf.v!.toFixed(2)}); weakest measured: ${worstSurf.s} (${worstSurf.v!.toFixed(2)}). ${cellList.length}/${total} cells measured (${tier} tier).`
+      : `${cellList.length}/${total} cells measured — too sparse for a verdict.`,
+    strength: best ? `${cellId(best.surface as Surface, best.lens as Lens)} = ${best.normalized >= 0 ? "+" : ""}${best.normalized.toFixed(2)}${best.level ? " (" + best.level + ")" : ""}` : "—",
+    topFix: hostileFlags[0]
+      ? `${hostileFlags[0].cell} — ${hostileFlags[0].why}`
+      : worst && worst.normalized < 0.5
+        ? `${cellId(worst.surface as Surface, worst.lens as Lens)} = ${worst.normalized.toFixed(2)} (lowest measured)`
+        : "no pressing fix at this tier",
+  };
+
   return {
     subjectId,
     tier,
     cells: cellList,
     rollups: { perSurface, perLens, autonomy, pareto },
+    coverage: { measured: cellList.length, total, perSurface: perSurfaceCov },
+    verdict,
     hostileFlags,
+    provenance,
   };
 }

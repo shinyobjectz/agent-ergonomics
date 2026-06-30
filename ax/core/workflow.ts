@@ -48,11 +48,11 @@ export function resolveSubject(arg: string): Subject {
  * subject's docs + a REAL seed entity's material, and a brief that uses it.
  * Same category → same seed (controlled comparison) unless seedKey overrides.
  */
-export function groundSubject(s: Subject, seedKey?: string): { id: string; path: string; intent: string; seedId: string } {
+export function groundSubject(s: Subject, seedKey?: string): { id: string; path: string; intent: string; seedId: string; tool: string } {
   const dir = docsDir(s);
   const brief = groundedBrief(s.category ?? "topic", s.tool, seedKey);
   applyBrief(dir, brief);
-  return { id: s.id, path: dir, intent: brief.intent, seedId: brief.seedId };
+  return { id: s.id, path: dir, intent: brief.intent, seedId: brief.seedId, tool: s.tool };
 }
 
 async function staticReadings(s: Subject): Promise<Reading[]> {

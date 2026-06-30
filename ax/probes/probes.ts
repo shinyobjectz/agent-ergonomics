@@ -35,7 +35,7 @@ export interface ProbeResult {
 
 export async function runProbe(
   probe: ProbeDef,
-  subject: { id: string; path: string; intent: string },
+  subject: { id: string; path: string; intent: string; tool?: string },
   runner: AgentRunner,
   n: number,
 ): Promise<ProbeResult> {
@@ -50,6 +50,7 @@ export async function runProbe(
           subjectPath: subject.path,
           intent: subject.intent,
           docsAvailable: probe.docsAvailable,
+          tool: subject.tool,
           compactionLevels: probe.compactionLevels,
         },
         seed,
