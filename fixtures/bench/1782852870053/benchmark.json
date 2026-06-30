@@ -1,0 +1,144 @@
+{
+  "subjects": [
+    "oota:diagrams-d2",
+    "oota:diagrams-mermaid",
+    "oota:diagrams-plantuml",
+    "oota:diagrams-python-diagrams"
+  ],
+  "tiers": [
+    "T0",
+    "T1",
+    "T3"
+  ],
+  "n": 1,
+  "points": [
+    {
+      "id": "oota:diagrams-d2",
+      "success": 1,
+      "cost": 83176,
+      "turns": 16
+    },
+    {
+      "id": "oota:diagrams-mermaid",
+      "success": 1,
+      "cost": 4868,
+      "turns": 5
+    },
+    {
+      "id": "oota:diagrams-plantuml",
+      "success": 1,
+      "cost": 33721,
+      "turns": 15
+    },
+    {
+      "id": "oota:diagrams-python-diagrams",
+      "success": 1,
+      "cost": 20455,
+      "turns": 15
+    }
+  ],
+  "pareto": [
+    {
+      "id": "oota:diagrams-d2",
+      "onFrontier": false,
+      "dominatedBy": [
+        "oota:diagrams-mermaid",
+        "oota:diagrams-plantuml",
+        "oota:diagrams-python-diagrams"
+      ]
+    },
+    {
+      "id": "oota:diagrams-mermaid",
+      "onFrontier": true,
+      "dominatedBy": []
+    },
+    {
+      "id": "oota:diagrams-plantuml",
+      "onFrontier": false,
+      "dominatedBy": [
+        "oota:diagrams-mermaid",
+        "oota:diagrams-python-diagrams"
+      ]
+    },
+    {
+      "id": "oota:diagrams-python-diagrams",
+      "onFrontier": false,
+      "dominatedBy": [
+        "oota:diagrams-mermaid"
+      ]
+    }
+  ],
+  "elo": {
+    "oota:diagrams-d2": 1210,
+    "oota:diagrams-mermaid": 1790,
+    "oota:diagrams-plantuml": 1411,
+    "oota:diagrams-python-diagrams": 1589
+  },
+  "irt": {
+    "ability": {
+      "oota:diagrams-d2": 6,
+      "oota:diagrams-mermaid": 6,
+      "oota:diagrams-plantuml": 6,
+      "oota:diagrams-python-diagrams": 6
+    },
+    "difficulty": {
+      "T0": 0,
+      "T1": 0,
+      "T3": 0
+    }
+  },
+  "matchups": [
+    {
+      "a": "oota:diagrams-d2",
+      "b": "oota:diagrams-mermaid",
+      "winner": "oota:diagrams-mermaid"
+    },
+    {
+      "a": "oota:diagrams-d2",
+      "b": "oota:diagrams-plantuml",
+      "winner": "oota:diagrams-plantuml"
+    },
+    {
+      "a": "oota:diagrams-d2",
+      "b": "oota:diagrams-python-diagrams",
+      "winner": "oota:diagrams-python-diagrams"
+    },
+    {
+      "a": "oota:diagrams-mermaid",
+      "b": "oota:diagrams-plantuml",
+      "winner": "oota:diagrams-mermaid"
+    },
+    {
+      "a": "oota:diagrams-mermaid",
+      "b": "oota:diagrams-python-diagrams",
+      "winner": "oota:diagrams-mermaid"
+    },
+    {
+      "a": "oota:diagrams-plantuml",
+      "b": "oota:diagrams-python-diagrams",
+      "winner": "oota:diagrams-python-diagrams"
+    }
+  ],
+  "friction": {
+    "oota:diagrams-d2": {
+      "byTheme": {
+        "tool-mismatch": 1,
+        "ambiguous-error": 1
+      },
+      "load": 3
+    },
+    "oota:diagrams-mermaid": {
+      "byTheme": {},
+      "load": 0
+    },
+    "oota:diagrams-plantuml": {
+      "byTheme": {},
+      "load": 0
+    },
+    "oota:diagrams-python-diagrams": {
+      "byTheme": {},
+      "load": 0
+    }
+  },
+  "runDir": "/Users/shinyobjectz/Apps/shinyobjectz/projects/agent-ergonomics/fixtures/bench/1782852870053"
+}

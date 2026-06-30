@@ -1,0 +1,251 @@
+{
+  "T0": {
+    "probeId": "t0-coldcall",
+    "subjectId": "oota:diagrams-python-diagrams",
+    "tier": "T0",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t0-coldcall-0",
+        "success": true,
+        "turns": 1,
+        "tokensIn": 453,
+        "tokensOut": 93,
+        "retries": 0,
+        "timeToFirstActionMs": 5736.425667000003,
+        "wallMs": 5736.425667000003,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 546,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.00070935,
+          "transcript": "```python\nfrom diagrams import Diagram\nfrom diagrams.aws.compute import EC2\n\nwith Diagram(\"Minimal\"):\n    EC2()\n```\n\nRun: `python diagram.py` → produces `minimal.png`.",
+          "answerLen": 167
+        }
+      }
+    ]
+  },
+  "T1": {
+    "probeId": "t1-guided",
+    "subjectId": "oota:diagrams-python-diagrams",
+    "tier": "T1",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t1-guided-0",
+        "success": true,
+        "turns": 15,
+        "tokensIn": 17247,
+        "tokensOut": 3208,
+        "retries": 0,
+        "timeToFirstActionMs": 180015.785791,
+        "wallMs": 180015.785791,
+        "exit": 143,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 1260,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 230,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 170,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 11443,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 1264,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 1195,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 337,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 609,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 419,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 10,
+            "tokens": 232,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 11,
+            "tokens": 371,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 12,
+            "tokens": 1353,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 13,
+            "tokens": 1279,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 14,
+            "tokens": 128,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 15,
+            "tokens": 165,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.05861025000000001,
+          "transcript": "The diagram rendered successfully. Let me verify the output visually.",
+          "answerLen": 69
+        }
+      }
+    ]
+  },
+  "T3": {
+    "probeId": "t3-failure",
+    "subjectId": "oota:diagrams-python-diagrams",
+    "tier": "T3",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t3-failure-0",
+        "success": true,
+        "turns": 10,
+        "tokensIn": 3224,
+        "tokensOut": 2362,
+        "retries": 0,
+        "timeToFirstActionMs": 180017.75883399998,
+        "wallMs": 180017.75883399998,
+        "exit": 143,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 181,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 697,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 1503,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 1160,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 469,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 519,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 301,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 219,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 300,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 10,
+            "tokens": 237,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.016795840000000003,
+          "transcript": "The diagram rendered successfully. Let me view the primary artifact to verify it's representative and legible.",
+          "answerLen": 110
+        }
+      }
+    ]
+  }
+}

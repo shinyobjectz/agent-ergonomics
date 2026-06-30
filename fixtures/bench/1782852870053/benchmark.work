@@ -1,0 +1,41 @@
+```ax
+{"subjectId":"benchmark","generatedBy":"agent-ergonomics","tier":"deep"}
+```
+
+# Cross-tool AX benchmark
+
+Subjects: oota:diagrams-d2, oota:diagrams-mermaid, oota:diagrams-plantuml, oota:diagrams-python-diagrams · tiers T0/T1/T3 · N=1. Real PI runs.
+
+## Elo (Bradley–Terry, pairwise judge)
+
+- oota:diagrams-mermaid: **1790**
+- oota:diagrams-python-diagrams: **1589**
+- oota:diagrams-plantuml: **1411**
+- oota:diagrams-d2: **1210**
+
+## IRT latent AX ability (θ)
+
+- oota:diagrams-d2: θ=6
+- oota:diagrams-mermaid: θ=6
+- oota:diagrams-plantuml: θ=6
+- oota:diagrams-python-diagrams: θ=6
+
+## Probe difficulty (β)
+
+- T0: β=0
+- T1: β=0
+- T3: β=0
+
+## Pareto frontier (success × cost × turns)
+
+- oota:diagrams-d2: dominated by oota:diagrams-mermaid, oota:diagrams-plantuml, oota:diagrams-python-diagrams
+- oota:diagrams-mermaid: **on frontier**
+- oota:diagrams-plantuml: dominated by oota:diagrams-mermaid, oota:diagrams-python-diagrams
+- oota:diagrams-python-diagrams: dominated by oota:diagrams-mermaid
+
+## Friction (coded from transcripts)
+
+- oota:diagrams-d2: load 3 — tool-mismatch, ambiguous-error
+- oota:diagrams-mermaid: load 0 — clean
+- oota:diagrams-plantuml: load 0 — clean
+- oota:diagrams-python-diagrams: load 0 — clean

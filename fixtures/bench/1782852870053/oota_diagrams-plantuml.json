@@ -1,0 +1,257 @@
+{
+  "T0": {
+    "probeId": "t0-coldcall",
+    "subjectId": "oota:diagrams-plantuml",
+    "tier": "T0",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t0-coldcall-0",
+        "success": true,
+        "turns": 1,
+        "tokensIn": 452,
+        "tokensOut": 73,
+        "retries": 0,
+        "timeToFirstActionMs": 9310.811958000006,
+        "wallMs": 9310.811958000006,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 525,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.0006483999999999999,
+          "transcript": "@startuml\nBob -> Alice : hello\n@enduml",
+          "answerLen": 38
+        }
+      }
+    ]
+  },
+  "T1": {
+    "probeId": "t1-guided",
+    "subjectId": "oota:diagrams-plantuml",
+    "tier": "T1",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t1-guided-0",
+        "success": true,
+        "turns": 15,
+        "tokensIn": 30882,
+        "tokensOut": 2839,
+        "retries": 0,
+        "timeToFirstActionMs": 163651.71091700008,
+        "wallMs": 163651.71091700008,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 1522,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 1763,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 2218,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 334,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 2937,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 1206,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 4004,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 1321,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 622,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 10,
+            "tokens": 7078,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 11,
+            "tokens": 660,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 12,
+            "tokens": 527,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 13,
+            "tokens": 1068,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 14,
+            "tokens": 7024,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 15,
+            "tokens": 1437,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.048142260000000006,
+          "transcript": "The primary artifact has been produced and validated. Here's the summary.\n\n## PlantUML — primary artifact delivered\n\n**Tool installed & smoke-tested:** `brew install plantuml` (v1.2026.6) → `printf '@startuml...@enduml' | plantuml -tsvg -pipe` returned a valid SVG.\n\n**Project modeled:** tldraw/tldraw — infinite-canvas SDK. Source content taken from `PROJECT.md`: *Store (reactive records: shapes, pages, camera) → Editor (the API surface) → shape utils (per-shape geometry/render) → React canvas. Snapshots serialize to .tldr JSON.*\n\n### Files written to the working directory\n\n| File | Role | Validated |\n|------|------|-----------|\n| `tldraw-architecture.svg` | **Primary artifact** — diffable, scalable SVG | ✅ valid SVG, 22 KB |\n| `tldraw-architecture.png` | Raster fallback (`-tpng`) | ✅ 1565×702 PNG |\n| `tldraw-architecture.puml` | Source markup (`@startuml…@enduml`) | ✅ `--check-syntax` exit 0 |\n| `src/diagram.puml`, `src/diagram.svg`, `src/diagram.png` | Source-tree layout (matches the `diagrams-plantuml.sh` `src/` convention) | ✅ |\n\n### Render command used\n\n```bash\nplantuml -tsvg -Playout=smetana -Djava.awt.headless=true -charset UTF-8 src/diagram.puml\n```\n\n`-Playout=smetana` uses the bundled pure-Java layout engine (no Graphviz/`dot` dependency), per the tool's documented guidance; `-Djava.awt.headless=true` for headless rendering.\n\n### What the diagram captures\n\nA component diagram of the tldraw SDK boundary, showing the full data/control flow from the host React app:\n\n- **Host App (React)** → mounts `<Tldraw>`, supplies an editor.\n- **Store (reactive records)** — PageRecord / ShapeRecord / AssetRecord / PresenceRecord / CameraRecord over an in-memory signal/atom graph.\n- **Editor (API surface)** — reads/writes records, emits and consumes reactive change events.\n- **Shape Utils** — `BaseShapeUtil` + per-shape geometry/render factories registered per type; routed for hit-testing, rendering, transforms.\n- **React Canvas** — `<Tldraw>` DOM renderer producing render nodes from util output.\n- **Snapshots / Serialization** — `getSnapshot()` / `loadSnapshot()` hydrate/serialize the store to **.tldr JSON** (schema-versioned, portable), with a callout note.\n\nThis is representative and complete relative to the source material in `PROJECT.md`.",
+          "answerLen": 2274
+        }
+      }
+    ]
+  },
+  "T3": {
+    "probeId": "t3-failure",
+    "subjectId": "oota:diagrams-plantuml",
+    "tier": "T3",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t3-failure-0",
+        "success": true,
+        "turns": 11,
+        "tokensIn": 21644,
+        "tokensOut": 3105,
+        "retries": 0,
+        "timeToFirstActionMs": 80500.67979199998,
+        "wallMs": 80500.67979199998,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 163,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 690,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 2765,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 4181,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 2706,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 1250,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 564,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 638,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 2598,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 10,
+            "tokens": 858,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 11,
+            "tokens": 8336,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.03889696,
+          "transcript": "Done. The PlantUML tool's primary artifact (SVG, with PNG fallback) has been produced from the `PROJECT.md` content and saved to the working directory.\n\n**Artifacts written to `/private/var/folders/18/r43jk_cx473628dkrjj_7ylh0000gn/T/ax-docs-cVKqU1/`:**\n- `tldraw-architecture.svg` — primary deliverable (24,907 bytes, diffable/scalable vector)\n- `tldraw-architecture.png` — raster fallback (1233×940)\n- `src/diagram.puml` — the source markup (also the editor-bound source per the tool's wrapper params)\n\n**Toolchain used** (from `plantuml.md`):\n- `plantuml --check-syntax` → OK\n- Rendered with `-Playout=smetana` (pure-Java layout, no Graphviz/`dot` dependency) and `-Djava.awt.headless=true`, `-charset UTF-8`.\n\n**Diagram coverage** — a component diagram modeling the data flow described in `PROJECT.md`:\n- `Host App (React)` mounts `<Tldraw>`\n- `Store` — reactive records (PageRecord, ShapeRecord, AssetRecord, PresenceRecord, CameraRecord) backed by an in-memory signal/atom graph\n- `Editor` — the API surface (reads/writes records, routes hit-testing/transforms)\n- `Shape Utils` — `BaseShapeUtil` (geometry/render/hit-test) and registered per-shape factories\n- `React Canvas` — `<Tldraw>` DOM renderer producing render nodes\n- `Snapshots / Serialization` — `getSnapshot()`/`loadSnapshot()`, serializing to **.tldr** JSON\n\nArrows trace runtime control/data flow (input → Editor → Store ↔ Utils → Canvas), with notes for the record store, ShapeUtil registration, and `.tldr` snapshot portability, plus a legend.",
+          "answerLen": 1514
+        }
+      }
+    ]
+  }
+}

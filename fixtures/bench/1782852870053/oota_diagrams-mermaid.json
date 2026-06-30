@@ -1,0 +1,269 @@
+{
+  "T0": {
+    "probeId": "t0-coldcall",
+    "subjectId": "oota:diagrams-mermaid",
+    "tier": "T0",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t0-coldcall-0",
+        "success": true,
+        "turns": 1,
+        "tokensIn": 453,
+        "tokensOut": 88,
+        "retries": 0,
+        "timeToFirstActionMs": 2785.326583000002,
+        "wallMs": 2785.326583000002,
+        "exit": 0,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 541,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.00069435,
+          "transcript": "```bash\necho 'graph TD; A-->B' > diagram.mmd && mmdc -i diagram.mmd -o diagram.svg\n```",
+          "answerLen": 86
+        }
+      }
+    ]
+  },
+  "T1": {
+    "probeId": "t1-guided",
+    "subjectId": "oota:diagrams-mermaid",
+    "tier": "T1",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t1-guided-0",
+        "success": true,
+        "turns": 5,
+        "tokensIn": 3828,
+        "tokensOut": 1040,
+        "retries": 0,
+        "timeToFirstActionMs": 180008.39870799996,
+        "wallMs": 180008.39870799996,
+        "exit": 143,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 424,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 923,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 1114,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 1147,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 1260,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.011521379999999998,
+          "transcript": "Now I understand the pattern. Let me check for the `mmdc` renderer and puppeteer config.",
+          "answerLen": 88
+        }
+      }
+    ]
+  },
+  "T3": {
+    "probeId": "t3-failure",
+    "subjectId": "oota:diagrams-mermaid",
+    "tier": "T3",
+    "agent": "pi",
+    "runs": [
+      {
+        "runId": "pi-t3-failure-0",
+        "success": true,
+        "turns": 23,
+        "tokensIn": 24022,
+        "tokensOut": 4711,
+        "retries": 0,
+        "timeToFirstActionMs": 180013.02095799998,
+        "wallMs": 180013.02095799998,
+        "exit": 143,
+        "artifacts": [
+          "(agent answer)"
+        ],
+        "perTurn": [
+          {
+            "turn": 1,
+            "tokens": 320,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 2,
+            "tokens": 477,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 3,
+            "tokens": 774,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 4,
+            "tokens": 1302,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 5,
+            "tokens": 881,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 6,
+            "tokens": 664,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 7,
+            "tokens": 729,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 8,
+            "tokens": 748,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 9,
+            "tokens": 890,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 10,
+            "tokens": 813,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 11,
+            "tokens": 846,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 12,
+            "tokens": 778,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 13,
+            "tokens": 839,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 14,
+            "tokens": 860,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 15,
+            "tokens": 908,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 16,
+            "tokens": 1506,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 17,
+            "tokens": 1043,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 18,
+            "tokens": 1234,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 19,
+            "tokens": 1676,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 20,
+            "tokens": 1239,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 21,
+            "tokens": 9314,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 22,
+            "tokens": 485,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          },
+          {
+            "turn": 23,
+            "tokens": 407,
+            "compactionLevel": 0,
+            "goalProgress": 0
+          }
+        ],
+        "extra": {
+          "pi": true,
+          "model": "z-ai/glm-5.2",
+          "cost": 0.062388439999999996,
+          "transcript": "Let me view the rendered result to confirm it's representative and correct.",
+          "answerLen": 75
+        }
+      }
+    ]
+  }
+}
