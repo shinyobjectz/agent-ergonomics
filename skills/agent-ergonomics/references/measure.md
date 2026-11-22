@@ -18,8 +18,9 @@ from the text alone. If the weakest model that must succeed can follow it, stron
    - Two or three calibration questions that sound answerable but aren't. They expect `UNKNOWN`. A model that answers
      them is guessing, so its other answers can't be trusted.
 2. **Run three times, with no tools and no thinking,** giving the model only the material and the questions, and
-   telling it to answer `UNKNOWN` where the material doesn't say. With Claude Code:
-   `claude -p --model haiku --tools "" --no-session-persistence < prompt.txt`, with thinking turned off.
+   telling it to answer `UNKNOWN` where the material doesn't say. Use the smallest model the material must still work
+   for, in a fresh session with no memory of this one. Most agent CLIs have a one-shot mode for this; in Claude Code it's
+   `claude -p --model haiku --tools "" --no-session-persistence < prompt.txt`.
 3. **Grade strictly.** A question passes only if it's right in all three runs. A miss is evidence about the text, not
    the model. Quote the passage behind each miss and propose the smallest edit that fixes it.
 4. **Condense.** Using the "could go" findings, write a shorter version and rerun the same questions. Keep a cut only

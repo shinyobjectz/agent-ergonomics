@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent ergonomics</title>
-<meta name="description" content="Three free Claude Code skills: restructure a codebase so changes land in one place, make CLIs and MCP tools easy for agents to use, rewrite copy so it doesn't sound AI-written, and make an app clear to new users.">
+<meta name="description" content="Three free skills for any coding agent (Codex, Cursor, Claude Code and more): restructure a codebase so changes land in one place, make CLIs and MCP tools easy for agents to use, rewrite copy so it doesn't sound AI-written, and make an app clear to new users.">
 <meta name="theme-color" content="#f2f3f5">
 <meta property="og:title" content="Agent ergonomics">
-<meta property="og:description" content="Three free Claude Code skills that make your code, tools and writing easier for AI agents and people to use.">
+<meta property="og:description" content="Three free skills for any coding agent that make your code, tools and writing easier for agents and people to use.">
 <meta property="og:url" content="https://agentergonomics.org/">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://agentergonomics.org/og.png">
@@ -100,7 +100,11 @@ h1 .soft { color: var(--soft); }
 
 .card { background: rgba(255, 255, 255, 0.92); border-radius: 1.25rem; box-shadow: 0 1px 0 var(--hair), 0 24px 60px -24px rgba(53, 44, 120, 0.3); }
 .install { padding: 1.1rem 1.25rem 1.2rem; transform-style: preserve-3d; }
-.install-head { display: flex; justify-content: space-between; align-items: baseline; font: 500 0.8rem/1 var(--text); color: var(--soft); margin-bottom: 0.8rem; }
+.install-head { display: flex; gap: 0.35rem; align-items: center; margin-bottom: 0.8rem; }
+.tab { font: 500 0.8rem/1 var(--text); color: var(--soft); background: none; border: 0; border-radius: 999px; padding: 0.45rem 0.8rem; cursor: pointer; transition: background 0.3s, color 0.3s; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { background: rgba(74, 58, 168, 0.1); color: var(--ink); }
+.install-head .copy { margin-left: auto; }
 .install pre { margin: 0; font: 500 clamp(0.72rem, 1vw, 0.86rem)/1.85 var(--mono); overflow-x: auto; scrollbar-width: none; }
 .install pre .p { color: var(--violet); user-select: none; opacity: 0.7; }
 .install-foot { display: flex; gap: 1.25rem; align-items: center; margin-top: 1rem; font-size: 0.9rem; flex-wrap: wrap; }
@@ -181,14 +185,19 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
     <h1 data-words>Make your code, tools and writing easy for AI agents <span class="soft">and people to use.</span></h1>
   </div>
   <div class="wrap base">
-    <p data-reveal>Three free skills for Claude Code. Install them, then ask Claude to untangle a codebase, fix a CLI that agents keep misusing, rewrite copy, or simplify an app's first screen.</p>
+    <p data-reveal>Three free skills for Codex, Cursor, Claude Code and any other agent that reads skills. Install them, then ask your agent to untangle a codebase, fix a CLI that agents keep misusing, rewrite copy, or simplify an app's first screen.</p>
     <div class="card install" id="install" data-reveal>
-      <div class="install-head"><span>Install in Claude Code</span><button class="copy" type="button" data-copy="claude plugin marketplace add shinyobjectz/agent-ergonomics&#10;claude plugin install agent-ergonomics@agent-ergonomics">Copy</button></div>
-<pre><span class="p">$ </span>claude plugin marketplace add shinyobjectz/agent-ergonomics
+      <div class="install-head" role="tablist" aria-label="How to install">
+        <button class="tab" type="button" role="tab" id="t-any" aria-controls="p-any" aria-selected="true">Any agent</button>
+        <button class="tab" type="button" role="tab" id="t-cc" aria-controls="p-cc" aria-selected="false">Claude Code plugin</button>
+        <button class="copy" type="button">Copy</button>
+      </div>
+<pre id="p-any" role="tabpanel" aria-labelledby="t-any" data-note="It asks which agents to install for. Then start a new session." data-copy="npx skills add shinyobjectz/agent-ergonomics"><span class="p">$ </span>npx skills add shinyobjectz/agent-ergonomics</pre>
+<pre id="p-cc" role="tabpanel" aria-labelledby="t-cc" hidden data-note="Then start a new Claude Code session." data-copy="claude plugin marketplace add shinyobjectz/agent-ergonomics&#10;claude plugin install agent-ergonomics@agent-ergonomics"><span class="p">$ </span>claude plugin marketplace add shinyobjectz/agent-ergonomics
 <span class="p">$ </span>claude plugin install agent-ergonomics@agent-ergonomics</pre>
       <div class="install-foot">
         <a class="btn magnet" href="https://github.com/shinyobjectz/agent-ergonomics"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Read the skills</a>
-        <span class="aside">Then start a new Claude Code session.</span>
+        <span class="aside" id="install-note">It asks which agents to install for. Then start a new session.</span>
       </div>
     </div>
   </div>
@@ -211,7 +220,7 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
   <div class="wrap skills-intro row" id="skills">
     <div>
       <h2 data-reveal>The three skills</h2>
-      <p class="lede" style="margin-bottom:0" data-reveal>Claude uses a skill when your request fits it. You can also name it.</p>
+      <p class="lede" style="margin-bottom:0" data-reveal>Your agent uses a skill when your request fits it. You can also name it.</p>
     </div>
   </div>
 
@@ -231,7 +240,7 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
         </div>
       </div>
       <div class="aside" data-reveal>
-        <p><strong>Ask Claude:</strong></p>
+        <p><strong>Ask your agent:</strong></p>
         <p class="ask">“Untangle this repo and write the plan to docs/untangle.md.”</p>
         <p class="ask">“Agents keep calling our CLI wrong. Find out why and fix it.”</p>
       </div>
@@ -251,7 +260,7 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
         </div>
       </div>
       <div class="aside" data-reveal>
-        <p><strong>Ask Claude:</strong></p>
+        <p><strong>Ask your agent:</strong></p>
         <p class="ask">“Rewrite the onboarding copy so it's plain and specific.”</p>
         <p class="ask">“Check this README for filler and AI tells.”</p>
       </div>
@@ -271,7 +280,7 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
         </div>
       </div>
       <div class="aside" data-reveal>
-        <p><strong>Ask Claude:</strong></p>
+        <p><strong>Ask your agent:</strong></p>
         <p class="ask">“Review our landing page and first screen for a new user.”</p>
         <p class="ask">“We have too many terms. Simplify them.”</p>
       </div>
@@ -280,9 +289,9 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
 
   <section class="close" data-light="close" aria-labelledby="close">
     <div class="wrap">
-      <h2 id="close" data-words>Free and open source, for Claude Code.</h2>
+      <h2 id="close" data-words>Free and open source, for any agent.</h2>
       <div data-reveal><a class="btn magnet" href="https://github.com/shinyobjectz/agent-ergonomics">Get the skills on GitHub</a></div>
-      <p class="small" data-reveal>MIT licensed. The install commands are <a href="#install">at the top</a>. Using another agent? Copy the folders in <code>skills/</code> into its skills directory.</p>
+      <p class="small" data-reveal>MIT licensed. The install commands are <a href="#install">at the top</a>. Can't run the installer? Copy the folders in <code>skills/</code> into your agent's skills directory.</p>
     </div>
   </section>
 </main>
@@ -294,8 +303,17 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
 </footer>
 
 <script>
+const tabs = [...document.querySelectorAll(".tab")];
+tabs.forEach((t) => t.addEventListener("click", () => {
+  tabs.forEach((o) => {
+    o.setAttribute("aria-selected", String(o === t));
+    document.getElementById(o.getAttribute("aria-controls")).hidden = o !== t;
+  });
+  document.getElementById("install-note").textContent = document.getElementById(t.getAttribute("aria-controls")).dataset.note;
+}));
 document.querySelectorAll(".copy").forEach((b) => b.addEventListener("click", async () => {
-  try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = "Copied"; }
+  const text = document.querySelector(".install pre:not([hidden])").dataset.copy;
+  try { await navigator.clipboard.writeText(text); b.textContent = "Copied"; }
   catch { b.textContent = "Select the text to copy"; }
   setTimeout(() => { b.textContent = "Copy"; }, 2000);
 }));

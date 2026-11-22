@@ -21,14 +21,20 @@ three.
 
 ## Install
 
-In Claude Code:
+For any agent that reads skills (Codex, Cursor, Claude Code, Cline, Amp and many more):
+
+```sh
+npx skills add shinyobjectz/agent-ergonomics
+```
+
+It asks which agents to install for. As a Claude Code plugin instead:
 
 ```sh
 claude plugin marketplace add shinyobjectz/agent-ergonomics
 claude plugin install agent-ergonomics@agent-ergonomics
 ```
 
-With another agent that reads `SKILL.md` files, copy the folders under `skills/` into its skills directory.
+Without either, copy the folders under `skills/` into your agent's skills directory.
 
 ## Using them
 
