@@ -6,23 +6,22 @@
 <title>Page not found · Agent ergonomics</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>
-@font-face { font-family: "Public Sans"; src: url("/fonts/public-sans.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
-@font-face { font-family: "Atkinson Next"; src: url("/fonts/atkinson-hyperlegible-next.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
-:root { --ink: #c8102e; --fill: #141414; }
-body { margin: 0; background: #fff; color: var(--fill); font: 400 1.125rem/1.55 "Atkinson Next", system-ui, sans-serif; }
-::selection { background: var(--ink); color: #fff; }
-a { color: inherit; text-decoration-color: var(--ink); text-underline-offset: 0.22em; }
-:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-main { max-width: 82rem; margin: 0 auto; padding: clamp(3rem, 12vh, 8rem) clamp(1.25rem, 4vw, 3.5rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(15rem, 22rem); gap: 2rem 4rem; }
-h1 { margin: 0; font: 700 clamp(2.4rem, 5vw, 4.5rem)/1 "Atkinson Next", system-ui, sans-serif; letter-spacing: -0.03em; }
-p.note { margin: 0; align-self: end; font: 400 0.95rem/1.5 "Public Sans", system-ui, sans-serif; color: var(--ink); border-left: 1px solid var(--ink); padding-left: 1.25rem; }
-@media (max-width: 860px) { main { grid-template-columns: minmax(0, 1fr); } }
+@font-face { font-family: "Jost"; src: url("/fonts/jost.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Hanken Grotesk"; src: url("/fonts/hanken-grotesk.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+html { min-height: 100%; color: #16171c; background: radial-gradient(55vmax 55vmax at 80% 25%, rgba(203,195,245,.9), transparent 70%), radial-gradient(40vmax 40vmax at 30% 85%, rgba(246,207,184,.7), transparent 70%), #f2f3f5; }
+body { margin: 0; font: 400 1.0625rem/1.65 "Hanken Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration-color: rgba(74,58,168,.45); text-underline-offset: .25em; }
+a:hover { text-decoration-color: #4a3aa8; }
+:focus-visible { outline: 1.5px solid #4a3aa8; outline-offset: 4px; border-radius: 4px; }
+main { max-width: 84rem; min-height: 100svh; margin: 0 auto; padding: 0 clamp(1.25rem, 4.5vw, 4rem); display: grid; align-content: center; gap: 1.5rem; }
+h1 { margin: 0; font: 300 clamp(2.6rem, 6vw, 5.5rem)/1.02 "Jost", system-ui, sans-serif; letter-spacing: -.035em; max-width: 14ch; }
+p { margin: 0; max-width: 40ch; font-size: 1.1rem; color: #4a4e5c; }
 </style>
 </head>
 <body>
 <main>
   <h1>There's no page at this address.</h1>
-  <p class="note">It may have moved when the site was rebuilt. <a href="/">The home page</a> has the idea, the three skills and the install commands, and the source is <a href="https://github.com/shinyobjectz/agent-ergonomics">on GitHub</a>.</p>
+  <p>It may have moved when the site was rebuilt. <a href="/">The home page</a> has the idea, the three skills and the install commands, and the source is <a href="https://github.com/shinyobjectz/agent-ergonomics">on GitHub</a>.</p>
 </main>
 </body>
 </html>

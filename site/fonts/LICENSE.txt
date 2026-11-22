@@ -1,3 +1,7 @@
-Public Sans (public-sans.woff2): SIL Open Font License 1.1, from the U.S. Web Design System (github.com/uswds/public-sans).
-Atkinson Hyperlegible Next and Mono (atkinson-hyperlegible-*.woff2): SIL Open Font License 1.1, from the Braille Institute (brailleinstitute.org/freefont).
-The files are the latin variable-weight subsets published by Fontsource (fontsource.org).
+All three fonts are under the SIL Open Font License 1.1 (https://openfontlicense.org).
+
+jost.woff2                         Jost, by Owen Earl (indestructible type*)
+hanken-grotesk.woff2               Hanken Grotesk, by Alfredo Marco Pradil (Hanken Design Co.)
+atkinson-hyperlegible-mono.woff2   Atkinson Hyperlegible Mono, by the Braille Institute of America
+
+Each file is the variable Latin subset served by Fontsource.

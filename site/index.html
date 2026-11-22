@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent ergonomics</title>
 <meta name="description" content="Three agent skills built on one idea: everything a reader needs is where they are, and nothing they don't need is. Untangle code, design what agents act through, write for the reader, and make a product clear on first read.">
+<meta name="theme-color" content="#f2f3f5">
 <meta property="og:title" content="Agent ergonomics">
 <meta property="og:description" content="Everything a reader needs is where they are. Nothing they don't need is. Three free skills for agents and the people who run them.">
 <meta property="og:url" content="https://agentergonomics.org/">
@@ -12,287 +13,291 @@
 <meta property="og:image" content="https://agentergonomics.org/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="/fonts/atkinson-hyperlegible-next.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/public-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/jost.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="modulepreload" href="/vendor/three.module.min.js">
+<script>
+  // Hide what Motion will reveal, but only when motion is welcome, and never for longer than 2.5 s if a script fails.
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.documentElement.classList.add("anim");
+    window.__animFallback = setTimeout(() => document.documentElement.classList.remove("anim"), 2500);
+  }
+</script>
 <style>
-@font-face { font-family: "Public Sans"; src: url("/fonts/public-sans.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
-@font-face { font-family: "Atkinson Next"; src: url("/fonts/atkinson-hyperlegible-next.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
+@font-face { font-family: "Jost"; src: url("/fonts/jost.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Hanken Grotesk"; src: url("/fonts/hanken-grotesk.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 @font-face { font-family: "Atkinson Mono"; src: url("/fonts/atkinson-hyperlegible-mono.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
 
 :root {
-  --ink: #c8102e;          /* the form's printed ink */
-  --ink-wash: #fdf1f2;
-  --ink-rule: #e8a3ad;
-  --fill: #141414;         /* what's filled in */
-  --ghost: #9a6168;        /* what was cut */
-  --paper: #ffffff;
-  --print: "Public Sans", system-ui, sans-serif;
-  --hand: "Atkinson Next", system-ui, sans-serif;
+  --mist: #f2f3f5;
+  --ink: #16171c;
+  --soft: #4a4e5c;
+  --hair: rgba(22, 23, 28, 0.12);
+  --violet: #4a3aa8;
+  --ghost: #776d76;
+  --lilac: #cbc3f5;
+  --sky: #bfd8f4;
+  --sage: #cfe6d8;
+  --apricot: #f6cfb8;
+  --rose: #f1c4cf;
+  --display: "Jost", system-ui, sans-serif;
+  --text: "Hanken Grotesk", system-ui, sans-serif;
   --mono: "Atkinson Mono", ui-monospace, monospace;
-  --gutter: clamp(1.25rem, 4vw, 3.5rem);
-  --margin-col: minmax(15rem, 22rem);
+  --pad: clamp(1.25rem, 4.5vw, 4rem);
 }
 
 * { box-sizing: border-box; }
-html { background: var(--paper); color: var(--fill); scrollbar-color: var(--ink-rule) var(--paper); }
-body { margin: 0; font: 400 1.125rem/1.55 var(--hand); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-::selection { background: var(--ink); color: var(--paper); }
-input, textarea { caret-color: var(--ink); }
-a { color: inherit; text-decoration-color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
-a:hover { color: var(--ink); }
-:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+html {
+  color: var(--ink); scrollbar-color: rgba(74, 58, 168, 0.35) transparent;
+  /* the still field, shown until the living one starts, and instead of it without WebGL */
+  background:
+    radial-gradient(55vmax 55vmax at 82% 18%, rgba(203, 195, 245, 0.9), transparent 70%),
+    radial-gradient(40vmax 40vmax at 62% 62%, rgba(246, 207, 184, 0.75), transparent 70%),
+    radial-gradient(40vmax 40vmax at 100% 80%, rgba(191, 216, 244, 0.8), transparent 70%),
+    var(--mist);
+  background-attachment: fixed;
+}
+body { margin: 0; font: 400 1.0625rem/1.65 var(--text); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+::selection { background: var(--lilac); color: var(--ink); }
+a { color: inherit; text-decoration-color: rgba(74, 58, 168, 0.45); text-decoration-thickness: 1px; text-underline-offset: 0.25em; transition: text-decoration-color 0.3s; }
+a:hover { text-decoration-color: var(--violet); }
+:focus-visible { outline: 1.5px solid var(--violet); outline-offset: 4px; border-radius: 4px; }
+code { font: 500 0.9em var(--mono); }
 
-/* the sheet: a content column and the margin where its instructions are printed */
-.sheet { max-width: 82rem; margin: 0 auto; padding: 0 var(--gutter); }
-.row { display: grid; grid-template-columns: minmax(0, 1fr) var(--margin-col); column-gap: clamp(1.5rem, 4vw, 4rem); }
-.row > .note { position: relative; padding-left: 1.25rem; border-left: 1px solid var(--ink); align-self: start; }
-.row > .note > :last-child { margin-bottom: 0; }
-.row > .note::before {               /* leader from the instruction to its box */
-  content: ""; position: absolute; left: -2.6rem; top: 0.72em; width: 2.6rem; border-top: 1px dashed var(--ink);
+#light { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; opacity: 0; transition: opacity 1.6s ease-out; }
+#light.on { opacity: 1; }
+
+/* grain over the light, so it reads as light rather than as a fill */
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: 0.08; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.note { font: 400 0.95rem/1.5 var(--print); color: var(--ink); }
-.note p { margin: 0 0 0.75em; }
-.note a { text-decoration-color: currentColor; }
+.anim [data-reveal], .anim .word, .anim .demo [data-step] { opacity: 0; }
 
-/* header */
-.masthead { border-bottom: 1px solid var(--ink); }
-.masthead .sheet { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; padding-block: 1.1rem; flex-wrap: wrap; }
-.wordmark { font: 700 1.2rem/1 var(--hand); letter-spacing: -0.01em; text-decoration: none; }
-.wordmark span { color: var(--ink); font: 500 0.8rem/1 var(--print); margin-left: 0.6rem; letter-spacing: 0; }
-nav ul { display: flex; gap: clamp(1rem, 2.5vw, 2rem); list-style: none; margin: 0; padding: 0; font: 500 0.9rem/1 var(--print); color: var(--ink); }
-nav a { text-decoration: none; }
-nav a:hover { text-decoration: underline; }
+.wrap { width: 100%; max-width: 84rem; margin: 0 auto; padding: 0 var(--pad); }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(14rem, 21rem); column-gap: clamp(2rem, 6vw, 6rem); }
+.aside { color: var(--soft); font-size: 0.95rem; line-height: 1.6; align-self: start; }
+.aside p { margin: 0 0 0.8em; }
+.aside p:last-child { margin-bottom: 0; }
 
-/* the opening statement */
-.opening { padding-block: clamp(3rem, 8vh, 6.5rem) clamp(2rem, 5vh, 3.5rem); }
-h1 {
-  margin: 0; font: 700 clamp(2.9rem, 6.6vw, 6rem)/0.98 var(--hand); letter-spacing: -0.035em;
-  text-wrap: balance; max-width: 13ch;
-}
-h1 em { font-style: normal; color: var(--ink); }
-.opening .note { align-self: end; margin-bottom: 0.4rem; }
+/* the opening */
+.opening { min-height: max(42rem, 100svh); display: grid; grid-template-rows: auto 1fr auto; }
+.bar { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding-block: 1.6rem; flex-wrap: wrap; }
+.mark { font: 400 1.15rem/1 var(--display); letter-spacing: 0.01em; text-decoration: none; display: inline-flex; align-items: center; gap: 0.65rem; }
+.mark svg { width: 1.4rem; height: 1.4rem; }
+.bar ul { display: flex; gap: clamp(1.1rem, 2.6vw, 2.2rem); list-style: none; margin: 0; padding: 0; font: 500 0.9rem/1 var(--text); }
+.bar ul a { text-decoration: none; color: var(--soft); transition: color 0.3s; }
+.bar ul a:hover { color: var(--ink); }
 
-/* boxes on the form */
-.box { border: 1px solid var(--ink); position: relative; }
-.box-label { font: 600 0.8rem/1 var(--print); color: var(--ink); padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--ink-rule); display: flex; justify-content: space-between; }
+.statement { align-self: center; padding-block: clamp(2rem, 6vh, 4rem); }
+h1 { margin: 0; font: 300 clamp(3rem, 7.4vw, 7.25rem)/1.02 var(--display); letter-spacing: -0.035em; max-width: 14ch; text-wrap: balance; }
+h1 .soft { color: var(--soft); }
+.word { display: inline-block; will-change: transform, opacity, filter; }
 
-.install { margin-bottom: clamp(3rem, 8vh, 5rem); }
-.install pre { margin: 0; padding: 1rem 0.8rem 1.1rem; font: 500 clamp(0.82rem, 1.25vw, 1rem)/1.75 var(--mono); overflow-x: auto; color: var(--fill); }
-.install pre .p { color: var(--ink); user-select: none; }
-.copy {
-  font: 600 0.8rem/1 var(--print); color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer;
-}
-.copy:hover { text-decoration: underline; }
-.copy[data-done] { color: var(--fill); }
+.base { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 33rem); gap: 2rem clamp(2rem, 6vw, 6rem); align-items: end; padding-bottom: clamp(1.75rem, 5vh, 3rem); }
+.base > p { margin: 0; max-width: 34ch; font-size: 1.1rem; line-height: 1.55; color: var(--soft); }
 
-/* sections */
-section { padding-block: clamp(3rem, 9vh, 6rem); border-top: 1px solid var(--ink); }
-h2 { margin: 0 0 1.5rem; font: 700 clamp(1.9rem, 3.4vw, 2.9rem)/1.05 var(--hand); letter-spacing: -0.025em; text-wrap: balance; }
-.lede { font-size: clamp(1.2rem, 1.7vw, 1.45rem); line-height: 1.4; max-width: 34ch; margin: 0 0 2.5rem; }
+.card { background: rgba(255, 255, 255, 0.92); border-radius: 1.25rem; box-shadow: 0 1px 0 var(--hair), 0 24px 60px -24px rgba(53, 44, 120, 0.3); }
+.install { padding: 1.1rem 1.25rem 1.2rem; transform-style: preserve-3d; }
+.install-head { display: flex; justify-content: space-between; align-items: baseline; font: 500 0.8rem/1 var(--text); color: var(--soft); margin-bottom: 0.8rem; }
+.install pre { margin: 0; font: 500 clamp(0.72rem, 1vw, 0.86rem)/1.85 var(--mono); overflow-x: auto; scrollbar-width: none; }
+.install pre .p { color: var(--violet); user-select: none; opacity: 0.7; }
+.install-foot { display: flex; gap: 1.25rem; align-items: center; margin-top: 1rem; font-size: 0.9rem; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--ink); color: #fff; text-decoration: none; padding: 0.65rem 1.15rem; border-radius: 999px; font: 500 0.9rem/1 var(--text); transition: background 0.35s; will-change: transform; }
+.btn:hover { background: var(--violet); color: #fff; }
+.btn svg { width: 1rem; height: 1rem; }
+.copy { font: 500 0.8rem/1 var(--text); color: var(--violet); background: none; border: 0; padding: 0.25rem 0; cursor: pointer; }
+.copy:hover { text-decoration: underline; text-underline-offset: 0.25em; }
 
-/* the form's lines: what lives somewhere else, and where it belongs */
-.lines { list-style: none; margin: 0; padding: 0; }
-.lines li { padding-block: 1.1rem; border-top: 1px solid var(--ink-rule); align-items: baseline; }
-.lines li:last-child { border-bottom: 1px solid var(--ink-rule); }
-.lines .where { font-size: clamp(1.15rem, 1.6vw, 1.35rem); line-height: 1.35; }
-.lines .note { padding-top: 0.15rem; }
-.lines .note::before { top: 0.95em; }
+/* the idea */
+section { position: relative; }
+.idea { padding-block: clamp(5rem, 14vh, 9rem); }
+h2 { margin: 0 0 1.2rem; font: 300 clamp(2.1rem, 4.2vw, 3.6rem)/1.05 var(--display); letter-spacing: -0.03em; text-wrap: balance; max-width: 18ch; }
+.lede { margin: 0 0 3.5rem; font-size: clamp(1.15rem, 1.6vw, 1.35rem); line-height: 1.5; color: var(--soft); max-width: 36ch; }
+.places { list-style: none; margin: 0; padding: 0; }
+.places li { position: relative; padding-block: 1.6rem; align-items: baseline; }
+.places .rule { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--hair); transform-origin: left; }
+.places li:last-child::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--hair); }
+.places .where { font: 300 clamp(1.3rem, 2.1vw, 1.75rem)/1.3 var(--display); letter-spacing: -0.01em; }
 
 /* skills */
-.skill { margin-top: clamp(2.5rem, 6vh, 4rem); }
-.skill h3 { margin: 0 0 0.5rem; font: 700 clamp(1.45rem, 2.2vw, 1.85rem)/1.1 var(--hand); letter-spacing: -0.02em; }
-.skill .does { margin: 0 0 1.25rem; max-width: 52ch; }
-.demo { padding: 1rem 1.1rem 1.15rem; }
+.skills-intro { padding-block: clamp(4rem, 10vh, 7rem) 0; }
+.skill { padding-block: clamp(5rem, 14vh, 9rem); }
+.skill h3 { margin: 0 0 1rem; font: 300 clamp(2.4rem, 5vw, 4.4rem)/1 var(--display); letter-spacing: -0.02em; }
+.skill .does { margin: 0 0 2.25rem; font-size: clamp(1.1rem, 1.5vw, 1.25rem); line-height: 1.55; max-width: 44ch; }
+.demo { padding: 1.4rem 1.5rem 1.5rem; max-width: 44rem; }
 .demo p { margin: 0; }
+.label { display: block; font: 500 0.78rem/1 var(--text); color: var(--soft); margin-bottom: 0.55rem; }
+.log strong { display: block; font: 500 1.1rem/1.4 var(--text); margin-bottom: 0.7rem; }
+.log ul { margin: 0; padding-left: 1.1rem; font-size: 0.97rem; color: var(--soft); }
+.log li { margin: 0.25rem 0; }
+.log li::marker { color: var(--violet); }
+.cut { color: var(--ghost); background: linear-gradient(currentColor, currentColor) no-repeat 0 58% / 100% 1px; }
+.before { font-size: 1.02rem; line-height: 1.6; margin-bottom: 1.2rem !important; }
+.after { font: 400 clamp(1.3rem, 2vw, 1.6rem)/1.3 var(--display); letter-spacing: -0.01em; }
+.terms { display: flex; flex-wrap: wrap; gap: 0.3rem 1.2rem; font-size: 1.1rem; margin-bottom: 1.2rem !important; }
+.terms span { display: inline-block; }
+.terms-after { display: flex; gap: 1.4rem; font: 400 clamp(1.4rem, 2.2vw, 1.75rem)/1.2 var(--display); }
+.terms-after span { display: inline-block; }
+.skill .aside { padding-top: 0.6rem; }
 
-.log strong { display: block; font-weight: 700; margin-bottom: 0.55rem; line-height: 1.35; }
-.log ul { margin: 0; padding-left: 1.1rem; font-size: 1rem; }
-.log li { margin: 0.2rem 0; }
-.log li::marker { color: var(--ink); }
-.log code { font: 500 0.92em var(--mono); }
+/* the close */
+.close { padding-block: clamp(7rem, 20vh, 12rem) clamp(3rem, 8vh, 5rem); text-align: center; }
+.close h2 { margin: 0 auto 2.25rem; max-width: 16ch; }
+.close .btn { font-size: 1rem; padding: 0.9rem 1.5rem; }
+.close .small { margin: 1.25rem 0 0; font-size: 0.9rem; color: var(--soft); }
+footer { padding-block: 2.5rem 3rem; }
+footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width: 72ch; }
 
-.before { color: var(--ghost); font-size: 1.05rem; line-height: 1.55; margin-bottom: 0.8rem !important; }
-.cut {
-  color: var(--ghost);
-  background: linear-gradient(var(--ink), var(--ink)) no-repeat 0 58% / 100% 1.5px;
+@media (max-width: 900px) {
+  .row, .base { grid-template-columns: minmax(0, 1fr); }
+  .row > .aside { margin-top: 1.25rem; }
+  .places .aside { margin-top: 0.6rem; }
+  .opening { min-height: auto; }
 }
-.before .kept { color: var(--fill); }
-.after { font-size: 1.3rem; font-weight: 700; line-height: 1.3; }
-.after-label, .before-label { font: 600 0.75rem/1 var(--print); color: var(--ink); display: block; margin-bottom: 0.4rem; }
-
-.terms { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; font-size: 1.15rem; margin-bottom: 0.9rem !important; }
-.terms .cut { padding-inline: 0.05em; }
-.terms-after { display: flex; gap: 1.1rem; font-size: 1.45rem; font-weight: 700; }
-
-/* the one authored moment: cut lines are drawn as each demo comes into view */
-@media (prefers-reduced-motion: no-preference) {
-  .js .demo .cut { background-size: 0% 1.5px; color: var(--fill); transition: background-size 0.55s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease-out; }
-  .js .demo.seen .cut { background-size: 100% 1.5px; color: var(--ghost); }
-  .js .demo.seen .cut:nth-of-type(2) { transition-delay: 0.18s; }
-  .js .demo.seen .cut:nth-of-type(3) { transition-delay: 0.3s; }
-  .js .demo.seen .cut:nth-of-type(4) { transition-delay: 0.4s; }
-  .js .demo.seen .cut:nth-of-type(5) { transition-delay: 0.48s; }
-  .js .demo .after, .js .demo .terms-after { opacity: 0; transform: translateY(0.35rem); transition: opacity 0.5s ease-out 0.6s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s; }
-  .js .demo.seen .after, .js .demo.seen .terms-after { opacity: 1; transform: none; }
-}
-
-footer { border-top: 1px solid var(--ink); padding-block: 2rem 3rem; }
-footer .note { border-left: 0; padding-left: 0; }
-footer .note::before { display: none; }
-footer p { margin: 0 0 0.5rem; font: 400 0.9rem/1.5 var(--print); color: var(--ink); max-width: 70ch; }
-
-@media (max-width: 860px) {
-  .row { grid-template-columns: minmax(0, 1fr); }
-  .row > .note { margin-top: 1rem; }
-  .row > .note::before { display: none; }
-  .opening .note { margin-bottom: 0; }
-  .lines .note { margin-top: 0.5rem; }
-  h1 { max-width: none; }
+@media (max-width: 600px) {
+  .install pre { white-space: pre-wrap; overflow-wrap: anywhere; padding-left: 1.1em; text-indent: -1.1em; }
 }
 </style>
 </head>
 <body>
-<header class="masthead">
-  <div class="sheet">
-    <a class="wordmark" href="/">agent ergonomics<span>three skills, one idea</span></a>
+<canvas id="light" aria-hidden="true"></canvas>
+
+<header class="opening" data-light="hero">
+  <div class="wrap bar" data-reveal>
+    <a class="mark" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="m" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#f6cfb8"/><stop offset="0.55" stop-color="#cbc3f5"/><stop offset="1" stop-color="#8f86d8"/></radialGradient></defs><circle cx="12" cy="12" r="11" fill="url(#m)"/></svg>agent ergonomics</a>
     <nav aria-label="Page">
       <ul>
         <li><a href="#idea">The idea</a></li>
         <li><a href="#skills">The skills</a></li>
-        <li><a href="#install">Install</a></li>
         <li><a href="https://github.com/shinyobjectz/agent-ergonomics">GitHub</a></li>
       </ul>
     </nav>
   </div>
-</header>
-
-<main>
-  <div class="sheet">
-    <div class="row opening">
-      <h1>Everything a reader needs is where they are. <em>Nothing they don't need is.</em></h1>
-      <div class="note">
-        <p>The reader might be an agent changing your code, an agent calling your tool, or a person opening your app for the first time.</p>
-        <p>These three skills hold your code, your interfaces and your words to that.</p>
-      </div>
-    </div>
-
-    <div class="row install" id="install">
-      <div class="box">
-        <div class="box-label"><span>Install in Claude Code</span><button class="copy" type="button" data-copy="claude plugin marketplace add shinyobjectz/agent-ergonomics&#10;claude plugin install agent-ergonomics@agent-ergonomics">Copy</button></div>
+  <div class="wrap statement">
+    <h1 data-words>Everything a reader needs is where they are. <span class="soft">Nothing they don't need is.</span></h1>
+  </div>
+  <div class="wrap base">
+    <p data-reveal>Three skills that hold your code, your interfaces and your words to that, whether the reader is an agent or a person.</p>
+    <div class="card install" id="install" data-reveal>
+      <div class="install-head"><span>Install in Claude Code</span><button class="copy" type="button" data-copy="claude plugin marketplace add shinyobjectz/agent-ergonomics&#10;claude plugin install agent-ergonomics@agent-ergonomics">Copy</button></div>
 <pre><span class="p">$ </span>claude plugin marketplace add shinyobjectz/agent-ergonomics
 <span class="p">$ </span>claude plugin install agent-ergonomics@agent-ergonomics</pre>
-      </div>
-      <div class="note">
-        <p>Using another agent? Copy the folders under <code>skills/</code> into its skills directory.</p>
-        <p><a href="https://github.com/shinyobjectz/agent-ergonomics">Read the skills on GitHub</a>. Free, MIT licensed.</p>
+      <div class="install-foot">
+        <a class="btn magnet" href="https://github.com/shinyobjectz/agent-ergonomics"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Read the skills</a>
+        <span class="aside">Other agents: copy the folders under <code>skills/</code>.</span>
       </div>
     </div>
   </div>
+</header>
 
-  <section id="idea">
-    <div class="sheet">
-      <div class="row">
-        <div>
-          <h2>When what they need lives somewhere else, readers guess</h2>
-          <p class="lede">People guess slowly. Agents guess confidently, and break things without noticing.</p>
-        </div>
-      </div>
-      <ul class="lines">
-        <li class="row"><span class="where">A copy of the logic in another file</span><span class="note">Change one and the other breaks. Keep pieces that change together in one place.</span></li>
-        <li class="row"><span class="where">A flag only the docs mention</span><span class="note">The agent calls what the docs say, and the parser refuses it. Generate the docs from the parser.</span></li>
-        <li class="row"><span class="where">A term explained three screens after it's used</span><span class="note">Introduce each idea where it's first needed, with an example.</span></li>
-        <li class="row"><span class="where">A sentence that only makes sense to whoever was in the chat</span><span class="note">Write for the person reading it, not for the conversation that produced it.</span></li>
+<main>
+  <section class="idea" id="idea" data-light="calm">
+    <div class="wrap">
+      <h2 data-reveal>When what they need lives somewhere else, readers guess</h2>
+      <p class="lede" data-reveal>People guess slowly. Agents guess confidently, and break things without noticing.</p>
+      <ul class="places">
+        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>A copy of the logic in another file</span><span class="aside" data-reveal>Change one and the other breaks. Keep pieces that change together in one place.</span></li>
+        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>A flag only the docs mention</span><span class="aside" data-reveal>The agent calls what the docs say, and the parser refuses it. Generate the docs from the parser.</span></li>
+        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>A term explained three screens after it's used</span><span class="aside" data-reveal>Introduce each idea where it's first needed, with an example.</span></li>
+        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>A sentence that only makes sense to whoever was in the chat</span><span class="aside" data-reveal>Write for the person reading it, not for the conversation that produced it.</span></li>
       </ul>
     </div>
   </section>
 
-  <section id="skills">
-    <div class="sheet">
-      <div class="row">
-        <div>
-          <h2>Three skills</h2>
-          <p class="lede">Each one triggers when a task fits, or when you ask for it by name.</p>
-        </div>
-        <div class="note"><p>agent-ergonomics hands its text to purpose-built and its concepts to first-read, so running the first often runs all three.</p></div>
-      </div>
+  <div class="wrap skills-intro row" id="skills">
+    <div>
+      <h2 data-reveal>Three skills</h2>
+      <p class="lede" style="margin-bottom:0" data-reveal>Each one starts when a task fits, or when you ask for it by name.</p>
+    </div>
+    <div class="aside" data-reveal><p>agent-ergonomics hands its text to purpose-built and its concepts to first-read, so running the first often runs all three.</p></div>
+  </div>
 
-      <div class="row skill">
-        <div>
-          <h3>agent-ergonomics</h3>
-          <p class="does">Untangles code so a typical change lands in one place, and redesigns what agents act through (CLIs, MCP tools, APIs, errors) so they can tell what to do and whether it worked.</p>
-          <div class="box demo log">
-            <strong>Declare each command once, and generate the parser, the help and the docs from it.</strong>
-            <ul>
-              <li><code>cli/args.ts:12</code> parses <code>--dry-run</code> by hand, and <code>docs/cli.md</code> documents it separately.</li>
-              <li><code>--force</code> is in the docs but not in the parser.</li>
-              <li>4 of 10 agent runs parsed the human table instead of the JSON.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="note">
-          <p>Above: one fix from a decision log, written over the three problems it solves.</p>
-          <p>Reach for it when a change keeps touching five files, or agents loop on a tool. It takes numbers before and after, so you know whether it helped.</p>
+  <section class="skill" data-light="s1" aria-labelledby="s1">
+    <div class="wrap row">
+      <div>
+        <h3 id="s1" data-reveal>agent-ergonomics</h3>
+        <p class="does" data-reveal>Untangles code so a typical change lands in one place, and redesigns what agents act through (CLIs, MCP tools, APIs, errors) so they can tell what to do and whether it worked.</p>
+        <div class="card demo log" data-demo="log" data-reveal>
+          <span class="label">One fix from a decision log</span>
+          <strong data-step>Declare each command once, and generate the parser, the help and the docs from it.</strong>
+          <ul>
+            <li data-step><code>cli/args.ts:12</code> parses <code>--dry-run</code> by hand, and <code>docs/cli.md</code> documents it separately.</li>
+            <li data-step><code>--force</code> is in the docs but not in the parser.</li>
+            <li data-step>4 of 10 agent runs parsed the human table instead of the JSON.</li>
+          </ul>
         </div>
       </div>
+      <div class="aside" data-reveal>
+        <p>Each fix is written above the problems it solves, so one change clears several.</p>
+        <p>Reach for it when a change keeps touching five files, or agents loop on a tool. It takes numbers before and after, so you know whether it helped.</p>
+      </div>
+    </div>
+  </section>
 
-      <div class="row skill">
-        <div>
-          <h3>purpose-built</h3>
-          <p class="does">Writes copy, docs, flows and plans for the reader at the moment they read it, with nothing that sounds generated and nothing left over from the chat.</p>
-          <div class="box demo">
-            <span class="before-label">Draft</span>
-            <p class="before"><span class="cut">We're excited to announce that you can now seamlessly</span> <span class="kept">export your projects</span><span class="cut">, making it easier than ever to share your amazing work!</span></p>
-            <span class="after-label">Rewrite</span>
-            <p class="after">Export a project as a video or a GIF from the Share menu.</p>
-          </div>
-        </div>
-        <div class="note">
-          <p>Above: the announcement, the filler and the hype go. What the reader can do stays.</p>
-          <p>Reach for it when text sounds generated, a flow has dead ends, or docs mention “the new version” to readers who never saw the old one.</p>
+  <section class="skill" data-light="s2" aria-labelledby="s2">
+    <div class="wrap row">
+      <div>
+        <h3 id="s2" data-reveal>purpose-built</h3>
+        <p class="does" data-reveal>Writes copy, docs, flows and plans for the reader at the moment they read it, with nothing that sounds generated and nothing left over from the chat.</p>
+        <div class="card demo" data-demo="cut" data-reveal>
+          <span class="label">Draft</span>
+          <p class="before"><span class="cut">We're excited to announce that you can now seamlessly</span> export your projects<span class="cut">, making it easier than ever to share your amazing work!</span></p>
+          <span class="label">Rewrite</span>
+          <p class="after" data-step>Export a project as a video or a GIF from the Share menu.</p>
         </div>
       </div>
+      <div class="aside" data-reveal>
+        <p>The announcement, the filler and the hype go. What the reader can do stays.</p>
+        <p>Reach for it when text sounds generated, a flow has dead ends, or docs mention “the new version” to readers who never saw the old one.</p>
+      </div>
+    </div>
+  </section>
 
-      <div class="row skill">
-        <div>
-          <h3>first-read</h3>
-          <p class="does">Makes an app or a tool understood on first contact. It lists every concept a new reader meets, and cuts them to the few the first task needs.</p>
-          <div class="box demo">
-            <span class="before-label">Terms a new user meets before their first run</span>
-            <p class="terms"><span class="cut">workspace</span> <span class="kept">project</span> <span class="cut">board</span> <span class="cut">pipeline</span> <span class="cut">stage</span> <span class="cut">runner</span> <span class="cut">job</span></p>
-            <span class="after-label">After</span>
-            <p class="terms-after"><span>project</span><span>steps</span></p>
-          </div>
-        </div>
-        <div class="note">
-          <p>Above: workspace and project were the same thing. Board, pipeline and stage were three views of one list. Runner and job were internal.</p>
-          <p>Reach for it when people call something confusing, onboarding needs a glossary, or one product has six words for three things.</p>
+  <section class="skill" data-light="s3" aria-labelledby="s3">
+    <div class="wrap row">
+      <div>
+        <h3 id="s3" data-reveal>first-read</h3>
+        <p class="does" data-reveal>Makes an app or a tool understood on first contact. It lists every concept a new reader meets, and cuts them to the few the first task needs.</p>
+        <div class="card demo" data-demo="terms" data-reveal>
+          <span class="label">Terms a new user meets before their first run</span>
+          <p class="terms"><span class="cut">workspace</span> <span class="kept">project</span> <span class="cut">board</span> <span class="cut">pipeline</span> <span class="cut">stage</span> <span class="cut">runner</span> <span class="cut">job</span></p>
+          <span class="label">After</span>
+          <p class="terms-after"><span data-step>project</span><span data-step>steps</span></p>
         </div>
       </div>
+      <div class="aside" data-reveal>
+        <p>Workspace and project were the same thing. Board, pipeline and stage were three views of one list. Runner and job were internal.</p>
+        <p>Reach for it when people call something confusing, onboarding needs a glossary, or one product has six words for three things.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="close" data-light="close" aria-labelledby="close">
+    <div class="wrap">
+      <h2 id="close" data-words>Give every reader what they need, where they need it.</h2>
+      <div data-reveal><a class="btn magnet" href="https://github.com/shinyobjectz/agent-ergonomics">Get the skills on GitHub</a></div>
+      <p class="small" data-reveal>Free and MIT licensed. Install commands are <a href="#install">at the top</a>.</p>
     </div>
   </section>
 </main>
 
 <footer>
-  <div class="sheet">
-    <div class="note">
-      <p>agent-ergonomics is free and MIT licensed. <a href="https://github.com/shinyobjectz/agent-ergonomics">Source on GitHub</a>.</p>
-      <p>It adapts caldoai's untangle-codebase, StevenLi-phoenix's aci-design-process and hardikpandya's stop-slop, and the list of AI tells draws on Wikipedia's “Signs of AI writing”.</p>
-    </div>
+  <div class="wrap">
+    <p>agent-ergonomics adapts caldoai's untangle-codebase, StevenLi-phoenix's aci-design-process and hardikpandya's stop-slop. The list of AI tells draws on Wikipedia's “Signs of AI writing”.</p>
   </div>
 </footer>
 
 <script>
-document.documentElement.classList.add("js");
-const seen = new IntersectionObserver((entries) => {
-  for (const e of entries) if (e.isIntersecting) { e.target.classList.add("seen"); seen.unobserve(e.target); }
-}, { threshold: 0.6 });
-document.querySelectorAll(".demo").forEach((d) => seen.observe(d));
 document.querySelectorAll(".copy").forEach((b) => b.addEventListener("click", async () => {
-  try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = "Copied"; b.dataset.done = ""; }
+  try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = "Copied"; }
   catch { b.textContent = "Select the text to copy"; }
-  setTimeout(() => { b.textContent = "Copy"; delete b.dataset.done; }, 2000);
+  setTimeout(() => { b.textContent = "Copy"; }, 2000);
 }));
 </script>
+<script src="/vendor/motion.min.js"></script>
+<script src="/motion.js"></script>
+<script type="module" src="/light.js"></script>
 </body>
 </html>
