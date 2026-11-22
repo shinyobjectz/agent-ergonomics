@@ -1,9 +1,7 @@
----
-name: purpose-built
-description: Write and review anything a person or agent will read so it's built for that reader at the moment they read it, with nothing that sounds generated, nothing padded, nothing broken, and nothing that only makes sense to whoever was in the conversation that produced it. Covers product and UI copy, onboarding, error messages, empty states, docs, READMEs, landing pages, release notes, emails, scripts, plans and specs, commit messages and PR descriptions, and the flows and screen states the words sit in. Use when drafting or editing any of these, when text sounds like AI, reads generic, feels sloppy or off, refers to things the reader never saw, or when a flow has dead ends or confusing steps.
----
+# Writing for the reader
 
-# Purpose-built
+Step 6 of the skill in full. The same rules hold for a person reading a screen and an agent reading a tool
+description, an error or a skill: both act on exactly what the words say.
 
 Every sentence is for the person who will read it, at the moment they read it. Not for the person who asked for it,
 not for the conversation it came out of, and not to show the work that went into it.
@@ -48,7 +46,7 @@ Outline as the reader's questions in the order they'll have them, then answer ea
 5. Everything else: reference, options, details.
 
 Lead with the answer. Put conditions before the instructions they govern ("If you're on Windows, run…"). Introduce a
-term at the point it's first needed, with an example. Hand concept-heavy material to the **first-read** skill.
+term at the point it's first needed, with an example. Concept-heavy material goes through step 7 of the skill (`first-contact.md`).
 
 ## 3. Write
 
@@ -76,7 +74,7 @@ When the words sit in a product:
 - **Nothing exists only because of history.** Remove a setting, step or screen if the user doesn't need it now, even
   if it made sense in an earlier version.
 
-`references/flows.md` has more on happy paths, states and errors.
+`flows.md` has more on happy paths, states and errors.
 
 ## 5. Cut
 
@@ -89,9 +87,9 @@ A section that only restates its heading goes.
 Run all four before calling it done:
 
 1. **Residue scan.** Read it as someone who never saw the conversation, the ticket or the previous version. Flag
-   every sentence that only makes sense to an insider. `references/residue.md` lists the forms it takes and the
+   every sentence that only makes sense to an insider. `residue.md` lists the forms it takes and the
    words to search for.
-2. **Tells scan.** Check against `references/tells.md`. Fix the pattern by rewriting the sentence, not by swapping a
+2. **Tells scan.** Check against `tells.md`. Fix the pattern by rewriting the sentence, not by swapping a
    word for its synonym.
 3. **Fact check.** Every claim, number, name, path and link is checked against its source, and every link resolves.
 4. **Cold read.** Give the text to a fresh model with no context and ask: What is this? Who is it for? What would

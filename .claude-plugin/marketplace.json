@@ -1,14 +1,17 @@
 {
   "name": "agent-ergonomics",
-  "owner": { "name": "shinyobjectz", "url": "https://agentergonomics.org" },
+  "owner": {
+    "name": "shinyobjectz",
+    "url": "https://agentergonomics.org"
+  },
   "metadata": {
-    "description": "Three skills for building things agents and people can use without guessing."
+    "description": "One skill for building code, tools and products that people and agents can use without guessing."
   },
   "plugins": [
     {
       "name": "agent-ergonomics",
       "source": "./",
-      "description": "agent-ergonomics untangles code and designs agent-facing surfaces, purpose-built writes copy and flows for the reader, and first-read makes a product understood on first contact."
+      "description": "Untangle code, make CLIs and MCP tools agent-friendly, write copy with no AI slop, and make a product clear on first contact: one skill, for both consumers, people and agents."
     }
   ]
 }

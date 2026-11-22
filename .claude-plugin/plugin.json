@@ -1,10 +1,22 @@
 {
   "name": "agent-ergonomics",
   "version": "0.1.0",
-  "description": "Make code, tools and products easy for agents and people to work in and work with: untangle the code, design the surfaces agents act through, write for the reader, and make every concept land on first read.",
-  "author": { "name": "shinyobjectz", "url": "https://github.com/shinyobjectz" },
+  "description": "Make code, tools and products easy to work in and work with for both of their consumers, people and agents: untangle the code, fix the interfaces agents act through, write every word for its reader, and cut the concepts a newcomer meets.",
+  "author": {
+    "name": "shinyobjectz",
+    "url": "https://github.com/shinyobjectz"
+  },
   "homepage": "https://agentergonomics.org",
   "repository": "https://github.com/shinyobjectz/agent-ergonomics",
   "license": "MIT",
-  "keywords": ["agent experience", "AX", "refactoring", "copywriting", "ux writing", "onboarding", "cli", "mcp"]
+  "keywords": [
+    "agent experience",
+    "AX",
+    "refactoring",
+    "copywriting",
+    "ux writing",
+    "onboarding",
+    "cli",
+    "mcp"
+  ]
 }

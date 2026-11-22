@@ -9,6 +9,6 @@ agent-ergonomics adapts material from these MIT-licensed works:
   Steven Li. Its agent-as-user design process informs skills/agent-ergonomics.
 
 - stop-slop (https://github.com/hardikpandya/stop-slop). Copyright (c) 2025 Hardik
-  Pandya. Its patterns inform skills/purpose-built/references/tells.md.
+  Pandya. Its patterns inform skills/agent-ergonomics/references/tells.md.
 
 Each is distributed under the MIT License, whose text is in LICENSE.

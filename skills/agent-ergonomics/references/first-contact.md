@@ -1,9 +1,6 @@
----
-name: first-read
-description: Make an app, tool, API, CLI, page or doc understood on first contact by the people and agents it's for, so they can act without over-reading, overthinking, or jumping from one new concept or coined term to the next. It models how the intended reader actually reads, walks their first path step by step, keeps a ledger of every concept and term they meet, collapses the taxonomy, and tests with cold readers. Use when designing or reviewing onboarding, a first screen, a landing page, information architecture, navigation, naming and terminology, a README or getting-started guide, an API or tool surface, or when people or agents say something is confusing, takes too long to get, or has too many concepts.
----
+# First contact
 
-# First read
+Step 7 of the skill in full: whether the people and agents a product is for understand it on first contact.
 
 Understanding comes from mapping something new onto something already known. A reader who meets a product starts
 with their own words, their own job and the tools they used before. Every concept that doesn't map costs them
@@ -15,7 +12,7 @@ first task, without meeting an idea before it's needed or a word they don't have
 
 ## How readers actually read
 
-`references/readers.md` covers this in depth. The short version:
+`readers.md` covers this in depth. The short version:
 
 - **People scan.** They read headings, the first words of lines, buttons and anything that looks clickable. They
   take the first option that seems good enough, and read closely only when stuck. They hold about four new things in
@@ -70,7 +67,7 @@ Mark the moment they first get value. Everything before it is cost.
 
 ### 3. Keep a concept ledger
 
-List every concept and term the reader meets, in the order they meet it. `references/concept-ledger.md` has the
+List every concept and term the reader meets, in the order they meet it. `concept-ledger.md` has the
 format. For each: where it's first met, whether it's explained there with an example, whether it's needed at that
 point, which other names it goes by, and whether the reader ever acts on it.
 
@@ -92,8 +89,8 @@ Change the product and its words until the counts are as low as they can go:
 - Flatten taxonomy levels the reader doesn't navigate by. Two levels the user never distinguishes are one level.
 - Reorder so no step depends on an idea a later step introduces.
 
-Where a change touches copy, hand it to the **purpose-built** skill. Where it touches code or an agent-facing
-interface, hand it to **agent-ergonomics**.
+Where a change touches copy, write it with step 6 (`writing.md`). Where it touches code or an agent-facing
+interface, take it through steps 3 to 5.
 
 ### 5. Test with cold readers
 
@@ -106,7 +103,7 @@ Your own read doesn't count. Run at least two of these:
 - **Agent cold read:** give a fresh model only what a new user or agent would see (the screen text, README, tool
   list or `--help`). Ask it what this is, who it's for, what it would do first, and which words it didn't
   understand. Add two questions it can't answer from the material, which should come back unknown. The cold read in
-  the agent-ergonomics skill's `measure.md` has the full method.
+  `measure.md` has the full method.
 - **Teach-back:** after a first session, ask the reader to explain the product in their own words. Compare their
   model with the real one, term by term.
 
