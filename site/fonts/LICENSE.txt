@@ -1,0 +1,3 @@
+Public Sans (public-sans.woff2): SIL Open Font License 1.1, from the U.S. Web Design System (github.com/uswds/public-sans).
+Atkinson Hyperlegible Next and Mono (atkinson-hyperlegible-*.woff2): SIL Open Font License 1.1, from the Braille Institute (brailleinstitute.org/freefont).
+The files are the latin variable-weight subsets published by Fontsource (fontsource.org).

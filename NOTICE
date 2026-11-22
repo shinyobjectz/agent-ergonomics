@@ -1,0 +1,14 @@
+agent-ergonomics adapts material from these MIT-licensed works:
+
+- untangle-codebase, from caldoai/skills (https://github.com/caldoai/skills).
+  Copyright (c) 2026 Maze. The untangling method, the optional additions table and
+  the decision-log example in skills/agent-ergonomics are adapted from it.
+
+- aci-design-process, from StevenLi-phoenix/aci-design-process-skill
+  (https://github.com/StevenLi-phoenix/aci-design-process-skill). Copyright (c) 2026
+  Steven Li. Its agent-as-user design process informs skills/agent-ergonomics.
+
+- stop-slop (https://github.com/hardikpandya/stop-slop). Copyright (c) 2025 Hardik
+  Pandya. Its patterns inform skills/purpose-built/references/tells.md.
+
+Each is distributed under the MIT License, whose text is in LICENSE.

@@ -1,0 +1,10 @@
+{
+  "name": "agent-ergonomics",
+  "version": "0.1.0",
+  "description": "Make code, tools and products easy for agents and people to work in and work with: untangle the code, design the surfaces agents act through, write for the reader, and make every concept land on first read.",
+  "author": { "name": "shinyobjectz", "url": "https://github.com/shinyobjectz" },
+  "homepage": "https://agentergonomics.org",
+  "repository": "https://github.com/shinyobjectz/agent-ergonomics",
+  "license": "MIT",
+  "keywords": ["agent experience", "AX", "refactoring", "copywriting", "ux writing", "onboarding", "cli", "mcp"]
+}
