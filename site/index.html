@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent ergonomics</title>
-<meta name="description" content="Three agent skills built on one idea: everything a reader needs is where they are, and nothing they don't need is. Untangle code, design what agents act through, write for the reader, and make a product clear on first read.">
+<meta name="description" content="Three free Claude Code skills: restructure a codebase so changes land in one place, make CLIs and MCP tools easy for agents to use, rewrite copy so it doesn't sound AI-written, and make an app clear to new users.">
 <meta name="theme-color" content="#f2f3f5">
 <meta property="og:title" content="Agent ergonomics">
-<meta property="og:description" content="Everything a reader needs is where they are. Nothing they don't need is. Three free skills for agents and the people who run them.">
+<meta property="og:description" content="Three free Claude Code skills that make your code, tools and writing easier for AI agents and people to use.">
 <meta property="og:url" content="https://agentergonomics.org/">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://agentergonomics.org/og.png">
@@ -91,7 +91,7 @@ body::after {
 .bar ul a:hover { color: var(--ink); }
 
 .statement { align-self: center; padding-block: clamp(2rem, 6vh, 4rem); }
-h1 { margin: 0; font: 300 clamp(3rem, 7.4vw, 7.25rem)/1.02 var(--display); letter-spacing: -0.035em; max-width: 14ch; text-wrap: balance; }
+h1 { margin: 0; font: 300 clamp(2.8rem, 6.2vw, 6rem)/1.04 var(--display); letter-spacing: -0.03em; max-width: 15ch; text-wrap: balance; }
 h1 .soft { color: var(--soft); }
 .word { display: inline-block; will-change: transform, opacity, filter; }
 
@@ -141,6 +141,8 @@ h2 { margin: 0 0 1.2rem; font: 300 clamp(2.1rem, 4.2vw, 3.6rem)/1.05 var(--displ
 .terms-after { display: flex; gap: 1.4rem; font: 400 clamp(1.4rem, 2.2vw, 1.75rem)/1.2 var(--display); }
 .terms-after span { display: inline-block; }
 .skill .aside { padding-top: 0.6rem; }
+.ask { font: 400 1.05rem/1.45 var(--display); color: var(--ink); margin: 0 0 0.9em !important; }
+.aside strong { font-weight: 600; color: var(--ink); }
 
 /* the close */
 .close { padding-block: clamp(7rem, 20vh, 12rem) clamp(3rem, 8vh, 5rem); text-align: center; }
@@ -169,24 +171,24 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
     <a class="mark" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><radialGradient id="m" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#f6cfb8"/><stop offset="0.55" stop-color="#cbc3f5"/><stop offset="1" stop-color="#8f86d8"/></radialGradient></defs><circle cx="12" cy="12" r="11" fill="url(#m)"/></svg>agent ergonomics</a>
     <nav aria-label="Page">
       <ul>
-        <li><a href="#idea">The idea</a></li>
+        <li><a href="#idea">What they fix</a></li>
         <li><a href="#skills">The skills</a></li>
         <li><a href="https://github.com/shinyobjectz/agent-ergonomics">GitHub</a></li>
       </ul>
     </nav>
   </div>
   <div class="wrap statement">
-    <h1 data-words>Everything a reader needs is where they are. <span class="soft">Nothing they don't need is.</span></h1>
+    <h1 data-words>Make your code, tools and writing easy for AI agents <span class="soft">and people to use.</span></h1>
   </div>
   <div class="wrap base">
-    <p data-reveal>Three skills that hold your code, your interfaces and your words to that, whether the reader is an agent or a person.</p>
+    <p data-reveal>Three free skills for Claude Code. Install them, then ask Claude to untangle a codebase, fix a CLI that agents keep misusing, rewrite copy, or simplify an app's first screen.</p>
     <div class="card install" id="install" data-reveal>
       <div class="install-head"><span>Install in Claude Code</span><button class="copy" type="button" data-copy="claude plugin marketplace add shinyobjectz/agent-ergonomics&#10;claude plugin install agent-ergonomics@agent-ergonomics">Copy</button></div>
 <pre><span class="p">$ </span>claude plugin marketplace add shinyobjectz/agent-ergonomics
 <span class="p">$ </span>claude plugin install agent-ergonomics@agent-ergonomics</pre>
       <div class="install-foot">
         <a class="btn magnet" href="https://github.com/shinyobjectz/agent-ergonomics"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Read the skills</a>
-        <span class="aside">Other agents: copy the folders under <code>skills/</code>.</span>
+        <span class="aside">Then start a new Claude Code session.</span>
       </div>
     </div>
   </div>
@@ -195,32 +197,31 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
 <main>
   <section class="idea" id="idea" data-light="calm">
     <div class="wrap">
-      <h2 data-reveal>When what they need lives somewhere else, readers guess</h2>
-      <p class="lede" data-reveal>People guess slowly. Agents guess confidently, and break things without noticing.</p>
+      <h2 data-reveal>What they fix</h2>
+      <p class="lede" data-reveal>Four common problems, and the skill that handles each.</p>
       <ul class="places">
-        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>A copy of the logic in another file</span><span class="aside" data-reveal>Change one and the other breaks. Keep pieces that change together in one place.</span></li>
-        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>A flag only the docs mention</span><span class="aside" data-reveal>The agent calls what the docs say, and the parser refuses it. Generate the docs from the parser.</span></li>
-        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>A term explained three screens after it's used</span><span class="aside" data-reveal>Introduce each idea where it's first needed, with an example.</span></li>
-        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>A sentence that only makes sense to whoever was in the chat</span><span class="aside" data-reveal>Write for the person reading it, not for the conversation that produced it.</span></li>
+        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>A small change means editing five files</span><span class="aside" data-reveal><strong>agent-ergonomics</strong> finds the code that should live together and writes a step-by-step plan to restructure it.</span></li>
+        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>Agents keep misusing your CLI, API or MCP tools</span><span class="aside" data-reveal><strong>agent-ergonomics</strong> fixes the names, flags, output and error messages agents rely on, and measures the result before and after.</span></li>
+        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>Your copy sounds like AI wrote it</span><span class="aside" data-reveal><strong>purpose-built</strong> rewrites it to be short, specific and plain, with no filler, hype or leftovers from a chat.</span></li>
+        <li class="row" data-place><span class="rule"></span><span class="where" data-reveal>New users don't understand your app</span><span class="aside" data-reveal><strong>first-read</strong> cuts the concepts and jargon a newcomer meets before they get anything done.</span></li>
       </ul>
     </div>
   </section>
 
   <div class="wrap skills-intro row" id="skills">
     <div>
-      <h2 data-reveal>Three skills</h2>
-      <p class="lede" style="margin-bottom:0" data-reveal>Each one starts when a task fits, or when you ask for it by name.</p>
+      <h2 data-reveal>The three skills</h2>
+      <p class="lede" style="margin-bottom:0" data-reveal>Claude uses a skill when your request fits it. You can also name it.</p>
     </div>
-    <div class="aside" data-reveal><p>agent-ergonomics hands its text to purpose-built and its concepts to first-read, so running the first often runs all three.</p></div>
   </div>
 
   <section class="skill" data-light="s1" aria-labelledby="s1">
     <div class="wrap row">
       <div>
         <h3 id="s1" data-reveal>agent-ergonomics</h3>
-        <p class="does" data-reveal>Untangles code so a typical change lands in one place, and redesigns what agents act through (CLIs, MCP tools, APIs, errors) so they can tell what to do and whether it worked.</p>
+        <p class="does" data-reveal>Restructures a codebase so each change happens in one place, and makes CLIs, APIs and MCP tools easy for agents to use. It measures before and after, so you can see whether it helped.</p>
         <div class="card demo log" data-demo="log" data-reveal>
-          <span class="label">One fix from a decision log</span>
+          <span class="label">What you get: a plan, with each fix above the problems it solves</span>
           <strong data-step>Declare each command once, and generate the parser, the help and the docs from it.</strong>
           <ul>
             <li data-step><code>cli/args.ts:12</code> parses <code>--dry-run</code> by hand, and <code>docs/cli.md</code> documents it separately.</li>
@@ -230,8 +231,9 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
         </div>
       </div>
       <div class="aside" data-reveal>
-        <p>Each fix is written above the problems it solves, so one change clears several.</p>
-        <p>Reach for it when a change keeps touching five files, or agents loop on a tool. It takes numbers before and after, so you know whether it helped.</p>
+        <p><strong>Ask Claude:</strong></p>
+        <p class="ask">“Untangle this repo and write the plan to docs/untangle.md.”</p>
+        <p class="ask">“Agents keep calling our CLI wrong. Find out why and fix it.”</p>
       </div>
     </div>
   </section>
@@ -240,17 +242,18 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
     <div class="wrap row">
       <div>
         <h3 id="s2" data-reveal>purpose-built</h3>
-        <p class="does" data-reveal>Writes copy, docs, flows and plans for the reader at the moment they read it, with nothing that sounds generated and nothing left over from the chat.</p>
+        <p class="does" data-reveal>Writes and rewrites copy, docs, error messages and plans so they're clear and specific, and nothing sounds AI-written.</p>
         <div class="card demo" data-demo="cut" data-reveal>
-          <span class="label">Draft</span>
+          <span class="label">Before</span>
           <p class="before"><span class="cut">We're excited to announce that you can now seamlessly</span> export your projects<span class="cut">, making it easier than ever to share your amazing work!</span></p>
-          <span class="label">Rewrite</span>
+          <span class="label">After</span>
           <p class="after" data-step>Export a project as a video or a GIF from the Share menu.</p>
         </div>
       </div>
       <div class="aside" data-reveal>
-        <p>The announcement, the filler and the hype go. What the reader can do stays.</p>
-        <p>Reach for it when text sounds generated, a flow has dead ends, or docs mention “the new version” to readers who never saw the old one.</p>
+        <p><strong>Ask Claude:</strong></p>
+        <p class="ask">“Rewrite the onboarding copy so it's plain and specific.”</p>
+        <p class="ask">“Check this README for filler and AI tells.”</p>
       </div>
     </div>
   </section>
@@ -259,26 +262,27 @@ footer p { margin: 0 0 0.4rem; font-size: 0.85rem; color: var(--soft); max-width
     <div class="wrap row">
       <div>
         <h3 id="s3" data-reveal>first-read</h3>
-        <p class="does" data-reveal>Makes an app or a tool understood on first contact. It lists every concept a new reader meets, and cuts them to the few the first task needs.</p>
+        <p class="does" data-reveal>Finds what confuses people the first time they use your app or tool, such as too many concepts, unexplained terms, or two names for one thing, and cuts it down.</p>
         <div class="card demo" data-demo="terms" data-reveal>
-          <span class="label">Terms a new user meets before their first run</span>
+          <span class="label">Terms a new user had to learn before their first run</span>
           <p class="terms"><span class="cut">workspace</span> <span class="kept">project</span> <span class="cut">board</span> <span class="cut">pipeline</span> <span class="cut">stage</span> <span class="cut">runner</span> <span class="cut">job</span></p>
           <span class="label">After</span>
           <p class="terms-after"><span data-step>project</span><span data-step>steps</span></p>
         </div>
       </div>
       <div class="aside" data-reveal>
-        <p>Workspace and project were the same thing. Board, pipeline and stage were three views of one list. Runner and job were internal.</p>
-        <p>Reach for it when people call something confusing, onboarding needs a glossary, or one product has six words for three things.</p>
+        <p><strong>Ask Claude:</strong></p>
+        <p class="ask">“Review our landing page and first screen for a new user.”</p>
+        <p class="ask">“We have too many terms. Simplify them.”</p>
       </div>
     </div>
   </section>
 
   <section class="close" data-light="close" aria-labelledby="close">
     <div class="wrap">
-      <h2 id="close" data-words>Give every reader what they need, where they need it.</h2>
+      <h2 id="close" data-words>Free and open source, for Claude Code.</h2>
       <div data-reveal><a class="btn magnet" href="https://github.com/shinyobjectz/agent-ergonomics">Get the skills on GitHub</a></div>
-      <p class="small" data-reveal>Free and MIT licensed. Install commands are <a href="#install">at the top</a>.</p>
+      <p class="small" data-reveal>MIT licensed. The install commands are <a href="#install">at the top</a>. Using another agent? Copy the folders in <code>skills/</code> into its skills directory.</p>
     </div>
   </section>
 </main>
